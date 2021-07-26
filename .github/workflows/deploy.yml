@@ -1,0 +1,51 @@
+name: deploy github pages
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-16.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-go@v2
+
+      - uses: actions/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      - name: debug
+        run: |
+          python -V || echo "python failed"
+          go version || echo "go failed"
+
+      - name: install middleman
+        run: |
+          bundle install
+
+      - name: build html
+        run: |
+          go build -o ./generate-code ./source/libs/cmd/generate-code/main.go
+          ./generate-code ./source
+          bundle exec middleman build
+          git checkout master ./source/index.html.md
+
+      - name: deploy
+        run: |
+          git fetch || echo "fetch failed"
+          git checkout gh-pages
+          ls | grep -v build | xargs -I{} sh -c 'rm -rf {}'
+          mv build/* ./ && rm -r build && rm -rf libs
+          git config --global user.name 'bot'
+          git config --global user.email 'bot@github.com'
+          git add .
+          (git commit -am "deploy" && git push) || echo "fail"
