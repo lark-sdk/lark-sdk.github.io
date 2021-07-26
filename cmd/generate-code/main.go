@@ -3,6 +3,7 @@ package main
 import (
   "io/ioutil"
   "os"
+  "path"
   "strings"
 )
 
@@ -14,10 +15,9 @@ func main() {
 }
 
 func build(dir string) error {
-  mdFile := dir + "/index.html.md"
-  codeDir := dir + "/codes"
+  mdFile := path.Join(dir, "/index.html.md")
 
-  return readRandReplaceMd(mdFile, codeDir)
+  return readRandReplaceMd(mdFile, dir)
 }
 
 func readRandReplaceMd(mdFile, codeDir string) error {
@@ -29,7 +29,7 @@ func readRandReplaceMd(mdFile, codeDir string) error {
   for _, v := range strings.Split(string(bs), "\n") {
     if strings.HasPrefix(v, "file-embed:") {
       codeFilename := strings.TrimSpace(v[len("file-embed:"):])
-      codeFilename = codeDir + "/" + codeFilename
+      codeFilename = path.Join(codeDir, codeFilename)
       codeBS, err := ioutil.ReadFile(codeFilename)
       if err != nil {
         return err
