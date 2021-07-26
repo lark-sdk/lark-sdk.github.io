@@ -1,18 +1,394 @@
-<!doctype html><html lang=en><head><meta name=generator content="Hugo 0.85.0"><meta charset=utf-8><meta content="IE=edge,chrome=1" http-equiv=x-ua-compatible><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><title>Lark SDK</title><link href=/styles/screen.min.dee2cab3904c625905e03dfe8cb6e528e7c2cb7cf67829b137f3dbbbac061ee0.css rel=stylesheet media=screen integrity="sha256-3uLKs5BMYlkF4D3+jLblKOfCy3z2eCmxN/Pbu6wGHuA="><link href=/styles/print.min.1e84715875ceea6d701fdc353fd6b2369efda31a8bc9a4a53be5c1cda1b7dbca.css rel=stylesheet media=print integrity="sha256-HoRxWHXO6m1wH9w1P9ayNp79oxqLyaSlO+XBzaG328o="><script src=/js/all.min.930f24c1ff99153e8b0852d9729d1994dfc8d81f6c92023e6445f5ad40541453.js integrity="sha256-kw8kwf+ZFT6LCFLZcp0ZlN/I2B9skgI+ZEX1rUBUFFM="></script></head><body class=index data-languages='[ "go" ]'><a href=# id=nav-button><span>NAV
-<img src=/images/navbar.png></span></a><div class=toc-wrapper><img src=/images/logo.png width=215 height=105 class=logo><div class=lang-selector><a href=# data-language-name=go>Go</a></div><div class=search><input type=search class=search id=input-search placeholder=Search></div><ul class=search-results></ul><ul id=toc class=toc-list-h1><li><a href=#introduction class="toc-h1 toc-link" data-title=Introduction>Introduction</a></li><li><a href=#init-client class="toc-h1 toc-link" data-title="Init Client">Init Client</a></li></ul><ul class=toc-footer><li><a href=https://github.com/chyroc/lark>chyroc/lark</a></li><li>Hugo Theme by <a href=https://github.com/bep>bep</a></li></ul></div><div class=page-wrapper><div class=dark-box></div><div class=content><h1 id=introduction>Introduction</h1><p>本页面是 <a href=https://github.com/chyroc/lark>https://github.com/chyroc/lark</a> 的文档站。</p><h1 id=init-client>Init Client</h1><blockquote><p>初始化客户端</p></blockquote><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
 
-<span style=color:#f92672>import</span> <span style=color:#e6db74>&#34;github.com/chyroc/lark&#34;</span>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>API Reference</title>
 
-<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
-	<span style=color:#a6e22e>lark</span>.<span style=color:#a6e22e>New</span>()
+    <style media="screen">
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
 }
-</code></pre></div><blockquote><p>带有 App ID 和 Secret</p></blockquote><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
-
-<span style=color:#f92672>import</span> (
-	<span style=color:#e6db74>&#34;github.com/chyroc/lark&#34;</span>
-)
-
-<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
-	<span style=color:#a6e22e>lark</span>.<span style=color:#a6e22e>New</span>(<span style=color:#a6e22e>lark</span>.<span style=color:#a6e22e>WithAppCredential</span>(<span style=color:#e6db74>&#34;&lt;APP_ID&gt;&#34;</span>, <span style=color:#e6db74>&#34;&lt;APP_SECRET&gt;&#34;</span>))
+.highlight .sr {
+  color: #f6aa11;
 }
-</code></pre></div></div><div class=dark-box><div class=lang-selector><a href=# data-language-name=go>Go</a></div></div></div></body></html>
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cpf {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s, .highlight .sa, .highlight .dl {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf, .highlight .fm {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv, .highlight .vm {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #f92672;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <style media="print">
+      * {
+        -webkit-transition:none!important;
+        transition:none!important;
+      }
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #586e75;
+}
+.highlight .err {
+  color: #002b36;
+  background-color: #dc322f;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
+  color: #657b83;
+}
+.highlight .cp {
+  color: #b58900;
+}
+.highlight .nt {
+  color: #b58900;
+}
+.highlight .o, .highlight .ow {
+  color: #93a1a1;
+}
+.highlight .p, .highlight .pi {
+  color: #93a1a1;
+}
+.highlight .gi {
+  color: #859900;
+}
+.highlight .gd {
+  color: #dc322f;
+}
+.highlight .gh {
+  color: #268bd2;
+  background-color: #002b36;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #6c71c4;
+}
+.highlight .kc {
+  color: #cb4b16;
+}
+.highlight .kt {
+  color: #cb4b16;
+}
+.highlight .kd {
+  color: #cb4b16;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #859900;
+}
+.highlight .sa {
+  color: #6c71c4;
+}
+.highlight .sr {
+  color: #2aa198;
+}
+.highlight .si {
+  color: #d33682;
+}
+.highlight .se {
+  color: #d33682;
+}
+.highlight .nn {
+  color: #b58900;
+}
+.highlight .nc {
+  color: #b58900;
+}
+.highlight .no {
+  color: #b58900;
+}
+.highlight .na {
+  color: #268bd2;
+}
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
+  color: #859900;
+}
+.highlight .ss {
+  color: #859900;
+}
+    </style>
+    <link href="stylesheets/screen-c9d8fa83.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all-a9fde460.js"></script>
+
+    <script>
+      $(function() { setupCodeCopy(); });
+    </script>
+  </head>
+
+  <body class="index" data-languages="[&quot;go&quot;,&quot;python&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar-cad8cdcb.png" alt="" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <img src="images/logo-1e815a84.png" class="logo" alt="" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="go">go</a>
+              <a href="#" data-language-name="python">python</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <ul id="toc" class="toc-list-h1">
+          <li>
+            <a href="#45fa4e00db" class="toc-h1 toc-link" data-title="介绍">介绍</a>
+          </li>
+          <li>
+            <a href="#087db63ab1" class="toc-h1 toc-link" data-title="安装">安装</a>
+          </li>
+          <li>
+            <a href="#196e111309" class="toc-h1 toc-link" data-title="初始化">初始化</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#230509925f" class="toc-h2 toc-link" data-title="常规初始化">常规初始化</a>
+                  </li>
+                  <li>
+                    <a href="#isv" class="toc-h2 toc-link" data-title="ISV 应用初始化">ISV 应用初始化</a>
+                  </li>
+                  <li>
+                    <a href="#e8b1542076" class="toc-h2 toc-link" data-title="服务台应用初始化">服务台应用初始化</a>
+                  </li>
+              </ul>
+          </li>
+      </ul>
+        <ul class="toc-footer">
+            <li><a href='#'>Sign Up for a Developer Key</a></li>
+            <li><a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='45fa4e00db'>介绍</h1>
+<p><a href="https://github.com/chyroc/lark">https://github.com/chyroc/lark</a> 的文档站点。</p>
+
+<p>本 SDK 依靠自动读取 open.feishu.cn 网站的开发文档，解析文档结构，自动生成 SDK 内容。</p>
+
+<p>所有内容全部依靠自动生成，可以及时更新。</p>
+<h1 id='087db63ab1'>安装</h1>
+<p>本 SDK 现在支持两个语言的版本，其他语言的版本正在生成过程中。</p>
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="k">go</span> <span class="n">get</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">chyroc</span><span class="o">/</span><span class="n">lark</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">pip</span> <span class="n">install</span> <span class="n">pylark</span>
+</code></pre></div><h1 id='196e111309'>初始化</h1>
+<p>Lark 开放接口支持多个场景的使用，包括：</p>
+
+<ul>
+<li>常规 App</li>
+<li>服务台</li>
+<li>自定义机器人</li>
+<li>ISV App</li>
+</ul>
+
+<p>不同的使用场景有不同的初始化方式</p>
+<h2 id='230509925f'>常规初始化</h2>
+<blockquote>
+<p>常规初始化</p>
+</blockquote>
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="n">require</span> <span class="err">'</span><span class="n">kittn</span><span class="err">'</span>
+
+<span class="n">api</span> <span class="o">=</span> <span class="n">Kittn</span><span class="o">::</span><span class="n">APIClient</span><span class="o">.</span><span class="n">authorize</span><span class="o">!</span><span class="p">(</span><span class="err">'</span><span class="n">meowmeowmeow</span><span class="err">'</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+
+<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
+</code></pre></div>
+<aside class="success">
+success
+</aside>
+
+<aside class="notice">
+notice
+</aside>
+
+<aside class="warning">
+warning
+</aside>
+<h2 id='isv'>ISV 应用初始化</h2><h2 id='e8b1542076'>服务台应用初始化</h2>
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="go">go</a>
+                <a href="#" data-language-name="python">python</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
