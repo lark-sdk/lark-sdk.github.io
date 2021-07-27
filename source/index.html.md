@@ -14,6 +14,9 @@ toc_footers:
 search: true
 
 code_clipboard: true
+
+includes:
+- docs.md
 ---
 
 # 介绍
@@ -26,8 +29,6 @@ code_clipboard: true
 
 # 安装
 
-本 SDK 现在支持两个语言的版本，其他语言的版本正在生成过程中。
-
 ```go
 go get github.com/chyroc/lark
 ```
@@ -35,6 +36,8 @@ go get github.com/chyroc/lark
 ```python
 pip install pylark
 ```
+
+本 SDK 现在支持两个语言的版本，其他语言的版本正在生成过程中。
 
 # 初始化
 
@@ -47,33 +50,67 @@ Lark 开放接口支持多个场景的使用，包括：
 
 不同的使用场景有不同的初始化方式
 
-## 常规初始化
+## 常规应用的初始化
 
-> 常规初始化
+> 常规应用的初始化
 
 ```go
 file-embed: ./libs/code/1-init-normal.go
 ```
 
 ```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
+todo
 ```
 
-<aside class="success">
-success
-</aside>
+常规初始化只需要两个参数：app-id 和 app-secret，可以处理大部分场景。
 
-<aside class="notice">
-notice
-</aside>
+## 回调应用的初始化
 
-<aside class="warning">
-warning
-</aside>
+> 回调应用的初始化
 
-## ISV 应用初始化
+```go
+file-embed: ./libs/code/2-init-encrypt.go
+```
 
-## 服务台应用初始化
+```python
+todo
+```
+
+处理回调的初始化，除了需要两个参数：app-id 和 app-secret 外，还需要 encryptKey 和 verificationToken 。
+
+verificationToken 参数用于校验回调请求是否是合法的。
+
+encryptKey 参数是可选的， 当你的应用启用了回调加密的时候，请务必填写本参数。
+
+## 自定义机器人的初始化
+
+> 自定义机器人的初始化
+
+```go
+file-embed: ./libs/code/3-init-custom-bot.go
+```
+
+```python
+todo
+```
+
+自定义机器人不需要单独创建应用，也不需要申请权限，只需要在群聊中添加自定义机器人即可。
+
+自定义机器人也有一些限制，即只能发消息，也没办法处理回调。
+
+在创建自定义机器人的时候，会给你一个回调链接 customBotWebHookURL 和一个秘钥 customBotSecret，填入初始化自定义机器人的参数即可。
+
+## 服务台应用的初始化
+
+> 服务台应用的初始化
+
+```go
+file-embed: ./libs/code/4-init-helpdesk.go
+```
+
+```python
+todo
+```
+
+服务台应用的初始化，除了需要两个参数：app-id 和 app-secret 外，还需要 helpdeskID 和 helpdeskToken，这两个参数可以在服务台的后台查看。
 
