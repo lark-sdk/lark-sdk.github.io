@@ -322,6 +322,12 @@
                     <a href="#230509925f" class="toc-h2 toc-link" data-title="常规初始化">常规初始化</a>
                   </li>
                   <li>
+                    <a href="#c5b7b1ee4e" class="toc-h2 toc-link" data-title="处理回调的初始化">处理回调的初始化</a>
+                  </li>
+                  <li>
+                    <a href="#395b5d82fb" class="toc-h2 toc-link" data-title="处理自定义机器人">处理自定义机器人</a>
+                  </li>
+                  <li>
                     <a href="#isv" class="toc-h2 toc-link" data-title="ISV 应用初始化">ISV 应用初始化</a>
                   </li>
                   <li>
@@ -360,6 +366,8 @@
 
 <p>不同的使用场景有不同的初始化方式</p>
 <h2 id='230509925f'>常规初始化</h2>
+<p>常规初始化只需要两个参数：app-id 和 app-secret，可以处理大部分场景。</p>
+
 <blockquote>
 <p>常规初始化</p>
 </blockquote>
@@ -373,9 +381,44 @@
   <span class="n">_</span> <span class="o">=</span> <span class="n">lark</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">lark</span><span class="o">.</span><span class="n">WithAppCredential</span><span class="p">(</span><span class="s">"&lt;appID&gt;"</span><span class="p">,</span> <span class="s">"&lt;appSecret&gt;"</span><span class="p">))</span>
 <span class="p">}</span>
 
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">todo</span>
+</code></pre></div><h2 id='c5b7b1ee4e'>处理回调的初始化</h2>
+<p>处理回调的初始化，除了需要两个参数：app-id 和 app-secret 外，还需要 encryptKey 和 verificationToken 。</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
+<p>verificationToken 参数用于校验回调请求是否是合法的。</p>
+
+<p>encryptKey 参数是可选的， 当你的应用启用了回调加密的时候，请务必填写本参数。</p>
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+  <span class="s">"github.com/chyroc/lark"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">_</span> <span class="o">=</span> <span class="n">lark</span><span class="o">.</span><span class="n">New</span><span class="p">(</span>
+    <span class="n">lark</span><span class="o">.</span><span class="n">WithAppCredential</span><span class="p">(</span><span class="s">"&lt;appID&gt;"</span><span class="p">,</span> <span class="s">"&lt;appSecret&gt;"</span><span class="p">),</span>
+    <span class="n">lark</span><span class="o">.</span><span class="n">WithEventCallbackVerify</span><span class="p">(</span><span class="s">"&lt;encryptKey&gt;"</span><span class="p">,</span> <span class="s">"&lt;verificationToken&gt;"</span><span class="p">),</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">todo</span>
+</code></pre></div><h2 id='395b5d82fb'>处理自定义机器人</h2>
+<p>自定义机器人不需要单独创建应用，也不需要申请权限，只需要在群聊中添加自定义机器人即可。</p>
+
+<p>自定义机器人也有一些限制，即只能发消息，也没办法处理回调。</p>
+
+<p>在创建自定义机器人的时候，会给你一个回调链接 customBotWebHookURL 和一个秘钥 customBotSecret，填入初始化自定义机器人的参数即可。</p>
+<div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+  <span class="s">"github.com/chyroc/lark"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">_</span> <span class="o">=</span> <span class="n">lark</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">lark</span><span class="o">.</span><span class="n">WithCustomBot</span><span class="p">(</span><span class="s">"&lt;customBotWebHookURL&gt;"</span><span class="p">,</span> <span class="s">"&lt;customBotSecret&gt;"</span><span class="p">))</span>
+<span class="p">}</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">todo</span>
 </code></pre></div>
 <aside class="success">
 success
