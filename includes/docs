@@ -3753,7 +3753,7 @@
 
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">todo</span>
 </code></pre></div>
-<p>该接口用于获取文档的纯文本内容，不包含富文本格式信息，主要用于搜索，如导入 es 等。</p>
+<p>该接口用于获取文档的纯文本内容，不包含富文本格式信息。</p>
 <h3 id='doc-118'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/ukzNzUjL5czM14SO3MTN">https://open.feishu.cn/document/ukTMukTMukTM/ukzNzUjL5czM14SO3MTN</a></p>
 <h3 id='url-118'>URL</h3>
@@ -9685,7 +9685,9 @@
 <span class="p">}</span>
 
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">todo</span>
-</code></pre></div><h3 id='doc-320'>Doc</h3>
+</code></pre></div>
+<p>上传文件并获取文件 ID，可用于“修改用户设置”接口的 face_key 参数。</p>
+<h3 id='doc-320'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//rule/file_upload">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//rule/file_upload</a></p>
 <h3 id='url-320'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/files/upload</code></p>
@@ -9741,7 +9743,9 @@
 <span class="p">}</span>
 
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">todo</span>
-</code></pre></div><h3 id='doc-322'>Doc</h3>
+</code></pre></div>
+<p>修改授权内员工的用户设置信息，包括人脸照片文件 ID。</p>
+<h3 id='doc-322'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//rule/user-setting-modify">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//rule/user-setting-modify</a></p>
 <h3 id='url-322'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_settings/modify</code></p>
@@ -9831,7 +9835,9 @@
 <span class="p">}</span>
 
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">todo</span>
-</code></pre></div><h3 id='doc-324'>Doc</h3>
+</code></pre></div>
+<p>通过考勤组 ID 删除考勤组。</p>
+<h3 id='doc-324'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//group_delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//group_delete</a></p>
 <h3 id='url-324'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/groups/:group_id</code></p>
@@ -9921,7 +9927,9 @@
 <span class="p">}</span>
 
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">todo</span>
-</code></pre></div><h3 id='doc-327'>Doc</h3>
+</code></pre></div>
+<p>通过班次 ID 删除班次。</p>
+<h3 id='doc-327'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//shift_delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//shift_delete</a></p>
 <h3 id='url-327'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/shifts/:shift_id</code></p>
@@ -10006,7 +10014,9 @@
 <span class="p">}</span>
 
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">todo</span>
-</code></pre></div><h3 id='doc-330'>Doc</h3>
+</code></pre></div>
+<p>查询日度统计或月度统计的统计数据。</p>
+<h3 id='doc-330'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/query-statistics-data">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/query-statistics-data</a></p>
 <h3 id='url-330'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_stats_datas/query</code></p>
@@ -10033,7 +10043,9 @@
 <span class="p">}</span>
 
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">todo</span>
-</code></pre></div><h3 id='doc-331'>Doc</h3>
+</code></pre></div>
+<p>查询日度统计或月度统计的统计表头。</p>
+<h3 id='doc-331'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/query-statistics-header">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/query-statistics-header</a></p>
 <h3 id='url-331'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_stats_fields/query</code></p>
@@ -10060,7 +10072,9 @@
 <span class="p">}</span>
 
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">todo</span>
-</code></pre></div><h3 id='doc-332'>Doc</h3>
+</code></pre></div>
+<p>更新日度统计或月度统计的统计设置信息。</p>
+<h3 id='doc-332'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/update-user-stats-settings">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/update-user-stats-settings</a></p>
 <h3 id='url-332'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_stats_views/:user_stats_view_id</code></p>
@@ -10087,7 +10101,9 @@
 <span class="p">}</span>
 
 </code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">todo</span>
-</code></pre></div><h3 id='doc-333'>Doc</h3>
+</code></pre></div>
+<p>查询日度统计或月度统计的统计设置信息。</p>
+<h3 id='doc-333'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/query-user-statistics-settings">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/query-user-statistics-settings</a></p>
 <h3 id='url-333'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_stats_views/query</code></p>
@@ -10737,7 +10753,7 @@ href="/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN">以应用身份访问OKR信�
 
 <p>调用「<a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/ehr/employees">批量获取员工花名册信息</a>」接口的返回值中，「文件」类型的字段 id，即是文件 token</p>
 
-<p><img src="//sf1-ttcdn-tos.pstatp.com/obj/open-platform-opendoc/bed391d2a8ce6ed2d5985ea69bf92850_9GY1mnuDXP.png" alt="image.png" />{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=ehr&amp;version=v1&amp;resource=attachment&amp;method=get)</p>
+<p><img src="//sf3-cn.feishucdn.com/obj/open-platform-opendoc/bed391d2a8ce6ed2d5985ea69bf92850_9GY1mnuDXP.png" alt="image.png" />{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=ehr&amp;version=v1&amp;resource=attachment&amp;method=get)</p>
 <h3 id='doc-354'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/ehr/ehr-v1/attachment/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/ehr/ehr-v1/attachment/get</a></p>
 <h3 id='url-354'>URL</h3>
