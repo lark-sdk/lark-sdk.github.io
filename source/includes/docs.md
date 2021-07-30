@@ -3262,6 +3262,8 @@ todo
 当前身份必须对日历有 writer 或 owner 权限，并且日历的类型只能为 primary 或 shared。
 
 
+
+
 #
 
 ### Doc
@@ -5962,7 +5964,7 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-该接口用于获取文档的纯文本内容，不包含富文本格式信息，主要用于搜索，如导入 es 等。
+该接口用于获取文档的纯文本内容，不包含富文本格式信息。
 
 #
 
@@ -15364,6 +15366,8 @@ todo
 
 
 
+上传文件并获取文件 ID，可用于“修改用户设置”接口的 face_key 参数。
+
 #
 
 ### Doc
@@ -15454,6 +15458,8 @@ todo
 ```
 
 
+
+修改授权内员工的用户设置信息，包括人脸照片文件 ID。
 
 #
 
@@ -15581,6 +15587,8 @@ todo
 ```
 
 
+
+通过考勤组 ID 删除考勤组。
 
 #
 
@@ -15725,6 +15733,8 @@ todo
 
 
 
+通过班次 ID 删除班次。
+
 #
 
 ### Doc
@@ -15864,6 +15874,8 @@ todo
 
 
 
+查询日度统计或月度统计的统计数据。
+
 #
 
 ### Doc
@@ -15908,6 +15920,8 @@ todo
 ```
 
 
+
+查询日度统计或月度统计的统计表头。
 
 #
 
@@ -15954,6 +15968,8 @@ todo
 
 
 
+更新日度统计或月度统计的统计设置信息。
+
 #
 
 ### Doc
@@ -15998,6 +16014,8 @@ todo
 ```
 
 
+
+查询日度统计或月度统计的统计设置信息。
 
 #
 
@@ -17031,7 +17049,7 @@ todo
 
 调用「[批量获取员工花名册信息](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/ehr/employees)」接口的返回值中，「文件」类型的字段 id，即是文件 token
 
-![image.png](//sf1-ttcdn-tos.pstatp.com/obj/open-platform-opendoc/bed391d2a8ce6ed2d5985ea69bf92850_9GY1mnuDXP.png){尝试一下}(url=/api/tools/api_explore/api_explore_config?project=ehr&version=v1&resource=attachment&method=get)
+![image.png](//sf3-cn.feishucdn.com/obj/open-platform-opendoc/bed391d2a8ce6ed2d5985ea69bf92850_9GY1mnuDXP.png){尝试一下}(url=/api/tools/api_explore/api_explore_config?project=ehr&version=v1&resource=attachment&method=get)
 
 
 
