@@ -123,7 +123,9 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-该接口用于在 access_token 过期时用 refresh_token 重新获取 access_token。此时会返回新的 refresh_token，再次刷新 access_token 时需要使用新的 refresh_token。
+user_access_token 具有一定的时效性，默认最长有效期为7200秒。该接口用于在 user_access_token 过期时用 refresh_token 重新获取 access_token。此时会返回新的 refresh_token，再次刷新 access_token 时需要使用新的 refresh_token。
+
+调用该接口之后，之前的 user_access_token 即使没有到过期时间也会马上失效
 
 #
 
@@ -3268,7 +3270,7 @@ todo
 
 ### Doc
 
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar-event/create-event](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar-event/create-event)
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar-event/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar-event/create)
 
 ### URL
 
@@ -4504,6 +4506,51 @@ todo
 ### URL
 
 `https://open.feishu.cn/open-apis/drive/explorer/v2/folder/:folderToken/children`
+
+### Method
+
+`GET`
+
+## GetDriveFileStatistics
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.GetDriveFileStatistics(ctx, &lark.GetDriveFileStatisticsReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+此接口用于获取文件统计信息，包括文档阅读人数、次数和点赞数。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file-statistics/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file-statistics/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/drive/v1/files/:file_token/statistics`
 
 ### Method
 
@@ -14578,6 +14625,591 @@ todo
 ### URL
 
 `https://open.feishu.cn/open-apis/helpdesk/v1/faqs/search`
+
+### Method
+
+`GET`
+
+## UpdateHelpdeskAgent
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.UpdateHelpdeskAgent(ctx, &lark.UpdateHelpdeskAgentReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+更新客服状态等信息
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent/patch](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent/patch)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/agents/:agent_id`
+
+### Method
+
+`PATCH`
+
+## GetHelpdeskAgentEmail
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.GetHelpdeskAgentEmail(ctx, &lark.GetHelpdeskAgentEmailReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于获取客服邮箱地址
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent/agent_email](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent/agent_email)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/agent_emails`
+
+### Method
+
+`GET`
+
+## CreateHelpdeskAgentSchedule
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.CreateHelpdeskAgentSchedule(ctx, &lark.CreateHelpdeskAgentScheduleReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于创建客服
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_schedule/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_schedule/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/agent_schedules`
+
+### Method
+
+`POST`
+
+## DeleteHelpdeskAgentSchedule
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.DeleteHelpdeskAgentSchedule(ctx, &lark.DeleteHelpdeskAgentScheduleReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于删除客服
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent-schedules/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent-schedules/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/agents/:agent_id/schedules`
+
+### Method
+
+`DELETE`
+
+## UpdateHelpdeskAgentSchedule
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.UpdateHelpdeskAgentSchedule(ctx, &lark.UpdateHelpdeskAgentScheduleReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于更新客服
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent-schedules/patch](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent-schedules/patch)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/agents/:agent_id/schedules`
+
+### Method
+
+`PATCH`
+
+## GetHelpdeskAgentSchedule
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.GetHelpdeskAgentSchedule(ctx, &lark.GetHelpdeskAgentScheduleReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于获取客服信息
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent-schedules/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent-schedules/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/agents/:agent_id/schedules`
+
+### Method
+
+`GET`
+
+## GetHelpdeskAgentScheduleList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.GetHelpdeskAgentScheduleList(ctx, &lark.GetHelpdeskAgentScheduleListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于获取所有客服信息
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_schedule/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_schedule/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/agent_schedules`
+
+### Method
+
+`GET`
+
+## CreateHelpdeskAgentSkill
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.CreateHelpdeskAgentSkill(ctx, &lark.CreateHelpdeskAgentSkillReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于创建客服技能
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/agent_skills`
+
+### Method
+
+`POST`
+
+## GetHelpdeskAgentSkill
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.GetHelpdeskAgentSkill(ctx, &lark.GetHelpdeskAgentSkillReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于获取客服技能
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/agent_skills/:agent_skill_id`
+
+### Method
+
+`GET`
+
+## UpdateHelpdeskAgentSkill
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.UpdateHelpdeskAgentSkill(ctx, &lark.UpdateHelpdeskAgentSkillReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于更新客服技能
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/patch](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/patch)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/agent_skills/:agent_skill_id`
+
+### Method
+
+`PATCH`
+
+## DeleteHelpdeskAgentSkill
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.DeleteHelpdeskAgentSkill(ctx, &lark.DeleteHelpdeskAgentSkillReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于删除客服技能
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/agent_skills/:agent_skill_id`
+
+### Method
+
+`DELETE`
+
+## GetHelpdeskAgentSkillList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.GetHelpdeskAgentSkillList(ctx, &lark.GetHelpdeskAgentSkillListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+获取全部客服技能
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/agent_skills`
+
+### Method
+
+`GET`
+
+## GetHelpdeskAgentSkillRuleList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.GetHelpdeskAgentSkillRuleList(ctx, &lark.GetHelpdeskAgentSkillRuleListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于获取全部客服技能。仅支持自建应用。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill_rule/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill_rule/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/agent_skill_rules`
 
 ### Method
 
