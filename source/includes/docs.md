@@ -6297,6 +6297,96 @@ todo
 
 `POST`
 
+## CreateDriveImportTask
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.CreateDriveImportTask(ctx, &lark.CreateDriveImportTaskReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+创建导入任务。支持导入为 doc、sheet、bitable，参考[导入用户指南](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/import_task/import-user-guide)
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/import_task/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/import_task/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/drive/v1/import_tasks`
+
+### Method
+
+`POST`
+
+## GetDriveImportTask
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.GetDriveImportTask(ctx, &lark.GetDriveImportTaskReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+根据创建导入任务返回的 ticket 查询导入结果。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/import_task/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/import_task/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/drive/v1/import_tasks/:ticket`
+
+### Method
+
+`GET`
+
 ## MoveSheetDimension
 
 ```go
