@@ -11219,7 +11219,7 @@ href="/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN">以应用身份访问OKR信�
 
 <p>调用「<a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/ehr/employees">批量获取员工花名册信息</a>」接口的返回值中，「文件」类型的字段 id，即是文件 token</p>
 
-<p><img src="//sf3-cn.feishucdn.com/obj/open-platform-opendoc/bed391d2a8ce6ed2d5985ea69bf92850_9GY1mnuDXP.png" alt="image.png" />{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=ehr&amp;version=v1&amp;resource=attachment&amp;method=get)</p>
+<p><img src="//sf1-ttcdn-tos.pstatp.com/obj/open-platform-opendoc/bed391d2a8ce6ed2d5985ea69bf92850_9GY1mnuDXP.png" alt="image.png" />{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=ehr&amp;version=v1&amp;resource=attachment&amp;method=get)</p>
 <h3 id='doc-370'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/ehr/ehr-v1/attachment/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/ehr/ehr-v1/attachment/get</a></p>
 <h3 id='url-370'>URL</h3>
