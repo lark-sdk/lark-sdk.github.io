@@ -17771,7 +17771,9 @@ todo
 
 调用「[批量获取员工花名册信息](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/ehr/employees)」接口的返回值中，「文件」类型的字段 id，即是文件 token
 
-![image.png](//sf3-cn.feishucdn.com/obj/open-platform-opendoc/bed391d2a8ce6ed2d5985ea69bf92850_9GY1mnuDXP.png){尝试一下}(url=/api/tools/api_explore/api_explore_config?project=ehr&version=v1&resource=attachment&method=get)
+![image.png](//sf1-ttcdn-tos.pstatp.com/obj/open-platform-opendoc/bed391d2a8ce6ed2d5985ea69bf92850_9GY1mnuDXP.png){尝试一下}(url=/api/tools/api_explore/api_explore_config?project=ehr&version=v1&resource=attachment&method=get)
+
+
 
 
 
