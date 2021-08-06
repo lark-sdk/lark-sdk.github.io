@@ -1322,6 +1322,7 @@ todo
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
 - 给用户发送消息，需要机器人对用户有可见性
 - 给群组发送消息，需要机器人在群中
+- 消息请求体最大不能超过30k
 
 
 
@@ -17530,9 +17531,6 @@ todo
 `GET`
 
 
-# EventCallback
-
-
 # OKR
 
 ## GetOKRPeriodList
@@ -18216,684 +18214,6 @@ todo
 ### Method
 
 `DELETE`
-
-
-# Task
-
-## CreateTaskCollaborator
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Task.CreateTaskCollaborator(ctx, &lark.CreateTaskCollaboratorReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-todo
-```
-
-该接口用于新增任务协作者
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/create)
-
-### URL
-
-`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/collaborators`
-
-### Method
-
-`POST`
-
-## GetTaskCollaboratorList
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Task.GetTaskCollaboratorList(ctx, &lark.GetTaskCollaboratorListReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-todo
-```
-
-该接口用于查询任务协作者列表，支持分页，最大值为50
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/list)
-
-### URL
-
-`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/collaborators`
-
-### Method
-
-`GET`
-
-## DeleteTaskCollaborator
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Task.DeleteTaskCollaborator(ctx, &lark.DeleteTaskCollaboratorReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-todo
-```
-
-该接口用于删除任务协作者
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/delete)
-
-### URL
-
-`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/collaborators/:collaborator_id`
-
-### Method
-
-`DELETE`
-
-## CreateTaskFollower
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Task.CreateTaskFollower(ctx, &lark.CreateTaskFollowerReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-todo
-```
-
-该接口用于创建任务关注者
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/create)
-
-### URL
-
-`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/followers`
-
-### Method
-
-`POST`
-
-## GetTaskFollowerList
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Task.GetTaskFollowerList(ctx, &lark.GetTaskFollowerListReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-todo
-```
-
-该接口用于查询任务关注者列表，支持分页，最大值为50
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/list)
-
-### URL
-
-`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/followers`
-
-### Method
-
-`GET`
-
-## DeleteTaskFollower
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Task.DeleteTaskFollower(ctx, &lark.DeleteTaskFollowerReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-todo
-```
-
-该接口用于删除任务关注者
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/delete)
-
-### URL
-
-`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/followers/:follower_id`
-
-### Method
-
-`DELETE`
-
-## CreateTaskReminder
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Task.CreateTaskReminder(ctx, &lark.CreateTaskReminderReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-todo
-```
-
-该接口用于创建任务的提醒时间
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/create)
-
-### URL
-
-`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/reminders`
-
-### Method
-
-`POST`
-
-## GetTaskReminderList
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Task.GetTaskReminderList(ctx, &lark.GetTaskReminderListReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-todo
-```
-
-返回提醒时间列表，支持分页，最大值为50
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/list)
-
-### URL
-
-`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/reminders`
-
-### Method
-
-`GET`
-
-## DeleteTaskReminder
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Task.DeleteTaskReminder(ctx, &lark.DeleteTaskReminderReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-todo
-```
-
-删除提醒时间，返回结果状态
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/delete)
-
-### URL
-
-`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/reminders/:reminder_id`
-
-### Method
-
-`DELETE`
-
-## CreateTask
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Task.CreateTask(ctx, &lark.CreateTaskReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-todo
-```
-
-该接口可以创建一个任务（基本信息），如果需要绑定协作者等需要调用别的资源管理接口。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/create)
-
-### URL
-
-`https://open.feishu.cn/open-apis/task/v1/tasks`
-
-### Method
-
-`POST`
-
-## GetTask
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Task.GetTask(ctx, &lark.GetTaskReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-todo
-```
-
-该接口用于获取任务详情，包括任务标题、描述、时间、来源等信息
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/get)
-
-### URL
-
-`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id`
-
-### Method
-
-`GET`
-
-## DeleteTask
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Task.DeleteTask(ctx, &lark.DeleteTaskReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-todo
-```
-
-该接口用于删除任务
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/delete)
-
-### URL
-
-`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id`
-
-### Method
-
-`DELETE`
-
-## UpdateTask
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Task.UpdateTask(ctx, &lark.UpdateTaskReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-todo
-```
-
-该接口用于修改任务的标题、描述、时间、来源等相关信息
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/patch](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/patch)
-
-### URL
-
-`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id`
-
-### Method
-
-`PATCH`
-
-## CompleteTask
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Task.CompleteTask(ctx, &lark.CompleteTaskReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-todo
-```
-
-该接口用于将接任务状态修改为已完成
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/complete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/complete)
-
-### URL
-
-`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/complete`
-
-### Method
-
-`POST`
-
-## UncompleteTask
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Task.UncompleteTask(ctx, &lark.UncompleteTaskReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-todo
-```
-
-该接口用于取消任务的已完成状态
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/uncomplete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/uncomplete)
-
-### URL
-
-`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/uncomplete`
-
-### Method
-
-`POST`
 
 
 # Hire
@@ -19932,6 +19252,1096 @@ todo
 ### Method
 
 `GET`
+
+
+# Task
+
+## CreateTaskCollaborator
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.CreateTaskCollaborator(ctx, &lark.CreateTaskCollaboratorReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于新增任务协作者
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/collaborators`
+
+### Method
+
+`POST`
+
+## GetTaskCollaboratorList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.GetTaskCollaboratorList(ctx, &lark.GetTaskCollaboratorListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于查询任务协作者列表，支持分页，最大值为50
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/collaborators`
+
+### Method
+
+`GET`
+
+## DeleteTaskCollaborator
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.DeleteTaskCollaborator(ctx, &lark.DeleteTaskCollaboratorReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于删除任务协作者
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/collaborators/:collaborator_id`
+
+### Method
+
+`DELETE`
+
+## CreateTaskFollower
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.CreateTaskFollower(ctx, &lark.CreateTaskFollowerReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于创建任务关注者
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/followers`
+
+### Method
+
+`POST`
+
+## GetTaskFollowerList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.GetTaskFollowerList(ctx, &lark.GetTaskFollowerListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于查询任务关注者列表，支持分页，最大值为50
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/followers`
+
+### Method
+
+`GET`
+
+## DeleteTaskFollower
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.DeleteTaskFollower(ctx, &lark.DeleteTaskFollowerReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于删除任务关注者
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/followers/:follower_id`
+
+### Method
+
+`DELETE`
+
+## CreateTaskReminder
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.CreateTaskReminder(ctx, &lark.CreateTaskReminderReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于创建任务的提醒时间
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/reminders`
+
+### Method
+
+`POST`
+
+## GetTaskReminderList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.GetTaskReminderList(ctx, &lark.GetTaskReminderListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+返回提醒时间列表，支持分页，最大值为50
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/reminders`
+
+### Method
+
+`GET`
+
+## DeleteTaskReminder
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.DeleteTaskReminder(ctx, &lark.DeleteTaskReminderReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+删除提醒时间，返回结果状态
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/reminders/:reminder_id`
+
+### Method
+
+`DELETE`
+
+## CreateTask
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.CreateTask(ctx, &lark.CreateTaskReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口可以创建一个任务（基本信息），如果需要绑定协作者等需要调用别的资源管理接口。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks`
+
+### Method
+
+`POST`
+
+## GetTask
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.GetTask(ctx, &lark.GetTaskReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于获取任务详情，包括任务标题、描述、时间、来源等信息
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id`
+
+### Method
+
+`GET`
+
+## DeleteTask
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.DeleteTask(ctx, &lark.DeleteTaskReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于删除任务
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id`
+
+### Method
+
+`DELETE`
+
+## UpdateTask
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.UpdateTask(ctx, &lark.UpdateTaskReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于修改任务的标题、描述、时间、来源等相关信息
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/patch](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/patch)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id`
+
+### Method
+
+`PATCH`
+
+## CompleteTask
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.CompleteTask(ctx, &lark.CompleteTaskReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于将接任务状态修改为已完成
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/complete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/complete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/complete`
+
+### Method
+
+`POST`
+
+## UncompleteTask
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.UncompleteTask(ctx, &lark.UncompleteTaskReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于取消任务的已完成状态
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/uncomplete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/uncomplete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/uncomplete`
+
+### Method
+
+`POST`
+
+
+# ACS
+
+## GetACSAccessRecordPhoto
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.ACS.GetACSAccessRecordPhoto(ctx, &lark.GetACSAccessRecordPhotoReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+
+
+用户在门禁考勤机上成功开门或打卡后，智能门禁应用都会生成一条门禁记录，对于使用人脸识别方式进行开门的识别记录，还会有抓拍图。
+
+可以用该接口下载开门时的人脸识别照片{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=acs&version=v1&resource=access_record.access_photo&method=get)
+
+
+
+
+
+
+
+
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/access_record-access_photo/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/access_record-access_photo/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/acs/v1/access_records/:access_record_id/access_photo`
+
+### Method
+
+`GET`
+
+## GetACSAccessRecordList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.ACS.GetACSAccessRecordList(ctx, &lark.GetACSAccessRecordListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+
+
+用户在门禁考勤机上成功开门或打卡后，智能门禁应用都会生成一条门禁记录。
+
+该接口返回满足查询参数的识别记录{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=acs&version=v1&resource=access_record&method=list)
+
+
+
+
+
+
+
+
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/access_record/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/access_record/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/acs/v1/access_records`
+
+### Method
+
+`GET`
+
+## GetACSDeviceList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.ACS.GetACSDeviceList(ctx, &lark.GetACSDeviceListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+使用该接口获取租户内所有设备
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/device/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/device/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/acs/v1/devices`
+
+### Method
+
+`GET`
+
+## GetACSUserFace
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.ACS.GetACSUserFace(ctx, &lark.GetACSUserFaceReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+对于已经录入人脸图片的用户，可以使用该接口下载用户人脸图片
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user-face/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user-face/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/acs/v1/users/:user_id/face`
+
+### Method
+
+`GET`
+
+## UpdateACSUserFace
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.ACS.UpdateACSUserFace(ctx, &lark.UpdateACSUserFaceReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+用户需要录入人脸图片才可以使用门禁考勤机。使用该 API 上传门禁用户的人脸图片。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user-face/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user-face/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/acs/v1/users/:user_id/face`
+
+### Method
+
+`PUT`
+
+## GetACSUser
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.ACS.GetACSUser(ctx, &lark.GetACSUserReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于获取智能门禁中单个用户的信息。
+
+只能获取已加入智能门禁权限组的用户
+
+
+
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/acs/v1/users/:user_id`
+
+### Method
+
+`GET`
+
+## UpdateACSUser
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.ACS.UpdateACSUser(ctx, &lark.UpdateACSUserReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+飞书智能门禁在人脸识别成功后会有韦根信号输出，输出用户的卡号。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user/patch](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user/patch)
+
+### URL
+
+`https://open.feishu.cn/open-apis/acs/v1/users/:user_id`
+
+### Method
+
+`PATCH`
+
+## GetACSUserList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.ACS.GetACSUserList(ctx, &lark.GetACSUserListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+使用该接口获取智能门禁中所有用户信息
+
+只能获取已加入智能门禁权限组的用户
+
+
+
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/acs/v1/users`
+
+### Method
+
+`GET`
+
+
+# EventCallback
 
 
 # AppLink
