@@ -36,11 +36,11 @@ todo
 
 ### Doc
 
-[https://open.feishu.cn/document/ukTMukTMukTM/uQjNz4CN2MjL0YzM](https://open.feishu.cn/document/ukTMukTMukTM/uQjNz4CN2MjL0YzM)
+[https://open.feishu.cn/document/ukTMukTMukTM/ukDNz4SO0MjL5QzM/auth-v3/auth/app_ticket_resend](https://open.feishu.cn/document/ukTMukTMukTM/ukDNz4SO0MjL5QzM/auth-v3/auth/app_ticket_resend)
 
 ### URL
 
-`https://open.feishu.cn/open-apis/auth/v3/app_ticket/resend/`
+`https://open.feishu.cn/open-apis/auth/v3/app_ticket/resend`
 
 ### Method
 
@@ -75,16 +75,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-通过此接口获取登录预授权码 code 对应的登录用户身份。
+获取登录预授权码 code 对应的登录用户身份。
 
 该接口仅适用于通过网页应用登录方式获取的预授权码，小程序登录中用户身份的获取，请使用[小程序 code2session 接口](/ssl:ttdoc/uYjL24iN/ukjM04SOyQjL5IDN)
+
+
+
+
+
 
 
 #
 
 ### Doc
 
-[https://open.feishu.cn/document/ukTMukTMukTM/uEDO4UjLxgDO14SM4gTN](https://open.feishu.cn/document/ukTMukTMukTM/uEDO4UjLxgDO14SM4gTN)
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/authen-v1/authen/access_token](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/authen-v1/authen/access_token)
 
 ### URL
 
@@ -125,13 +130,11 @@ todo
 
 user_access_token 具有一定的时效性，默认最长有效期为7200秒。该接口用于在 user_access_token 过期时用 refresh_token 重新获取 access_token。此时会返回新的 refresh_token，再次刷新 access_token 时需要使用新的 refresh_token。
 
-调用该接口之后，之前的 user_access_token 即使没有到过期时间也会马上失效
-
 #
 
 ### Doc
 
-[https://open.feishu.cn/document/ukTMukTMukTM/uQDO4UjL0gDO14CN4gTN](https://open.feishu.cn/document/ukTMukTMukTM/uQDO4UjL0gDO14CN4gTN)
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/authen-v1/authen/refresh_access_token](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/authen-v1/authen/refresh_access_token)
 
 ### URL
 
@@ -170,13 +173,13 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-此接口仅用于获取登录用户的信息。调用此接口需要在 Header 中带上 user_access_token。
+通过 user_access_token 获取登录用户的信息。
 
 #
 
 ### Doc
 
-[https://open.feishu.cn/document/ukTMukTMukTM/uIDO4UjLygDO14iM4gTN](https://open.feishu.cn/document/ukTMukTMukTM/uIDO4UjLygDO14iM4gTN)
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/authen-v1/authen/user_info](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/authen-v1/authen/user_info)
 
 ### URL
 
@@ -218,7 +221,7 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-使用该接口向通讯录创建一个用户，可以理解为员工入职。创建部门后只返回有数据权限的数据。具体的数据权限的与字段的对应关系请参照[应用权限](https://open.feishu.cn/document/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)
+使用该接口向通讯录创建一个用户，可以理解为员工入职。创建部门后只返回有数据权限的数据。具体的数据权限的与字段的对应关系请参照[应用权限](https://open.feishu.cn/document/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)。
 
 新增用户的所有部门必须都在当前应用的通讯录授权范围内才允许新增用户，如果想要在根部门下新增用户，必须要有全员权限。 应用商店应用无权限调用此接口。
 
@@ -273,7 +276,7 @@ todo
 
 该接口向通讯录删除一个用户信息，可以理解为员工离职。
 
-应用需要待删除用户的所有部门的通讯录权限才能删除该用户。应用商店应用无权限调用接口。用户可以在删除员工时设置删除员工数据的接收者，如果不设置则由其leader接收，如果该员工没有leader，则会将该员工的数据删除。
+若用户归属部门A、部门B，应用的通讯录权限范围必须包括部门A和部门B才可以删除用户。应用商店应用无权限调用接口。用户可以在删除员工时设置删除员工数据的接收者，如果不设置则由其leader接收，如果该员工没有leader，则会将该员工的数据删除。
 
 
 
@@ -379,9 +382,13 @@ todo
 
 
 
+为了更好地提升该接口的安全性，我们对其进行了升级，请尽快迁移至[新版本>>](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/user/list)
+
+
 该接口用于批量获取用户详细信息。
 
-调用该接口需要申请“以应用身份读取通讯录”以及[用户数据权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)。请求的用户如果在当前应用的通讯录授权范围内，会返回该用户的详细信息；否则不会返回。
+
+- 调用该接口需要申请“以应用身份读取通讯录”以及[用户数据权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)。请求的用户如果在当前应用的通讯录授权范围内，会返回该用户的详细信息；否则不会返回。
 
 
 
@@ -431,7 +438,7 @@ todo
 
 
 根据用户邮箱或手机号查询用户 open_id 和 user_id，支持批量查询。<br>
-调用该接口需要申请 `通过手机号或者邮箱获取用户ID` 权限。<br>只能查询到应用可用性范围内的用户 ID，不在范围内的用户会表现为不存在。
+调用该接口需要申请 `通过手机号或邮箱获取用户 ID` 权限。<br>只能查询到应用可用性范围内的用户 ID，不在范围内的用户会表现为不存在。
 
 
 
@@ -1054,6 +1061,366 @@ todo
 
 `DELETE`
 
+## CreateContactGroup
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.CreateContactGroup(ctx, &lark.CreateContactGroupReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+使用该接口创建用户组，请注意创建用户组时应用的通讯录权限范围需为“全部员工”，否则会创建失败，[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/group`
+
+### Method
+
+`POST`
+
+## UpdateContactGroup
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.UpdateContactGroup(ctx, &lark.UpdateContactGroupReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+使用该接口更新用户组信息，请注意更新用户组时应用的通讯录权限范围需为“全部员工”，否则会更新失败。[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group/patch](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group/patch)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/group/:group_id`
+
+### Method
+
+`PATCH`
+
+## DeleteContactGroup
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.DeleteContactGroup(ctx, &lark.DeleteContactGroupReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+通过该接口可删除企业中的用户组，请注意删除用户组时应用的通讯录权限范围需为“全部员工”，否则会删除失败，[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/group/:group_id`
+
+### Method
+
+`DELETE`
+
+## GetContactGroup
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.GetContactGroup(ctx, &lark.GetContactGroupReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+根据用户组 ID 查询某个用户组的基本信息，请确保应用的通讯录权限范围里包括该用户组或者是“全部员工”，[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/group/:group_id`
+
+### Method
+
+`GET`
+
+## GetContactGroupList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.GetContactGroupList(ctx, &lark.GetContactGroupListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+通过该接口可查询企业的用户组列表，如果应用的通讯录权限范围是“全部员工”，则可获取企业全部用户组列表。如果应用的通讯录权限范围不是“全部员工”，则仅可获取通讯录权限范围内的用户组。[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group/simplelist](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group/simplelist)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/group/simplelist`
+
+### Method
+
+`GET`
+
+## AddContactGroupMember
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.AddContactGroupMember(ctx, &lark.AddContactGroupMemberReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+向用户组中添加成员(目前成员仅支持用户，未来会支持部门)，如果应用的通讯录权限范围是“全部员工”，则可将任何成员添加到任何用户组。如果应用的通讯录权限范围不是“全部员工”，则仅可将通讯录权限范围中的成员添加到通讯录权限范围的用户组中，[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group-member/add](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group-member/add)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/group/:group_id/member/add`
+
+### Method
+
+`POST`
+
+## DeleteContactGroupMember
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.DeleteContactGroupMember(ctx, &lark.DeleteContactGroupMemberReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+从用户组中移除成员 (目前成员仅支持用户，未来会支持部门)，如果应用的通讯录权限范围是“全部员工”，则可将任何成员移出任何用户组。如果应用的通讯录权限范围不是“全部员工”，则仅可将通讯录权限范围中的成员从通讯录权限范围的用户组中移除, [点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group-member/remove](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group-member/remove)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/group/:group_id/member/remove`
+
+### Method
+
+`POST`
+
+## GetContactGroupMember
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.GetContactGroupMember(ctx, &lark.GetContactGroupMemberReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+通过该接口可查询某个用户组的成员(目前成员仅支持用户，未来会支持部门)列表，如果应用的通讯录权限范围是“全部员工”，则可查询企业内任何用户组的成员列表。如果应用的通讯录权限范围不是“全部员工”，则仅可查询通讯录权限范围中的用户组的成员列表，[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group-member/simplelist](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/group-member/simplelist)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/group/:group_id/member/simplelist`
+
+### Method
+
+`GET`
+
 ## GetEmployeeTypeEnumList
 
 ```go
@@ -1265,7 +1632,9 @@ todo
 
 获取企业自定义的用户字段配置信息
 
-调用该接口前，需要先确认企业管理员已经在 企业管理后台 > 组织架构 > 成员字段管理 自定义字段管理栏开启了“允许开放平台API调用“。
+调用该接口前，需要先确认[企业管理员](https://www.feishu.cn/hc/zh-CN/articles/360049067822)在[企业管理后台 - 组织架构 - 成员字段管理](http://feishu.cn/admin/contacts/employee-field-new/custom) 自定义字段管理栏开启了“允许开放平台API调用“。
+
+![通讯录.gif](//sf3-cn.feishucdn.com/obj/open-platform-opendoc/544738c94f13ef0b9ebaff53a5133cc7_E9EGMkXyzX.gif)
 
 
 
@@ -1322,6 +1691,7 @@ todo
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
 - 给用户发送消息，需要机器人对用户有可见性
 - 给群组发送消息，需要机器人在群中
+- 该接口不支持给部门成员发消息，请使用 [批量发送消息](/ssl:ttdoc/ukTMukTMukTM/ucDO1EjL3gTNx4yN4UTM)
 - 消息请求体最大不能超过30k
 
 
@@ -1423,6 +1793,8 @@ todo
 - 回复群组消息，需要机器人在群中
 
 
+
+
 #
 
 ### Doc
@@ -1475,6 +1847,8 @@ todo
 - 无法撤回通过「批量发送消息接口」发送的消息
 
 
+
+
 #
 
 ### Doc
@@ -1522,8 +1896,10 @@ todo
 
 注意事项:
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
-- 当前仅更新支持卡片消息
-- 只支持对所有人都更新的「共享卡片」。如果你只想更新特定人的消息卡片，必须要用户在卡片操作交互后触发，开发文档参考[「独享卡片」](https://open.feishu.cn/document/ukTMukTMukTM/uYjNwUjL2YDM14iN2ATN#49904b71)
+- 当前仅支持更新 ***卡片消息***
+- 只支持对所有人都更新的「共享卡片」。如果你只想更新特定人的消息卡片，必须要用户在卡片操作交互后触发，开发文档参考[「独享卡片」](/ssl:ttdoc/ukTMukTMukTM/uYjNwUjL2YDM14iN2ATN#49904b71)
+
+
 
 
 #
@@ -1569,7 +1945,7 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-查询消息的已读用户信息。
+查询消息的已读信息。
 
 注意事项:
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
@@ -1625,7 +2001,9 @@ todo
 注意事项:
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
 - 获取消息时，机器人必须在群组中
-- 获取群组消息时，应用必须拥有 获取群组中所有的消息 权限
+- 接口级别权限默认只能获取单聊消息，如果需要获取群组消息，应用还必须拥有 ***获取群组中所有的消息*** 权限
+
+
 
 
 #
@@ -1671,13 +2049,16 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-获取消息中的资源文件，包括音频，视频，图片和文件。当前仅支持 100M 以内的资源文件的下载。
+获取消息中的资源文件，包括音频，视频，图片和文件，**暂不支持表情包资源下载**。当前仅支持 100M 以内的资源文件的下载。
 
 注意事项:
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
 - 机器人和消息需要在同一会话中
 - 请求的 file_key 和 message_id 需要匹配
+- 暂不支持获取合并转发消息中的子消息的资源文件
 - 获取群组消息时，应用必须拥有 获取群组中所有的消息 权限
+
+
 
 
 #
@@ -1829,6 +2210,7 @@ todo
 
 注意事项：
  - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
+- 本接口只支持创建群，如果需要拉用户或者机器人入群参考 [将用户或机器人拉入群聊](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat-members/create)接口
 
 
 #
@@ -1844,6 +2226,65 @@ todo
 ### Method
 
 `POST`
+
+## GetChatOld
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Chat.GetChatOld(ctx, &lark.GetChatOldReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+
+
+:::html
+
+<md-alert type="error">
+
+为了更好地提升该接口的安全性，我们对其进行了升级，请尽快迁移至[新版本>>](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat/get)
+
+</md-alert>
+
+:::
+获取群名称、群主 ID、成员列表 ID 等群基本信息。  
+
+- 需要启用机器人能力；机器人必须在群里
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uMTO5QjLzkTO04yM5kDN](https://open.feishu.cn/document/ukTMukTMukTM/uMTO5QjLzkTO04yM5kDN)
+
+### URL
+
+`https://open.feishu.cn/open-apis/chat/v4/info`
+
+### Method
+
+`GET`
 
 ## GetChat
 
@@ -1879,6 +2320,8 @@ todo
 注意事项：
  - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
  - 机器人或授权用户必须在群里
+
+
 
 
 #
@@ -1936,6 +2379,8 @@ todo
  	- 不满足上述条件的群成员或者机器人，任何群信息都不能修改
 
 
+
+
 #
 
 ### Doc
@@ -1983,7 +2428,8 @@ todo
 
 注意事项：
 - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
-- 仅有 群主 或 创建群组且具备==更新应用所创建群的群信息==权限的机器人，可解散群
+- 如果使用tenant_access_token，需要机器人是群的创建者且具备==更新应用所创建群的群信息==权限才可解散群
+- 如果使用user_access_token，需要对应的用户是群主才可解散群
 
 
 #
@@ -2082,6 +2528,8 @@ todo
 
 注意事项：
  - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
+
+
 
 
 #
@@ -2333,6 +2781,8 @@ todo
  - 目前仅支持加入公开群
 
 
+
+
 #
 
 ### Doc
@@ -2430,8 +2880,8 @@ todo
 注意事项：
 - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
 - 当授权用户或机器人是群主时，可更新群公告信息
-- 当授权用户或机器人非群主，但群主未设置 ==仅群主可编辑群信息== 时，可更新群公告信息
-- 当授权用户或机器人非群主，但群主设置了 ==仅群主可编辑群信息== 时，无法更新公告信息
+- 当授权用户或机器人非群主，且群主未设置 ==仅群主可编辑群信息== 时，可更新群公告信息
+- 当授权用户或机器人非群主，且群主设置了 ==仅群主可编辑群信息== 时，无法更新公告信息
 
 
 #
@@ -2450,6 +2900,59 @@ todo
 
 
 # Bot
+
+## GetBotInfo
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Bot.GetBotInfo(ctx, &lark.GetBotInfoReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+获取机器人的基本信息。
+
+需要启用机器人能力
+
+
+
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uAjMxEjLwITMx4CMyETM](https://open.feishu.cn/document/ukTMukTMukTM/uAjMxEjLwITMx4CMyETM)
+
+### URL
+
+`https://open.feishu.cn/open-apis/bot/v3/info`
+
+### Method
+
+`GET`
 
 ## AddBotToChat
 
@@ -3712,6 +4215,8 @@ todo
 - 当前身份必须对日历有访问权限。
 
 - 当前身份必须有权限查看日程的参与人列表。
+
+
 
 
 
@@ -5249,6 +5754,51 @@ todo
 
 `POST`
 
+## DeleteDriveMemberPermissionOld
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.DeleteDriveMemberPermissionOld(ctx, &lark.DeleteDriveMemberPermissionOldReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于根据 filetoken 移除文档协作者的权限。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uYTN3UjL2UzN14iN1cTN](https://open.feishu.cn/document/ukTMukTMukTM/uYTN3UjL2UzN14iN1cTN)
+
+### URL
+
+`https://open.feishu.cn/open-apis/drive/permission/member/delete`
+
+### Method
+
+`POST`
+
 ## DeleteDriveMemberPermission
 
 ```go
@@ -5284,11 +5834,56 @@ todo
 
 ### Doc
 
-[https://open.feishu.cn/document/ukTMukTMukTM/uYTN3UjL2UzN14iN1cTN](https://open.feishu.cn/document/ukTMukTMukTM/uYTN3UjL2UzN14iN1cTN)
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/permission-member/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/permission-member/delete)
 
 ### URL
 
-`https://open.feishu.cn/open-apis/drive/permission/member/delete`
+`https://open.feishu.cn/open-apis/drive/v1/permissions/:token/members/:member_id`
+
+### Method
+
+`DELETE`
+
+## UpdateDriveMemberPermissionOld
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.UpdateDriveMemberPermissionOld(ctx, &lark.UpdateDriveMemberPermissionOldReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于根据 filetoken 更新文档协作者的权限。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/ucTN3UjL3UzN14yN1cTN](https://open.feishu.cn/document/ukTMukTMukTM/ucTN3UjL3UzN14yN1cTN)
+
+### URL
+
+`https://open.feishu.cn/open-apis/drive/permission/member/update`
 
 ### Method
 
@@ -5329,15 +5924,15 @@ todo
 
 ### Doc
 
-[https://open.feishu.cn/document/ukTMukTMukTM/ucTN3UjL3UzN14yN1cTN](https://open.feishu.cn/document/ukTMukTMukTM/ucTN3UjL3UzN14yN1cTN)
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/permission-member/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/permission-member/update)
 
 ### URL
 
-`https://open.feishu.cn/open-apis/drive/permission/member/update`
+`https://open.feishu.cn/open-apis/drive/v1/permissions/:token/members/:member_id`
 
 ### Method
 
-`POST`
+`PUT`
 
 ## CheckDriveMemberPermission
 
@@ -10613,7 +11208,7 @@ todo
 
 获取一个会议的详细数据
 
-只能获取归属于自己（或参与）的会议，支持查询最近90天内的会议
+只能获取归属于自己的会议，支持查询最近90天内的会议
 
 
 
@@ -10687,6 +11282,51 @@ todo
 ### Method
 
 `PATCH`
+
+## KickoutVCMeeting
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.VC.KickoutVCMeeting(ctx, &lark.KickoutVCMeetingReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+将参会人从会议中移除
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/vc-v1/meeting/kickout](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/vc-v1/meeting/kickout)
+
+### URL
+
+`https://open.feishu.cn/open-apis/vc/v1/meetings/:meeting_id/kickout`
+
+### Method
+
+`POST`
 
 ## SetVCHostMeeting
 
@@ -11817,12 +12457,7 @@ todo
 
 
 
-查询应用在指定时间段内企业员工的使用详细信息。
-:::warning
-此接口目前仅支持小程序的使用情况查询，不支持网页应用和机器人应用的使用情况查询;仅支持查询自建应用，不支持查询商店应用
-:::
 
-#
 
 ### Doc
 
@@ -11867,7 +12502,7 @@ todo
 
 
 
-查询应用在指定时间段内机器人消息概览信息。
+
 
 ### Doc
 
@@ -11912,9 +12547,7 @@ todo
 
 
 
-查询应用在指定时间段内机器人消息趋势信息。
 
-#
 
 ### Doc
 
@@ -11959,9 +12592,7 @@ todo
 
 
 
-查询应用在指定时间段内机器人消息详细信息。
 
-#
 
 ### Doc
 
@@ -13533,6 +14164,100 @@ todo
 
 `POST`
 
+## SearchApprovalTask
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Approval.SearchApprovalTask(ctx, &lark.SearchApprovalTaskReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+
+
+该接口通过不同条件查询审批系统中符合条件的审批任务列表
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uYjMxYjL2ITM24iNyEjN](https://open.feishu.cn/document/ukTMukTMukTM/uYjMxYjL2ITM24iNyEjN)
+
+### URL
+
+`https://www.feishu.cn/approval/openapi/v2/task/search`
+
+### Method
+
+`POST`
+
+## SearchApprovalCarbonCopy
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Approval.SearchApprovalCarbonCopy(ctx, &lark.SearchApprovalCarbonCopyReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+
+
+该接口通过不同条件查询审批系统中符合条件的审批抄送列表。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uUjMxYjL1ITM24SNyEjN](https://open.feishu.cn/document/ukTMukTMukTM/uUjMxYjL1ITM24SNyEjN)
+
+### URL
+
+`https://www.feishu.cn/approval/openapi/v2/cc/search`
+
+### Method
+
+`POST`
+
 ## CreateApprovalCarbonCopy
 
 ```go
@@ -13575,6 +14300,100 @@ todo
 ### URL
 
 `https://www.feishu.cn/approval/openapi/v2/instance/cc`
+
+### Method
+
+`POST`
+
+## AddApprovalInstanceSign
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Approval.AddApprovalInstanceSign(ctx, &lark.AddApprovalInstanceSignReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+
+
+对于单个审批任务进行加签操作。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-task-addsign](https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-task-addsign)
+
+### URL
+
+`https://open.feishu.cn/open-apis/approval/v4/instances/add_sign`
+
+### Method
+
+`POST`
+
+## PreviewApprovalInstance
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Approval.PreviewApprovalInstance(ctx, &lark.PreviewApprovalInstanceReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+
+
+提交审批前，预览审批流程。或者发起审批后，在某一审批节点预览后续流程
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-preview](https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-preview)
+
+### URL
+
+`https://open.feishu.cn/open-apis/approval/v4/instances/preview`
 
 ### Method
 
@@ -14752,7 +15571,7 @@ todo
 
 更新客服状态等信息
 
-#
+
 
 ### Doc
 
@@ -14797,7 +15616,7 @@ todo
 
 该接口用于获取客服邮箱地址
 
-#
+
 
 ### Doc
 
@@ -14842,7 +15661,7 @@ todo
 
 该接口用于创建客服
 
-#
+
 
 ### Doc
 
@@ -14887,7 +15706,7 @@ todo
 
 该接口用于删除客服
 
-#
+
 
 ### Doc
 
@@ -14932,7 +15751,7 @@ todo
 
 该接口用于更新客服
 
-#
+
 
 ### Doc
 
@@ -14977,7 +15796,7 @@ todo
 
 该接口用于获取客服信息
 
-#
+
 
 ### Doc
 
@@ -15022,7 +15841,7 @@ todo
 
 该接口用于获取所有客服信息
 
-#
+
 
 ### Doc
 
@@ -15067,7 +15886,7 @@ todo
 
 该接口用于创建客服技能
 
-#
+
 
 ### Doc
 
@@ -15112,7 +15931,7 @@ todo
 
 该接口用于获取客服技能
 
-#
+
 
 ### Doc
 
@@ -15157,7 +15976,7 @@ todo
 
 该接口用于更新客服技能
 
-#
+
 
 ### Doc
 
@@ -15202,7 +16021,7 @@ todo
 
 该接口用于删除客服技能
 
-#
+
 
 ### Doc
 
@@ -15247,7 +16066,7 @@ todo
 
 获取全部客服技能
 
-#
+
 
 ### Doc
 
@@ -15292,7 +16111,7 @@ todo
 
 该接口用于获取全部客服技能。仅支持自建应用。
 
-#
+
 
 ### Doc
 
@@ -15742,7 +16561,7 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-基础图片识别接口，识别图片中的文字，按区域划分返回文本列表
+可识别图片中的文字，按区域划分返回文本列表
 
 单租户限流：20QPS，同租户下的应用没有限流，共享本租户的 20QPS 限流
 
@@ -15892,7 +16711,7 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-支持中日英（zh、ja、en）三语互译
+机器翻译 (MT)，支持中日英（zh、ja、en）三语互译
 
 单租户限流：20QPS，同租户下的应用没有限流，共享本租户的 20QPS 限流
 
@@ -15940,7 +16759,7 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-支持 100 多种语言识别，返回符合 ISO 693-1 标准
+机器翻译 (MT)，支持 100 多种语言识别，返回符合 ISO 693-1 标准
 
 单租户限流：20QPS，同租户下的应用没有限流，共享本租户的 20QPS 限流
 
@@ -17413,6 +18232,8 @@ todo
 注意事项:
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
 - 只能下载机器人自己上传且图片类型为message的图片，avatar类型暂不支持下载；
+
+
 
 
 #
@@ -19930,6 +20751,186 @@ todo
 ### Method
 
 `POST`
+
+## CreateTaskComment
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.CreateTaskComment(ctx, &lark.CreateTaskCommentReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于创建和回复任务的评论。当parent_id字段为0时，为创建评论；当parent_id不为0时，为回复某条评论
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/comments`
+
+### Method
+
+`POST`
+
+## GetTaskComment
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.GetTaskComment(ctx, &lark.GetTaskCommentReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于通过评论ID获取评论详情
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/comments/:comment_id`
+
+### Method
+
+`GET`
+
+## DeleteTaskComment
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.DeleteTaskComment(ctx, &lark.DeleteTaskCommentReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于通过评论ID删除评论
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/comments/:comment_id`
+
+### Method
+
+`DELETE`
+
+## UpdateTaskComment
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.UpdateTaskComment(ctx, &lark.UpdateTaskCommentReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+该接口用于更新评论内容
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/comments/:comment_id`
+
+### Method
+
+`PUT`
 
 
 # ACS
