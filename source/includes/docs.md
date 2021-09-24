@@ -30,7 +30,7 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-飞书每隔 1 小时会给应用推送一次最新的 app_ticket，应用也可以主动调用此接口，触发飞书进行及时的重新推送。
+飞书每隔 1 小时会给应用推送一次最新的 app_ticket，应用也可以主动调用此接口，触发飞书进行及时的重新推送。（该接口并不能直接获取app_ticket，而是触发事件推送）
 
 #
 
@@ -1655,6 +1655,66 @@ todo
 
 
 # Message
+
+## SendEphemeralMessage
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Message.SendEphemeralMessage(ctx, &lark.SendEphemeralMessageReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+
+
+用于机器人在群会话中发送指定用户可见的消息卡片。<br>
+
+## 使用场景
+临时消息卡片多用于群聊中用户与机器人交互的中间态。例如在群聊中用户需要使用待办事项类bot创建一条提醒，bot 发送了可设置提醒日期和提醒内容的一张可交互的消息卡片，此卡片在没有设置为临时卡片的情况下为群内全员可见，即群内可看见该用户与 bot 交互的过程。而设置为临时卡片后，交互过程仅该用户可见，群内其他成员只会看到最终设置完成的提醒卡片。<br>临时消息卡片可降低群消息的信噪比，并间接增加 bot 通知的用户触达。
+
+需要启用机器人能力；需要机器人在会话群里。
+
+
+-  仅触发临时卡片的用户自己可见。
+- 不支持转发。
+- 只能在群聊使用。
+- 仅在用户处于在线状态的飞书客户端上可见。
+- 临时消息卡片的[呈现能力](/ssl:ttdoc/ukTMukTMukTM/ugTNwUjL4UDM14CO1ATN)、[交互能力](/ssl:ttdoc/ukTMukTMukTM/uYjNwUjL2YDM14iN2ATN)与消息卡片一致。
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uETOyYjLxkjM24SM5IjN](https://open.feishu.cn/document/ukTMukTMukTM/uETOyYjLxkjM24SM5IjN)
+
+### URL
+
+`https://open.feishu.cn/open-apis/ephemeral/v1/send`
+
+### Method
+
+`POST`
 
 ## SendRawMessage
 
@@ -3931,6 +3991,8 @@ todo
 
 调用时首先使用 page_token 分页拉取存量数据，之后使用 sync_token 增量同步变更数据。
 
+为了确保调用方日程同步数据的一致性，在使用sync_token时，不能同时使用start_time和end_time，否则可能造成日程数据缺失。
+
 
 
 
@@ -4650,9 +4712,9 @@ todo
 
 
 
-该接口用于根据 folderToken 创建 Doc或 Sheet 。
+该接口用于根据 folderToken 创建 Doc、 Sheet 或 Bitable 。
 
-若没有特定的文件夹用于承载创建的文档，可以先调用「获取文件夹元信息」文档中的「获取 root folder (我的空间) meta」接口，获得我的空间的 token，然后再使用此接口。创建的文档将会在「我的空间」的「归我所有」列表里。{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=drive_explorer&version=v2&resource=file&method=create)
+若没有特定的文件夹用于承载创建的文档，可以先调用「获取文件夹元信息」文档中的「获取 root folder (我的空间) meta」接口，获得我的空间的 token，然后再使用此接口。创建的文档将会在「我的空间」的「归我所有」列表里。
 
 
 该接口不支持并发创建，且调用频率上限为 5QPS 且 10000次/天
@@ -4700,8 +4762,9 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-该接口用于根据文件 token 复制 Doc 或 Sheet  到目标文件夹中。
 
+
+该接口用于根据文件 token 复制 Doc 或 Sheet  到目标文件夹中。
 若没有特定的文件夹用于承载创建的文档，可以先调用「获取文件夹元信息」文档中的「获取 root folder (我的空间) meta」接口，获得我的空间的 token，然后再使用此接口。复制的文档将会在「我的空间」的「归我所有」列表里。
 
 
@@ -4749,6 +4812,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口用于根据 docToken 删除对应的 Docs 文档。
 
@@ -4861,6 +4926,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
+
+
 该接口用于根据 folderToken 在该 folder 下创建文件夹。
 
 该接口不支持并发创建，且调用频率上限为 5QPS 以及 10000次/天
@@ -4908,6 +4975,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口用于根据 folderToken 获取该文件夹的元信息。
 
@@ -5000,6 +5069,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口用于根据 folderToken 获取该文件夹的文档清单，如 doc、sheet、folder。
 
@@ -5196,7 +5267,7 @@ todo
 
 发送初始化请求获取上传事务ID和分块策略，目前是以4MB大小进行定长分片。
 
-您在24小时内可保存上传事务ID和上传进度，以便可以恢复上传
+你在24小时内可保存上传事务ID和上传进度，以便可以恢复上传
 
 
 该接口不支持太高的并发，且调用频率上限为5QPS
@@ -6513,7 +6584,7 @@ todo
 在使用此接口前，请仔细阅读[概述](/ssl:ttdoc/ukTMukTMukTM/ukjM5YjL5ITO24SOykjN)和[准备接入文档 API](/ssl:ttdoc/ukTMukTMukTM/ugzNzUjL4czM14CO3MTN/guide/getting-start)了解文档调用的规则和约束，确保你的文档数据不会丢失或出错。  
 文档数据结构定义可参考：[文档数据结构概述](/ssl:ttdoc/ukTMukTMukTM/uAzM5YjLwMTO24CMzkjN) 
 
-该接口用于创建并初始化文档。{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=doc&version=v2&resource=doc&method=create)
+该接口用于创建并初始化文档。
 
 #
 
@@ -6562,7 +6633,7 @@ todo
 
 在使用此接口前，请仔细阅读[概述](/ssl:ttdoc/ukTMukTMukTM/ukjM5YjL5ITO24SOykjN)和[准备接入文档 API](//ssl:ttdoc/ukTMukTMukTM/ugzNzUjL4czM14CO3MTN/guide/getting-start)了解文档调用的规则和约束，确保你的文档数据不会丢失或出错。  
 文档数据结构定义可参考：[文档数据结构概述](/ssl:ttdoc/ukTMukTMukTM/uAzM5YjLwMTO24CMzkjN) 
-该接口用于获取结构化的文档内容。{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=doc&version=v2&resource=doc&method=content)
+该接口用于获取结构化的文档内容。
 
 #
 
@@ -6606,6 +6677,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口用于获取文档的纯文本内容，不包含富文本格式信息。
 
@@ -6651,6 +6724,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口用于根据 docToken 获取元数据。
 
@@ -6742,6 +6817,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
+
+
 该接口用于根据 spreadsheetToken 获取表格元数据。
 
 #
@@ -6786,6 +6863,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口用于根据 spreadsheetToken 更新表格属性，如更新表格标题。
 
@@ -6832,6 +6911,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
+
+
 该接口用于根据 spreadsheetToken 操作表格，如增加工作表，复制工作表、删除工作表。
 
 #
@@ -6877,8 +6958,9 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-该接口用于将本地表格导入到云空间上。
 
+
+该接口用于将本地表格导入到云空间上。
 #
 
 ### Doc
@@ -7057,8 +7139,9 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-该接口用于根据 spreadsheetToken 和 range 向范围之前增加相应数据的行和相应的数据，相当于数组的插入操作；单次写入不超过5000行，100列，每个格子大小为0.5M。
 
+
+该接口用于根据 spreadsheetToken 和 range 向范围之前增加相应数据的行和相应的数据，相当于数组的插入操作；单次写入不超过5000行，100列，每个格子大小为0.5M。
 #
 
 ### Doc
@@ -7101,6 +7184,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口用于根据 spreadsheetToken 和 range 遇到空行则进行覆盖追加或新增行追加数据。 空行：默认该行第一个格子是空，则认为是空行；单次写入不超过5000行，100列，每个格子大小为0.5M。
 
@@ -7147,7 +7232,10 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-该接口用于根据 spreadsheetToken 和维度信息 插入空行/列。
+
+
+该接口用于根据 spreadsheetToken 和维度信息 插入空行/列。  
+如 startIndex=3， endIndex=7，则从第 4 行开始开始插入行列，一直到第 7 行，共插入 4 行；单次操作不超过5000行或列。
 
 #
 
@@ -7191,6 +7279,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口用于根据 spreadsheetToken 和长度，在末尾增加空行/列；单次操作不超过5000行或列。
 
@@ -7237,6 +7327,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
+
+
 该接口用于根据 spreadsheetToken 和维度信息更新隐藏行列、单元格大小；单次操作不超过5000行或列。
 
 #
@@ -7281,6 +7373,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口用于根据 spreadsheetToken 和维度信息删除行/列 。单次删除最大5000行/列。
 
@@ -7421,8 +7515,9 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-该接口用于根据 spreadsheetToken 和 range 向单个范围写入数据，若范围内有数据，将被更新覆盖；单次写入不超过5000行，100列，每个格子大小为0.5M。
 
+
+该接口用于根据 spreadsheetToken 和 range 向单个范围写入数据，若范围内有数据，将被更新覆盖；单次写入不超过5000行，100列，每个格子大小为0.5M。
 #
 
 ### Doc
@@ -7465,6 +7560,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口用于根据 spreadsheetToken 和 range 向多个范围写入数据，若范围内有数据，将被更新覆盖；单次写入不超过5000行，100列，每个格子大小为0.5M。
 
@@ -7510,6 +7607,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口用于根据 spreadsheetToken 、range 和样式信息更新单元格样式；单次写入不超过5000行，100列。
 
@@ -7602,6 +7701,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
+
+
 该接口用于根据 spreadsheetToken 和维度信息合并单元格；单次操作不超过5000行，100列。
 
 #
@@ -7647,8 +7748,9 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-该接口用于根据 spreadsheetToken 和维度信息拆分单元格；单次操作不超过5000行，100列。
 
+
+该接口用于根据 spreadsheetToken 和维度信息拆分单元格；单次操作不超过5000行，100列。
 #
 
 ### Doc
@@ -7691,6 +7793,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口用于根据 spreadsheetToken 和 range 向单个格子写入图片。
 
@@ -7827,6 +7931,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
+
+
 该接口用于创建新的条件格式，单次最多支持增加10个条件格式，每个条件格式的设置会返回成功或者失败，失败的情况包括各种参数的校验。
 
 #
@@ -7871,6 +7977,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口用于根据sheetId查询详细的条件格式信息，最多支持同时查询10个sheetId。
 
@@ -7917,6 +8025,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
+
+
 该接口用于更新已有的条件格式，单次最多支持更新10个条件格式，每个条件格式的更新会返回成功或者失败，失败的情况包括各种参数的校验。
 
 #
@@ -7961,6 +8071,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口用于删除已有的条件格式，单次最多支持删除10个条件格式，每个条件格式的删除会返回成功或者失败，失败的情况包括各种参数的校验。
 
@@ -8007,7 +8119,10 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
+
+
 该接口用于根据 spreadsheetToken 和维度信息增加多个保护范围；单次操作不超过5000行或列。
+
 
 #
 
@@ -8052,8 +8167,9 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-该接口用于根据保护范围ID查询详细的保护行列信息，最多支持同时查询5个ID。
 
+
+该接口用于根据保护范围ID查询详细的保护行列信息，最多支持同时查询5个ID。
 #
 
 ### Doc
@@ -8097,8 +8213,9 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-该接口用于根据保护范围ID修改保护范围，单次最多支持同时修改10个ID。
 
+
+该接口用于根据保护范围ID修改保护范围，单次最多支持同时修改10个ID。
 #
 
 ### Doc
@@ -8142,8 +8259,9 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
-该接口用于根据保护范围ID删除保护范围，最多支持同时删除10个ID。
 
+
+该接口用于根据保护范围ID删除保护范围，最多支持同时删除10个ID。
 #
 
 ### Doc
@@ -8186,6 +8304,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口根据 spreadsheetToken 、range 和下拉列表属性给单元格设置下拉列表规则；单次设置范围不超过5000行，100列。当一个数据区域中已有数据，支持将有效数据直接转为选项。
 
@@ -8232,6 +8352,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
+
+
 该接口根据 spreadsheetToken 、range 移除选定数据范围单元格的下拉列表设置，但保留选项文本。单个删除范围不超过5000单元格。单次请求range最大数量100个。
 
 #
@@ -8277,6 +8399,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 todo
 ```
 
+
+
 该接口根据 spreadsheetToken 、sheetId、dataValidationId 更新下拉列表的属性。
 
 #
@@ -8321,6 +8445,8 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```python
 todo
 ```
+
+
 
 该接口根据 spreadsheetToken 、range 查询range内的下拉列表设置信息；单次查询范围不超过5000行，100列。
 
@@ -21340,6 +21466,54 @@ todo
 ### Method
 
 `GET`
+
+
+# Ecosystem
+
+## GetEcosystemBindAwemeUser
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Ecosystem.GetEcosystemBindAwemeUser(ctx, &lark.GetEcosystemBindAwemeUserReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+todo
+```
+
+获取绑定信息
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/bytedance-open-ecosystem/aweme_ecosystem-v1/aweme_user/get_bind_info](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/bytedance-open-ecosystem/aweme_ecosystem-v1/aweme_user/get_bind_info)
+
+### URL
+
+`https://open.feishu.cn/open-apis/aweme_ecosystem/v1/aweme_users/get_bind_info`
+
+### Method
+
+`POST`
 
 
 # EventCallback
