@@ -27,7 +27,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.auth.resend_app_ticket(pylark.ResendAppTicketReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 飞书每隔 1 小时会给应用推送一次最新的 app_ticket，应用也可以主动调用此接口，触发飞书进行及时的重新推送。（该接口并不能直接获取app_ticket，而是触发事件推送）
@@ -72,7 +86,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.auth.get_access_token(pylark.GetAccessTokenReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取登录预授权码 code 对应的登录用户身份。
@@ -125,7 +153,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.auth.refresh_access_token(pylark.RefreshAccessTokenReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 user_access_token 具有一定的时效性，默认最长有效期为7200秒。该接口用于在 user_access_token 过期时用 refresh_token 重新获取 access_token。此时会返回新的 refresh_token，再次刷新 access_token 时需要使用新的 refresh_token。
@@ -170,7 +212,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.auth.get_user_info(pylark.GetUserInfoReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 通过 user_access_token 获取登录用户的信息。
@@ -218,7 +274,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.create_user(pylark.CreateUserReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 使用该接口向通讯录创建一个用户，可以理解为员工入职。创建部门后只返回有数据权限的数据。具体的数据权限的与字段的对应关系请参照[应用权限](https://open.feishu.cn/document/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)。
@@ -271,7 +341,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.delete_user(pylark.DeleteUserReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口向通讯录删除一个用户信息，可以理解为员工离职。
@@ -324,7 +408,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_user(pylark.GetUserReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取通讯录中单个用户的信息。
@@ -377,7 +475,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.batch_get_user(pylark.BatchGetUserReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -432,7 +544,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.batch_get_user_by_id(pylark.BatchGetUserByIDReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -482,7 +608,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_user_list(pylark.GetUserListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -542,7 +682,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.update_user_patch(pylark.UpdateUserPatchReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于更新通讯录中用户的字段，未传递的参数不会更新。
@@ -592,7 +746,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.update_user(pylark.UpdateUserReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于更新通讯录中用户的字段。
@@ -645,7 +813,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.create_department(pylark.CreateDepartmentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于向通讯录中创建部门。
@@ -698,7 +880,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_department(pylark.GetDepartmentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于向通讯录获取单个部门信息。
@@ -754,7 +950,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_department_list(pylark.GetDepartmentListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取当前部门子部门列表。
@@ -815,7 +1025,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_parent_department(pylark.GetParentDepartmentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用来递归获取部门父部门的信息，并按照由子到父的顺序返回有权限的父部门信息列表。
@@ -873,7 +1097,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.search_department(pylark.SearchDepartmentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 搜索部门，用户通过关键词查询可见的部门数据，部门可见性需要管理员在后台配置
@@ -926,7 +1164,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.update_department_patch(pylark.UpdateDepartmentPatchReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于更新通讯录中部门的信息中的任一个字段。
@@ -979,7 +1231,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.update_department(pylark.UpdateDepartmentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于更新当前部门所有信息。
@@ -1034,7 +1300,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.delete_department(pylark.DeleteDepartmentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于向通讯录中删除部门。
@@ -1087,7 +1367,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.create_contact_group(pylark.CreateContactGroupReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 使用该接口创建用户组，请注意创建用户组时应用的通讯录权限范围需为“全部员工”，否则会创建失败，[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
@@ -1132,7 +1426,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.update_contact_group(pylark.UpdateContactGroupReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 使用该接口更新用户组信息，请注意更新用户组时应用的通讯录权限范围需为“全部员工”，否则会更新失败。[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
@@ -1177,7 +1485,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.delete_contact_group(pylark.DeleteContactGroupReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 通过该接口可删除企业中的用户组，请注意删除用户组时应用的通讯录权限范围需为“全部员工”，否则会删除失败，[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
@@ -1222,7 +1544,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_contact_group(pylark.GetContactGroupReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据用户组 ID 查询某个用户组的基本信息，请确保应用的通讯录权限范围里包括该用户组或者是“全部员工”，[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
@@ -1267,7 +1603,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_contact_group_list(pylark.GetContactGroupListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 通过该接口可查询企业的用户组列表，如果应用的通讯录权限范围是“全部员工”，则可获取企业全部用户组列表。如果应用的通讯录权限范围不是“全部员工”，则仅可获取通讯录权限范围内的用户组。[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
@@ -1312,7 +1662,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.add_contact_group_member(pylark.AddContactGroupMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 向用户组中添加成员(目前成员仅支持用户，未来会支持部门)，如果应用的通讯录权限范围是“全部员工”，则可将任何成员添加到任何用户组。如果应用的通讯录权限范围不是“全部员工”，则仅可将通讯录权限范围中的成员添加到通讯录权限范围的用户组中，[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
@@ -1357,7 +1721,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.delete_contact_group_member(pylark.DeleteContactGroupMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 从用户组中移除成员 (目前成员仅支持用户，未来会支持部门)，如果应用的通讯录权限范围是“全部员工”，则可将任何成员移出任何用户组。如果应用的通讯录权限范围不是“全部员工”，则仅可将通讯录权限范围中的成员从通讯录权限范围的用户组中移除, [点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
@@ -1402,7 +1780,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_contact_group_member(pylark.GetContactGroupMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 通过该接口可查询某个用户组的成员(目前成员仅支持用户，未来会支持部门)列表，如果应用的通讯录权限范围是“全部员工”，则可查询企业内任何用户组的成员列表。如果应用的通讯录权限范围不是“全部员工”，则仅可查询通讯录权限范围中的用户组的成员列表，[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
@@ -1447,7 +1839,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_employee_type_enum_list(pylark.GetEmployeeTypeEnumListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取员工的人员类型
@@ -1492,7 +1898,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.update_employee_type_enum_patch(pylark.UpdateEmployeeTypeEnumPatchReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 更新自定义人员类型
@@ -1537,7 +1957,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.delete_employee_type_enum(pylark.DeleteEmployeeTypeEnumReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除自定义人员枚举
@@ -1582,7 +2016,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.create_employee_type_enum(pylark.CreateEmployeeTypeEnumReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 新增自定义人员类型
@@ -1627,7 +2075,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_contact_custom_attr_list(pylark.GetContactCustomAttrListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取企业自定义的用户字段配置信息
@@ -1682,7 +2144,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.send_ephemeral_message(pylark.SendEphemeralMessageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -1742,7 +2218,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.send_raw_message(pylark.SendRawMessageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 给指定用户或者会话发送消息，支持文本、富文本、卡片、群名片、个人名片、图片、视频、音频、文件、表情包。
@@ -1797,7 +2287,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.send_raw_message_old(pylark.SendRawMessageOldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -1842,7 +2346,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.reply_raw_message(pylark.ReplyRawMessageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 回复指定消息，支持文本、富文本、卡片、群名片、个人名片、图片、视频、文件等多种消息类型。
@@ -1895,7 +2413,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.delete_message(pylark.DeleteMessageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 机器人撤回机器人自己发送的消息或群主撤回群内消息。
@@ -1949,7 +2481,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.update_message(pylark.UpdateMessageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 更新应用已发送的消息卡片内容。
@@ -2002,7 +2548,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.get_message_read_user_list(pylark.GetMessageReadUserListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 查询消息的已读信息。
@@ -2053,7 +2613,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.get_message_list(pylark.GetMessageListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取会话（包括单聊、群组）的历史消息。
@@ -2106,7 +2680,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.get_message_file(pylark.GetMessageFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取消息中的资源文件，包括音频，视频，图片和文件，**暂不支持表情包资源下载**。当前仅支持 100M 以内的资源文件的下载。
@@ -2161,7 +2749,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.get_message(pylark.GetMessageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 通过 message_id 查询消息内容
@@ -2211,7 +2813,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.delete_ephemeral_message(pylark.DeleteEphemeralMessageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -2263,7 +2879,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.create_chat(pylark.CreateChatReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 创建群并设置群头像、群名、群描述等。
@@ -2313,7 +2943,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.get_chat_old(pylark.GetChatOldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -2372,7 +3016,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.get_chat(pylark.GetChatReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取群名称、群描述、群头像、群主 ID 等群基本信息。
@@ -2424,7 +3082,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.update_chat(pylark.UpdateChatReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 更新群头像、群名称、群描述、群配置、转让群主等。
@@ -2481,7 +3153,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.delete_chat(pylark.DeleteChatReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 解散群组
@@ -2532,7 +3218,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.get_chat_list_of_self(pylark.GetChatListOfSelfReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取用户或者机器人所在群列表。
@@ -2581,7 +3281,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.search_chat(pylark.SearchChatReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 搜索对用户或机器人可见的群列表，包括：用户或机器人所在的群、对用户或机器人公开的群。
@@ -2632,7 +3346,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.get_chat_member_list(pylark.GetChatMemberListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 如果用户在群中，则返回该群的成员列表。
@@ -2682,7 +3410,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.is_in_chat(pylark.IsInChatReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 判断用户或者机器人是否在群里。
@@ -2727,7 +3469,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.add_chat_member(pylark.AddChatMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 将用户或机器人拉入群聊。
@@ -2780,7 +3536,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.delete_chat_member(pylark.DeleteChatMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 将用户或机器人移出群聊。
@@ -2831,7 +3601,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.join_chat(pylark.JoinChatReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 用户或机器人主动加入群聊。
@@ -2883,7 +3667,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.get_chat_announcement(pylark.GetChatAnnouncementReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取会话中的群公告信息，公告信息格式与[云文档](https://open.feishu.cn/document/ukTMukTMukTM/uAzM5YjLwMTO24CMzkjN)格式相同。
@@ -2932,7 +3730,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.update_chat_announcement(pylark.UpdateChatAnnouncementReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 更新会话中的群公告信息，更新公告信息的格式和更新[云文档](https://open.feishu.cn/document/ukTMukTMukTM/uAzM5YjLwMTO24CMzkjN)格式相同。
@@ -2987,7 +3799,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bot.get_bot_info(pylark.GetBotInfoReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取机器人的基本信息。
@@ -3040,7 +3866,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bot.add_bot_to_chat(pylark.AddBotToChatReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -3090,7 +3930,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.create_calendar_acl(pylark.CreateCalendarACLReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -3148,7 +4002,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.delete_calendar_acl(pylark.DeleteCalendarACLReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -3206,7 +4074,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.get_calendar_acl_list(pylark.GetCalendarACLListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -3264,7 +4146,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.subscribe_calendar_acl(pylark.SubscribeCalendarACLReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于以用户身份订阅指定日历下的日历成员变更事件。
@@ -3312,7 +4208,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.create_calendar(pylark.CreateCalendarReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -3370,7 +4280,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.delete_calendar(pylark.DeleteCalendarReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -3428,7 +4352,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.get_calendar(pylark.GetCalendarReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -3486,7 +4424,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.get_calendar_list(pylark.GetCalendarListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -3544,7 +4496,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.update_calendar(pylark.UpdateCalendarReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -3604,7 +4570,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.search_calendar(pylark.SearchCalendarReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于通过关键字查询公共日历或用户主日历。
@@ -3649,7 +4629,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.subscribe_calendar(pylark.SubscribeCalendarReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -3707,7 +4701,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.unsubscribe_calendar(pylark.UnsubscribeCalendarReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -3765,7 +4773,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.subscribe_calendar_change_event(pylark.SubscribeCalendarChangeEventReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于以用户身份订阅当前身份下日历列表中的所有日历变更。
@@ -3810,7 +4832,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.create_calendar_event(pylark.CreateCalendarEventReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -3870,7 +4906,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.delete_calendar_event(pylark.DeleteCalendarEventReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -3932,7 +4982,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.get_calendar_event(pylark.GetCalendarEventReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于以当前身份（应用 / 用户）获取日历上的一个日程。
@@ -3982,7 +5046,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.get_calendar_event_list(pylark.GetCalendarEventListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于以当前身份（应用 / 用户）获取日历下的日程列表。
@@ -4036,7 +5114,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.update_calendar_event(pylark.UpdateCalendarEventReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -4100,7 +5192,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.search_calendar_event(pylark.SearchCalendarEventReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -4160,7 +5266,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.subscribe_calendar_event(pylark.SubscribeCalendarEventReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于以用户身份订阅指定日历下的日程变更事件。
@@ -4208,7 +5328,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.create_calendar_event_attendee(pylark.CreateCalendarEventAttendeeReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 批量给日程添加参与人。
@@ -4269,7 +5403,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.get_calendar_event_attendee_list(pylark.GetCalendarEventAttendeeListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取日程的参与人列表，若参与者列表中有群组，请使用 [获取参与人群成员列表](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar-event-attendee-chat_member/list) 。
@@ -4324,7 +5472,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.delete_calendar_event_attendee(pylark.DeleteCalendarEventAttendeeReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 批量删除日程的参与人。
@@ -4379,7 +5541,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.get_calendar_event_attendee_chat_member_list(pylark.GetCalendarEventAttendeeChatMemberListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取日程的群参与人的群成员列表。
@@ -4432,7 +5608,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.get_calendar_free_busy_list(pylark.GetCalendarFreeBusyListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 查询用户主日历或会议室的忙闲信息。
@@ -4477,7 +5667,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.create_calendar_timeoff_event(pylark.CreateCalendarTimeoffEventReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 为指定用户创建一个请假日程，可以是一个普通请假日程，也可以是一个全天日程。
@@ -4522,7 +5726,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.delete_calendar_timeoff_event(pylark.DeleteCalendarTimeoffEventReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除一个指定的请假日程，请假日程删除，用户个人签名页的请假信息也会消失。
@@ -4567,7 +5785,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.generate_caldav_conf(pylark.GenerateCaldavConfReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 用于为当前用户生成一个CalDAV账号密码，用于将飞书日历信息同步到本地设备日历。
@@ -4615,7 +5847,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.search_drive_file(pylark.SearchDriveFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据搜索条件进行文档搜索。
@@ -4660,7 +5906,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_drive_file_meta(pylark.GetDriveFileMetaReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据 token 获取各类文件的元数据。
@@ -4707,7 +5967,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_drive_file(pylark.CreateDriveFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -4759,7 +6033,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.copy_drive_file(pylark.CopyDriveFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -4810,7 +6098,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_drive_file(pylark.DeleteDriveFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -4867,7 +6169,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_drive_sheet_file(pylark.DeleteDriveSheetFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据 spreadsheetToken 删除对应的 sheet 文档。
@@ -4923,7 +6239,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_drive_folder(pylark.CreateDriveFolderReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -4973,7 +6303,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_drive_folder_meta(pylark.GetDriveFolderMetaReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -5020,7 +6364,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_drive_root_folder_meta(pylark.GetDriveRootFolderMetaReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -5067,7 +6425,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_drive_folder_children(pylark.GetDriveFolderChildrenReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -5114,7 +6486,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_drive_file_statistics(pylark.GetDriveFileStatisticsReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 此接口用于获取文件统计信息，包括文档阅读人数、次数和点赞数。
@@ -5159,7 +6545,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.download_drive_file(pylark.DownloadDriveFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 使用该接口可以下载在云空间目录下的文件（不含飞书文档/表格/思维导图等在线文档）。支持range下载。
@@ -5209,7 +6609,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.upload_drive_file(pylark.UploadDriveFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 向云空间指定目录下上传一个文件
@@ -5262,7 +6676,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.prepare_upload_drive_file(pylark.PrepareUploadDriveFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 发送初始化请求获取上传事务ID和分块策略，目前是以4MB大小进行定长分片。
@@ -5315,7 +6743,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.part_upload_drive_file(pylark.PartUploadDriveFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 上传对应的文件块。
@@ -5365,7 +6807,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.finish_upload_drive_file(pylark.FinishUploadDriveFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 触发完成上传。
@@ -5415,7 +6871,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.download_drive_media(pylark.DownloadDriveMediaReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 使用该接口可以下载素材。素材表示在各种创作容器里的文件，如Doc文档内的图片，文件均属于素材。支持range下载。
@@ -5465,7 +6935,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.upload_drive_media(pylark.UploadDriveMediaReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 将云文档或其他飞书套件所需要的素材（图片/文件）上传到云空间。
@@ -5515,7 +6999,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.prepare_upload_drive_media(pylark.PrepareUploadDriveMediaReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 发送初始化请求获取上传事务ID和分块策略，目前是以4MB大小进行定长分片。
@@ -5568,7 +7066,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.part_upload_drive_media(pylark.PartUploadDriveMediaReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 上传对应的文件块。
@@ -5618,7 +7130,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.finish_upload_drive_media(pylark.FinishUploadDriveMediaReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 触发完成上传。
@@ -5668,7 +7194,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_drive_member_permission_old(pylark.CreateDriveMemberPermissionOldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据 filetoken 给用户增加文档的权限。
@@ -5713,7 +7253,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.transfer_drive_member_permission(pylark.TransferDriveMemberPermissionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据文档信息和用户信息转移文档的所有者。
@@ -5758,7 +7312,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_drive_member_permission_list(pylark.GetDriveMemberPermissionListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据 filetoken 查询协作者，目前包括人("user")和群("chat") 。
@@ -5806,7 +7374,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_drive_member_permission(pylark.CreateDriveMemberPermissionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据 filetoken 给用户增加文档的权限。
@@ -5851,7 +7433,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_drive_member_permission_old(pylark.DeleteDriveMemberPermissionOldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据 filetoken 移除文档协作者的权限。
@@ -5896,7 +7492,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_drive_member_permission(pylark.DeleteDriveMemberPermissionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据 filetoken 移除文档协作者的权限。
@@ -5941,7 +7551,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_drive_member_permission_old(pylark.UpdateDriveMemberPermissionOldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据 filetoken 更新文档协作者的权限。
@@ -5986,7 +7610,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_drive_member_permission(pylark.UpdateDriveMemberPermissionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据 filetoken 更新文档协作者的权限。
@@ -6031,7 +7669,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.check_drive_member_permission(pylark.CheckDriveMemberPermissionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据 filetoken 判断当前登录用户是否具有某权限。
@@ -6076,7 +7728,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_drive_public_permission_v1_old(pylark.UpdateDrivePublicPermissionV1OldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据 filetoken 更新文档的公共设置。
@@ -6121,7 +7787,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_drive_public_permission_v2_old(pylark.UpdateDrivePublicPermissionV2OldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据 filetoken 更新文档的公共设置。
@@ -6166,7 +7846,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_drive_public_permission_v2(pylark.GetDrivePublicPermissionV2Req(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据 filetoken 获取文档的公共设置。
@@ -6211,7 +7905,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_drive_public_permission(pylark.UpdateDrivePublicPermissionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据 filetoken 更新文档的公共设置。
@@ -6256,7 +7964,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.batch_get_drive_media_tmp_download_url(pylark.BatchGetDriveMediaTmpDownloadURLReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 通过file_token获取素材临时下载链接，链接时效性是24小时，过期失效。
@@ -6306,7 +8028,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_drive_comment_list(pylark.GetDriveCommentListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 通过分页方式获取云文档中的全文评论列表。
@@ -6351,7 +8087,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_drive_comment(pylark.GetDriveCommentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取云文档中的某条评论。
@@ -6396,7 +8146,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_drive_comment(pylark.CreateDriveCommentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 往云文档添加一条评论。
@@ -6441,7 +8205,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_drive_comment(pylark.UpdateDriveCommentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 更新云文档中的某条回复。
@@ -6486,7 +8264,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_drive_comment(pylark.DeleteDriveCommentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除云文档中的某条回复。
@@ -6531,7 +8323,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_drive_comment_patch(pylark.UpdateDriveCommentPatchReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 解决或恢复云文档中的评论。
@@ -6576,7 +8382,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_drive_doc(pylark.CreateDriveDocReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -6626,7 +8446,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_drive_doc_content(pylark.GetDriveDocContentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -6675,7 +8509,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_drive_doc_raw_content(pylark.GetDriveDocRawContentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -6722,7 +8570,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_drive_doc_meta(pylark.GetDriveDocMetaReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -6769,7 +8631,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_sheet(pylark.CreateSheetReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 使用该接口可以在指定的目录下创建在线表格。
@@ -6814,7 +8690,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_sheet_meta(pylark.GetSheetMetaReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -6861,7 +8751,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_sheet_property(pylark.UpdateSheetPropertyReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -6908,7 +8812,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.batch_update_sheet(pylark.BatchUpdateSheetReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -6955,7 +8873,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.import_sheet(pylark.ImportSheetReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7001,7 +8933,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_drive_import_task(pylark.CreateDriveImportTaskReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 创建导入任务。支持导入为 doc、sheet、bitable，参考[导入用户指南](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/import_task/import-user-guide)
@@ -7046,7 +8992,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_drive_import_task(pylark.GetDriveImportTaskReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据创建导入任务返回的 ticket 查询导入结果。
@@ -7091,7 +9051,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.move_sheet_dimension(pylark.MoveSheetDimensionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于移动行列，行列被移动到目标位置后，原本在目标位置的行列会对应右移或下移。
@@ -7136,7 +9110,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.prepend_sheet_value(pylark.PrependSheetValueReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7182,7 +9170,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.append_sheet_value(pylark.AppendSheetValueReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7229,7 +9231,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.insert_sheet_dimension_range(pylark.InsertSheetDimensionRangeReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7277,7 +9293,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.add_sheet_dimension_range(pylark.AddSheetDimensionRangeReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7324,7 +9354,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_sheet_dimension_range(pylark.UpdateSheetDimensionRangeReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7371,7 +9415,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_sheet_dimension_range(pylark.DeleteSheetDimensionRangeReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7418,7 +9476,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_sheet_value(pylark.GetSheetValueReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7465,7 +9537,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.batch_get_sheet_value(pylark.BatchGetSheetValueReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7512,7 +9598,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.set_sheet_value(pylark.SetSheetValueReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7558,7 +9658,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.batch_set_sheet_value(pylark.BatchSetSheetValueReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7605,7 +9719,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.set_sheet_style(pylark.SetSheetStyleReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7652,7 +9780,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.batch_set_sheet_style(pylark.BatchSetSheetStyleReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7698,7 +9840,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.merge_sheet_cell(pylark.MergeSheetCellReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7745,7 +9901,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.unmerge_sheet_cell(pylark.UnmergeSheetCellReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7791,7 +9961,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.set_sheet_value_image(pylark.SetSheetValueImageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7838,7 +10022,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.find_sheet(pylark.FindSheetReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 按照指定的条件查找子表的某个范围内的数据符合条件的单元格位置。请求体中的 range 和 find 字段为必填。
@@ -7883,7 +10081,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.replace_sheet(pylark.ReplaceSheetReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 按照指定的条件查找子表的某个范围内的数据符合条件的单元格并替换值，返回替换成功的单元格位置。一次请求最多允许替换5000个单元格，如果超过请将range缩小范围再操作。请求体中的 range、find、replaccement 字段必填。
@@ -7928,7 +10140,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_sheet_condition_format(pylark.CreateSheetConditionFormatReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -7975,7 +10201,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_sheet_condition_format(pylark.GetSheetConditionFormatReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -8022,7 +10262,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_sheet_condition_format(pylark.UpdateSheetConditionFormatReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -8069,7 +10323,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_sheet_condition_format(pylark.DeleteSheetConditionFormatReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -8116,7 +10384,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_sheet_protected_dimension(pylark.CreateSheetProtectedDimensionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -8164,7 +10446,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_sheet_protected_dimension(pylark.GetSheetProtectedDimensionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -8210,7 +10506,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_sheet_protected_dimension(pylark.UpdateSheetProtectedDimensionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -8256,7 +10566,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_sheet_protected_dimension(pylark.DeleteSheetProtectedDimensionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -8302,7 +10626,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_sheet_data_validation_dropdown(pylark.CreateSheetDataValidationDropdownReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -8349,7 +10687,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_sheet_data_validation_dropdown(pylark.DeleteSheetDataValidationDropdownReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -8396,7 +10748,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_sheet_data_validation_dropdown(pylark.UpdateSheetDataValidationDropdownReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -8443,7 +10809,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_sheet_data_validation_dropdown(pylark.GetSheetDataValidationDropdownReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -8490,7 +10870,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_sheet_filter(pylark.CreateSheetFilterReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 参数值可参考[筛选指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter/filter-user-guide)
@@ -8535,7 +10929,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_sheet_filter(pylark.DeleteSheetFilterReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除子表的筛选
@@ -8580,7 +10988,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_sheet_filter(pylark.UpdateSheetFilterReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 参数值可参考[筛选指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter/filter-user-guide)
@@ -8625,7 +11047,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_sheet_filter(pylark.GetSheetFilterReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取子表的详细筛选信息
@@ -8670,7 +11106,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_sheet_filter_view(pylark.CreateSheetFilterViewReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 筛选范围的设置参考：[筛选视图的筛选条件指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
@@ -8715,7 +11165,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_sheet_filter_view(pylark.DeleteSheetFilterViewReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除指定 id 对应的筛选视图。
@@ -8760,7 +11224,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_sheet_filter_view(pylark.UpdateSheetFilterViewReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 筛选范围的设置参考：[筛选视图的筛选条件指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
@@ -8805,7 +11283,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_sheet_filter_view(pylark.GetSheetFilterViewReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取指定筛选视图 id 的名字和筛选范围。
@@ -8850,7 +11342,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.query_sheet_filter_view(pylark.QuerySheetFilterViewReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 查询子表内所有的筛选视图基本信息，包括 id、name 和 range
@@ -8895,7 +11401,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_sheet_filter_view_condition(pylark.CreateSheetFilterViewConditionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 筛选条件参考 [筛选视图的筛选条件指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
@@ -8940,7 +11460,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_sheet_filter_view_condition(pylark.DeleteSheetFilterViewConditionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除筛选视图的筛选范围某一列的筛选条件。
@@ -8985,7 +11519,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_sheet_filter_view_condition(pylark.UpdateSheetFilterViewConditionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 筛选条件参数可参考 [筛选视图的筛选条件指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
@@ -9030,7 +11578,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_sheet_filter_view_condition(pylark.GetSheetFilterViewConditionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 筛选条件含义参考 [筛选视图的筛选条件指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
@@ -9075,7 +11637,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.query_sheet_filter_view_condition(pylark.QuerySheetFilterViewConditionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 筛选条件含义可参考 [筛选视图的筛选条件指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
@@ -9120,7 +11696,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_sheet_float_image(pylark.CreateSheetFloatImageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 浮动图片的设置参考：[浮动图片指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-float_image/float-image-user-guide)
@@ -9165,7 +11755,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_sheet_float_image(pylark.DeleteSheetFloatImageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除 float_image_id 对应的浮动图片。
@@ -9210,7 +11814,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_sheet_float_image(pylark.UpdateSheetFloatImageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 浮动图片更新参考：[浮动图片指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-float_image/float-image-user-guide)
@@ -9255,7 +11873,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_sheet_float_image(pylark.GetSheetFloatImageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 浮动图片参考：[浮动图片指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-float_image/float-image-user-guide)
@@ -9300,7 +11932,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.query_sheet_float_image(pylark.QuerySheetFloatImageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 浮动图片参考：[浮动图片指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-float_image/float-image-user-guide)
@@ -9348,7 +11994,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.get_bitable_view_list(pylark.GetBitableViewListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据 app_token 和 table_id，获取数据表的所有视图
@@ -9393,7 +12053,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.create_bitable_view(pylark.CreateBitableViewReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 在数据表中新增一个视图
@@ -9438,7 +12112,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.delete_bitable_view(pylark.DeleteBitableViewReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除数据表中的视图
@@ -9483,7 +12171,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.get_bitable_record_list(pylark.GetBitableRecordListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于列出数据表中的现有记录
@@ -9528,7 +12230,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.get_bitable_record(pylark.GetBitableRecordReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据 record_id 的值检索现有记录
@@ -9573,7 +12289,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.create_bitable_record(pylark.CreateBitableRecordReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于在数据表中新增一条记录
@@ -9618,7 +12348,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.batch_create_bitable_record(pylark.BatchCreateBitableRecordReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于在数据表中新增多条记录
@@ -9663,7 +12407,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.update_bitable_record(pylark.UpdateBitableRecordReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于更新数据表中的一条记录
@@ -9708,7 +12466,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.batch_update_bitable_record(pylark.BatchUpdateBitableRecordReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于更新数据表中的多条记录
@@ -9753,7 +12525,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.delete_bitable_record(pylark.DeleteBitableRecordReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于删除数据表中的一条记录
@@ -9798,7 +12584,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.batch_delete_bitable_record(pylark.BatchDeleteBitableRecordReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于删除数据表中现有的多条记录
@@ -9843,7 +12643,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.get_bitable_field_list(pylark.GetBitableFieldListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据 app_token 和 table_id，获取数据表的所有字段
@@ -9888,7 +12702,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.create_bitable_field(pylark.CreateBitableFieldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于在数据表中新增一个字段
@@ -9933,7 +12761,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.update_bitable_field(pylark.UpdateBitableFieldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于在数据表中更新一个字段
@@ -9978,7 +12820,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.delete_bitable_field(pylark.DeleteBitableFieldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于在数据表中删除一个字段
@@ -10023,7 +12879,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.get_bitable_table_list(pylark.GetBitableTableListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据  app_token，获取多维表格下的所有数据表
@@ -10068,7 +12938,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.create_bitable_table(pylark.CreateBitableTableReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 新增一个数据表
@@ -10113,7 +12997,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.batch_create_bitable_table(pylark.BatchCreateBitableTableReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 新增多个数据表
@@ -10158,7 +13056,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.delete_bitable_table(pylark.DeleteBitableTableReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除一个数据表
@@ -10203,7 +13115,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.batch_delete_bitable_table(pylark.BatchDeleteBitableTableReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除多个数据表
@@ -10248,7 +13174,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.get_bitable_meta(pylark.GetBitableMetaReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 通过 app_token 获取多维表格元数据
@@ -10296,7 +13236,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.batch_get_meeting_room_summary(pylark.BatchGetMeetingRoomSummaryReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 通过日程的Uid和Original time，查询会议室日程主题。
@@ -10341,7 +13295,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.get_meeting_room_building_list(pylark.GetMeetingRoomBuildingListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取本企业下的建筑物（办公大楼）。
@@ -10386,7 +13354,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.batch_get_meeting_room_building(pylark.BatchGetMeetingRoomBuildingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取指定建筑物的详细信息。
@@ -10431,7 +13413,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.get_meeting_room_room_list(pylark.GetMeetingRoomRoomListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取指定建筑下的会议室。
@@ -10476,7 +13472,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.batch_get_meeting_room_room(pylark.BatchGetMeetingRoomRoomReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取指定会议室的详细信息。
@@ -10521,7 +13531,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.batch_get_meeting_room_freebusy(pylark.BatchGetMeetingRoomFreebusyReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取指定会议室的忙闲日程实例列表。非重复日程只有唯一实例；重复日程可能存在多个实例，依据重复规则和时间范围扩展。
@@ -10566,7 +13590,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.reply_meeting_room_instance(pylark.ReplyMeetingRoomInstanceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于回复会议室日程实例，包括未签到释放和提前结束释放。
@@ -10611,7 +13649,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.create_meeting_room_building(pylark.CreateMeetingRoomBuildingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口对应管理后台的添加建筑，添加楼层的功能，可用于创建建筑物和建筑物的楼层信息。
@@ -10656,7 +13708,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.update_meeting_room_building(pylark.UpdateMeetingRoomBuildingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于编辑建筑信息，添加楼层，删除楼层，编辑楼层信息。
@@ -10701,7 +13767,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.delete_meeting_room_building(pylark.DeleteMeetingRoomBuildingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于删除建筑物（办公大楼）。
@@ -10746,7 +13826,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.batch_get_meeting_room_building_id(pylark.BatchGetMeetingRoomBuildingIDReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据租户自定义建筑 ID 查询建筑 ID。
@@ -10791,7 +13885,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.create_meeting_room_room(pylark.CreateMeetingRoomRoomReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于创建会议室。
@@ -10836,7 +13944,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.update_meeting_room_room(pylark.UpdateMeetingRoomRoomReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于更新会议室。
@@ -10881,7 +14003,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.delete_meeting_room_room(pylark.DeleteMeetingRoomRoomReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于删除会议室。
@@ -10926,7 +14062,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.batch_get_meeting_room_room_id(pylark.BatchGetMeetingRoomRoomIDReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于根据租户自定义会议室ID查询会议室ID。
@@ -10971,7 +14121,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.get_meeting_room_country_list(pylark.GetMeetingRoomCountryListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 新建建筑时需要标明所处国家/地区，该接口用于获得系统预先提供的可供选择的国家 /地区列表。
@@ -11016,7 +14180,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.get_meeting_room_district_list(pylark.GetMeetingRoomDistrictListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 新建建筑时需要选择所处国家/地区，该接口用于获得系统预先提供的可供选择的城市列表。
@@ -11064,7 +14242,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.apply_vc_reserve(pylark.ApplyVCReserveReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 创建一个会议预约。
@@ -11117,7 +14309,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.update_vc_reserve(pylark.UpdateVCReserveReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 更新一个预约
@@ -11170,7 +14376,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.delete_vc_reserve(pylark.DeleteVCReserveReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除一个预约
@@ -11223,7 +14443,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.get_vc_reserve(pylark.GetVCReserveReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取一个预约的详情
@@ -11276,7 +14510,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.get_vc_reserve_active_meeting(pylark.GetVCReserveActiveMeetingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取一个预约的当前活跃会议
@@ -11329,7 +14577,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.get_vc_meeting(pylark.GetVCMeetingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取一个会议的详细数据
@@ -11382,7 +14644,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.invite_vc_meeting(pylark.InviteVCMeetingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 邀请参会人进入会议
@@ -11435,7 +14711,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.kickout_vc_meeting(pylark.KickoutVCMeetingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 将参会人从会议中移除
@@ -11480,7 +14770,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.set_vc_host_meeting(pylark.SetVCHostMeetingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 设置会议的主持人
@@ -11533,7 +14837,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.end_vc_meeting(pylark.EndVCMeetingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 结束一个进行中的会议
@@ -11586,7 +14904,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.start_vc_meeting_recording(pylark.StartVCMeetingRecordingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 在会议中开始录制。
@@ -11639,7 +14971,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.stop_vc_meeting_recording(pylark.StopVCMeetingRecordingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 在会议中停止录制。
@@ -11692,7 +15038,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.get_vc_meeting_recording(pylark.GetVCMeetingRecordingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取一个会议的录制文件。
@@ -11745,7 +15105,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.set_vc_permission_meeting_recording(pylark.SetVCPermissionMeetingRecordingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 将一个会议的录制文件授权给组织、用户或公开到公网
@@ -11798,7 +15172,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.get_vc_daily_report(pylark.GetVCDailyReportReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取一段时间内组织的每日会议使用报告。
@@ -11851,7 +15239,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.get_vc_top_user_report(pylark.GetVCTopUserReportReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取一段时间内组织内会议使用的top用户列表。
@@ -11902,7 +15304,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.get_vc_room_config(pylark.GetVCRoomConfigReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 查询一个范围内的会议室配置。
@@ -11953,7 +15369,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.set_vc_room_config(pylark.SetVCRoomConfigReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 设置一个范围内的会议室配置。
@@ -12007,7 +15437,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.is_application_user_admin(pylark.IsApplicationUserAdminReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12054,7 +15498,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_user_admin_scope(pylark.GetApplicationUserAdminScopeReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12101,7 +15559,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_app_visibility(pylark.GetApplicationAppVisibilityReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12148,7 +15620,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_user_visible_app(pylark.GetApplicationUserVisibleAppReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12195,7 +15681,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_app_list(pylark.GetApplicationAppListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12242,7 +15742,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.update_application_app_visibility(pylark.UpdateApplicationAppVisibilityReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12289,7 +15803,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_app_admin_user_list(pylark.GetApplicationAppAdminUserListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12336,7 +15864,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.check_user_is_in_application_paid_scope(pylark.CheckUserIsInApplicationPaidScopeReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12383,7 +15925,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_order_list(pylark.GetApplicationOrderListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12430,7 +15986,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_order(pylark.GetApplicationOrderReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12477,7 +16047,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_usage_overview(pylark.GetApplicationUsageOverviewReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12528,7 +16112,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_usage_trend(pylark.GetApplicationUsageTrendReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12578,7 +16176,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_usage_detail(pylark.GetApplicationUsageDetailReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12623,7 +16235,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_message_overview(pylark.GetApplicationMessageOverviewReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12668,7 +16294,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_message_trend(pylark.GetApplicationMessageTrendReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12713,7 +16353,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_message_detail(pylark.GetApplicationMessageDetailReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -12761,7 +16415,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.create_mailgroup(pylark.CreateMailGroupReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 创建一个邮件组
@@ -12806,7 +16474,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.get_mailgroup(pylark.GetMailGroupReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取特定邮件组信息
@@ -12851,7 +16533,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.get_mail_group_list(pylark.GetMailGroupListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 分页批量获取邮件组
@@ -12896,7 +16592,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.update_mail_group_patch(pylark.UpdateMailGroupPatchReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 更新邮件组部分字段，没有填写的字段不会被更新
@@ -12941,7 +16651,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.update_mailgroup(pylark.UpdateMailGroupReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 更新邮件组所有信息
@@ -12986,7 +16710,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.delete_mailgroup(pylark.DeleteMailGroupReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除一个邮件组
@@ -13031,7 +16769,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.create_mail_group_member(pylark.CreateMailGroupMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 向邮件组添加单个成员
@@ -13076,7 +16828,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.get_mail_group_member(pylark.GetMailGroupMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取邮件组单个成员信息
@@ -13121,7 +16887,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.get_mail_group_member_list(pylark.GetMailGroupMemberListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 分页批量获取邮件组成员列表
@@ -13166,7 +16946,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.delete_mail_group_member(pylark.DeleteMailGroupMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除邮件组单个成员
@@ -13211,7 +17005,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.create_mail_group_permission_member(pylark.CreateMailGroupPermissionMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 向邮件组添加单个自定义权限成员，添加后该成员可发送邮件到该邮件组
@@ -13256,7 +17064,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.get_mail_group_permission_member(pylark.GetMailGroupPermissionMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取邮件组单个权限成员信息
@@ -13301,7 +17123,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.get_mail_group_permission_member_list(pylark.GetMailGroupPermissionMemberListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 分页批量获取邮件组权限成员列表
@@ -13346,7 +17182,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.delete_mail_group_permission_member(pylark.DeleteMailGroupPermissionMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 从自定义成员中删除单个成员，删除后该成员无法发送邮件到该邮件组
@@ -13391,7 +17241,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.create_public_mailbox(pylark.CreatePublicMailboxReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 创建一个公共邮箱
@@ -13436,7 +17300,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.get_public_mailbox(pylark.GetPublicMailboxReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取公共邮箱信息
@@ -13481,7 +17359,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.get_public_mailbox_list(pylark.GetPublicMailboxListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 分页批量获取公共邮箱列表
@@ -13526,7 +17418,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.update_public_mailbox_patch(pylark.UpdatePublicMailboxPatchReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 更新公共邮箱部分字段，没有填写的字段不会被更新
@@ -13571,7 +17477,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.update_public_mailbox(pylark.UpdatePublicMailboxReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 更新公共邮箱所有信息
@@ -13616,7 +17536,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.create_public_mailbox_member(pylark.CreatePublicMailboxMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 向公共邮箱添加单个成员
@@ -13661,7 +17595,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.get_public_mailbox_member(pylark.GetPublicMailboxMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取公共邮箱单个成员信息
@@ -13706,7 +17654,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.get_public_mailbox_member_list(pylark.GetPublicMailboxMemberListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 分页批量获取公共邮箱成员列表
@@ -13751,7 +17713,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.delete_public_mailbox_member(pylark.DeletePublicMailboxMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除公共邮箱单个成员
@@ -13796,7 +17772,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.clear_public_mailbox_member(pylark.ClearPublicMailboxMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除公共邮箱所有成员
@@ -13844,7 +17834,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.get_approval(pylark.GetApprovalReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -13891,7 +17895,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.get_approval_instance_list(pylark.GetApprovalInstanceListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -13939,7 +17957,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.get_approval_instance(pylark.GetApprovalInstanceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -13987,7 +18019,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.create_approval_instance(pylark.CreateApprovalInstanceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -14034,7 +18080,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.approve_approval_instance(pylark.ApproveApprovalInstanceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -14081,7 +18141,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.reject_approval_instance(pylark.RejectApprovalInstanceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -14128,7 +18202,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.transfer_approval_instance(pylark.TransferApprovalInstanceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -14175,7 +18263,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.cancel_approval_instance(pylark.CancelApprovalInstanceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -14222,7 +18324,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.upload_approval_file(pylark.UploadApprovalFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -14269,7 +18385,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.search_approval_instance(pylark.SearchApprovalInstanceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -14316,7 +18446,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.search_approval_task(pylark.SearchApprovalTaskReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -14363,7 +18507,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.search_approval_carbon_copy(pylark.SearchApprovalCarbonCopyReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -14410,7 +18568,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.create_approval_carbon_copy(pylark.CreateApprovalCarbonCopyReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -14457,7 +18629,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.add_approval_instance_sign(pylark.AddApprovalInstanceSignReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -14504,7 +18690,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.preview_approval_instance(pylark.PreviewApprovalInstanceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -14554,7 +18754,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.start_helpdesk_service(pylark.StartHelpdeskServiceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于创建服务台对话。
@@ -14599,7 +18813,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_ticket(pylark.GetHelpdeskTicketReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取单个服务台工单详情。仅支持自建应用。
@@ -14644,7 +18872,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.update_helpdesk_ticket(pylark.UpdateHelpdeskTicketReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于更新服务台工单详情。只会更新数据，不会触发相关操作。如修改工单状态到关单，不会关闭聊天页面。仅支持自建应用。
@@ -14689,7 +18931,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_ticket_list(pylark.GetHelpdeskTicketListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取全部工单详情。仅支持自建应用。
@@ -14734,7 +18990,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.download_helpdesk_ticket_image(pylark.DownloadHelpdeskTicketImageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取服务台工单消息图象。仅支持自建应用。
@@ -14779,7 +19049,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.answer_helpdesk_ticket_user_query(pylark.AnswerHelpdeskTicketUserQueryReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于回复用户提问结果至工单，需要工单仍处于进行中且未接入人工状态。仅支持自建应用。
@@ -14824,7 +19108,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_ticket_message_list(pylark.GetHelpdeskTicketMessageListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取服务台工单消息详情。
@@ -14869,7 +19167,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.send_helpdesk_ticket_message(pylark.SendHelpdeskTicketMessageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于工单发送消息。
@@ -14914,7 +19226,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_ticket_customized_field_list(pylark.GetHelpdeskTicketCustomizedFieldListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -14962,7 +19288,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.delete_helpdesk_ticket_customized_field(pylark.DeleteHelpdeskTicketCustomizedFieldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于删除工单自定义字段。
@@ -15007,7 +19347,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.update_helpdesk_ticket_customized_field(pylark.UpdateHelpdeskTicketCustomizedFieldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -15054,7 +19408,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.create_helpdesk_ticket_customized_field(pylark.CreateHelpdeskTicketCustomizedFieldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -15101,7 +19469,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_ticket_customized_field(pylark.GetHelpdeskTicketCustomizedFieldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -15148,7 +19530,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.create_helpdesk_category(pylark.CreateHelpdeskCategoryReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于创建知识库分类。
@@ -15193,7 +19589,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_category(pylark.GetHelpdeskCategoryReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取知识库分类。
@@ -15238,7 +19648,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.update_helpdesk_category(pylark.UpdateHelpdeskCategoryReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于更新知识库分类详情。
@@ -15283,7 +19707,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.delete_helpdesk_category(pylark.DeleteHelpdeskCategoryReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于删除知识库分类详情。
@@ -15328,7 +19766,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_category_list(pylark.GetHelpdeskCategoryListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -15377,7 +19829,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.create_helpdesk_faq(pylark.CreateHelpdeskFAQReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于创建知识库。
@@ -15422,7 +19888,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_faq(pylark.GetHelpdeskFAQReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取服务台知识库详情。
@@ -15467,7 +19947,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.update_helpdesk_faq(pylark.UpdateHelpdeskFAQReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于修改知识库。
@@ -15512,7 +20006,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.delete_helpdesk_faq(pylark.DeleteHelpdeskFAQReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于删除知识库。
@@ -15557,7 +20065,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_faq_list(pylark.GetHelpdeskFAQListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取服务台知识库详情。
@@ -15602,7 +20124,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_faq_image(pylark.GetHelpdeskFAQImageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取知识库图像。
@@ -15647,7 +20183,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.search_helpdesk_faq(pylark.SearchHelpdeskFAQReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于搜索服务台知识库。
@@ -15692,7 +20242,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.update_helpdesk_agent(pylark.UpdateHelpdeskAgentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 更新客服状态等信息
@@ -15737,7 +20301,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_agent_email(pylark.GetHelpdeskAgentEmailReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取客服邮箱地址
@@ -15782,7 +20360,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.create_helpdesk_agent_schedule(pylark.CreateHelpdeskAgentScheduleReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于创建客服
@@ -15827,7 +20419,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.delete_helpdesk_agent_schedule(pylark.DeleteHelpdeskAgentScheduleReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于删除客服
@@ -15872,7 +20478,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.update_helpdesk_agent_schedule(pylark.UpdateHelpdeskAgentScheduleReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于更新客服
@@ -15917,7 +20537,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_agent_schedule(pylark.GetHelpdeskAgentScheduleReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取客服信息
@@ -15962,7 +20596,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_agent_schedule_list(pylark.GetHelpdeskAgentScheduleListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取所有客服信息
@@ -16007,7 +20655,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.create_helpdesk_agent_skill(pylark.CreateHelpdeskAgentSkillReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于创建客服技能
@@ -16052,7 +20714,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_agent_skill(pylark.GetHelpdeskAgentSkillReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取客服技能
@@ -16097,7 +20773,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.update_helpdesk_agent_skill(pylark.UpdateHelpdeskAgentSkillReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于更新客服技能
@@ -16142,7 +20832,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.delete_helpdesk_agent_skill(pylark.DeleteHelpdeskAgentSkillReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于删除客服技能
@@ -16187,7 +20891,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_agent_skill_list(pylark.GetHelpdeskAgentSkillListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取全部客服技能
@@ -16232,7 +20950,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_agent_skill_rule_list(pylark.GetHelpdeskAgentSkillRuleListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取全部客服技能。仅支持自建应用。
@@ -16277,7 +21009,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.subscribe_helpdesk_event(pylark.SubscribeHelpdeskEventReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 用于订阅服务台事件
@@ -16322,7 +21068,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.unsubscribe_helpdesk_event(pylark.UnsubscribeHelpdeskEventReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 用于取消订阅服务台事件
@@ -16370,7 +21130,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.admin.get_admin_dept_stats(pylark.GetAdminDeptStatsReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取部门维度的用户活跃和功能使用数据，即IM（即时通讯）、日历、云文档、音视频会议功能的使用数据。
@@ -16427,7 +21201,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.admin.get_admin_user_stats(pylark.GetAdminUserStatsReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 用于获取用户维度的用户活跃和功能使用数据，即IM（即时通讯）、日历、云文档、音视频会议功能的使用数据。
@@ -16488,7 +21276,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.human_auth.get_face_verify_auth_result(pylark.GetFaceVerifyAuthResultReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -16536,7 +21338,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.human_auth.upload_face_verify_image(pylark.UploadFaceVerifyImageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -16584,7 +21400,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.human_auth.crop_face_verify_image(pylark.CropFaceVerifyImageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -16633,7 +21463,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.human_auth.create_identity(pylark.CreateIdentityReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于录入实名认证的身份信息，在唤起有源活体认证前，需要使用该接口进行实名认证。
@@ -16684,7 +21528,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.ai.recognize_basic_image(pylark.RecognizeBasicImageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 可识别图片中的文字，按区域划分返回文本列表
@@ -16734,7 +21592,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.ai.recognize_speech_stream(pylark.RecognizeSpeechStreamReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 语音流式接口，将整个音频文件分片进行传入模型。能够实时返回数据。建议每个音频分片的大小为 100-200ms
@@ -16784,7 +21656,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.ai.recognize_speech_file(pylark.RecognizeSpeechFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 语音文件识别接口，上传整段语音文件进行一次性识别。接口适合 60 秒以内音频识别
@@ -16834,7 +21720,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.ai.translate_text(pylark.TranslateTextReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 机器翻译 (MT)，支持中日英（zh、ja、en）三语互译
@@ -16882,7 +21782,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.ai.detect_text_language(pylark.DetectTextLanguageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 机器翻译 (MT)，支持 100 多种语言识别，返回符合 ISO 693-1 标准
@@ -16930,7 +21844,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.ai.detect_face_attributes(pylark.DetectFaceAttributesReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 检测图片中的人脸属性和质量等信息
@@ -16983,7 +21911,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.download_attendance_file(pylark.DownloadAttendanceFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17029,7 +21971,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.upload_attendance_file(pylark.UploadAttendanceFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17076,7 +22032,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.query_attendance_user_settings(pylark.QueryAttendanceUserSettingsReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17122,7 +22092,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.update_attendance_user_settings(pylark.UpdateAttendanceUserSettingsReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17169,7 +22153,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.create_update_attendance_group(pylark.CreateUpdateAttendanceGroupReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17251,7 +22249,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.delete_attendance_group(pylark.DeleteAttendanceGroupReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17298,7 +22310,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_group(pylark.GetAttendanceGroupReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17346,7 +22372,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.create_attendance_shift(pylark.CreateAttendanceShiftReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17396,7 +22436,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.delete_attendance_shift(pylark.DeleteAttendanceShiftReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17443,7 +22497,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_shift_by_id(pylark.GetAttendanceShiftByIDReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17490,7 +22558,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_shift_by_name(pylark.GetAttendanceShiftByNameReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17537,7 +22619,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_statistics_data(pylark.GetAttendanceStatisticsDataReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17584,7 +22680,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_statistics_header(pylark.GetAttendanceStatisticsHeaderReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17631,7 +22741,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.update_attendance_user_statistics_settings(pylark.UpdateAttendanceUserStatisticsSettingsReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17678,7 +22802,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_statistics_settings(pylark.GetAttendanceUserStatisticsSettingsReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17725,7 +22863,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_daily_shift(pylark.GetAttendanceUserDailyShiftReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17772,7 +22924,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_task(pylark.GetAttendanceUserTaskReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17821,7 +22987,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_flow(pylark.GetAttendanceUserFlowReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17868,7 +23048,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.batch_get_attendance_user_flow(pylark.BatchGetAttendanceUserFlowReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17916,7 +23110,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.batch_create_attendance_user_flow(pylark.BatchCreateAttendanceUserFlowReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -17964,7 +23172,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_task_remedy(pylark.GetAttendanceUserTaskRemedyReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -18011,7 +23233,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.create_update_attendance_user_daily_shift(pylark.CreateUpdateAttendanceUserDailyShiftReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -18058,7 +23294,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_approval(pylark.GetAttendanceUserApprovalReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -18105,7 +23355,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.create_attendance_user_approval(pylark.CreateAttendanceUserApprovalReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -18155,7 +23419,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_allowed_remedy(pylark.GetAttendanceUserAllowedRemedyReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -18202,7 +23480,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.init_attendance_remedy_approval(pylark.InitAttendanceRemedyApprovalReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -18248,7 +23540,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.update_attendance_remedy_approval(pylark.UpdateAttendanceRemedyApprovalReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -18299,7 +23605,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.file.upload_image(pylark.UploadImageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 上传图片接口，可以上传 JPEG、PNG、WEBP 格式图片
@@ -18350,7 +23670,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.file.download_image(pylark.DownloadImageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 下载图片资源，只能下载应用自己上传且图片类型为message的图片
@@ -18402,7 +23736,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.file.upload_file(pylark.UploadFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 上传文件，可以上传视频，音频和常见的文件类型
@@ -18453,7 +23801,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.file.download_file(pylark.DownloadFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 下载文件接口，只能下载应用自己上传的文件
@@ -18506,7 +23868,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.okr.get_okr_period_list(pylark.GetOKRPeriodListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取OKR周期列表
@@ -18557,7 +23933,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.okr.batch_get_okr(pylark.BatchGetOKRReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据OKR id批量获取OKR
@@ -18608,7 +23998,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.okr.get_user_okr_list(pylark.GetUserOKRListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据用户的id获取OKR列表
@@ -18662,7 +24066,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.ehr.get_ehr_employee_list(pylark.GetEHREmployeeListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据员工飞书用户 ID / 员工状态 / 雇员类型等搜索条件 ，批量获取员工花名册字段信息。字段包括「系统标准字段 / system_fields」和「自定义字段 / custom_fields」
@@ -18707,7 +24125,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.ehr.download_ehr_attachments(pylark.DownloadEHRAttachmentsReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -18772,7 +24204,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.tenant.get_tenant(pylark.GetTenantReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取企业名称、企业编号等企业信息
@@ -18828,7 +24274,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.search.create_search_data_source_item(pylark.CreateSearchDataSourceItemReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 索引一条数据记录
@@ -18873,7 +24333,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.search.get_search_data_source_item(pylark.GetSearchDataSourceItemReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取单个数据记录
@@ -18918,7 +24392,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.search.delete_search_data_source_item(pylark.DeleteSearchDataSourceItemReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除数据记录
@@ -18963,7 +24451,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.search.create_search_data_source(pylark.CreateSearchDataSourceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 创建一个数据源
@@ -19008,7 +24510,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.search.get_search_data_source(pylark.GetSearchDataSourceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取已经创建的数据源
@@ -19053,7 +24569,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.search.update_search_data_source(pylark.UpdateSearchDataSourceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 更新一个已经存在的数据源
@@ -19098,7 +24628,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.search.get_search_data_source_list(pylark.GetSearchDataSourceListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取创建的所有数据源信息
@@ -19143,7 +24687,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.search.delete_search_data_source(pylark.DeleteSearchDataSourceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除一个已存在的数据源
@@ -19191,7 +24749,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_job(pylark.GetHireJobReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据职位 ID 获取职位信息
@@ -19236,7 +24808,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_job_manager(pylark.GetHireJobManagerReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据职位 ID 获取职位上的招聘人员信息，如招聘负责人、用人经理
@@ -19281,7 +24867,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_talent(pylark.GetHireTalentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据人才 ID 获取人才信息
@@ -19326,7 +24926,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_attachment(pylark.GetHireAttachmentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取招聘系统中附件的元信息，比如文件名、创建时间、文件url等
@@ -19371,7 +24985,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_attachment_preview(pylark.GetHireAttachmentPreviewReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据附件 ID 获取附件预览信息
@@ -19416,7 +25044,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_resume_source(pylark.GetHireResumeSourceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取简历来源列表
@@ -19461,7 +25103,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.create_hire_note(pylark.CreateHireNoteReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 创建备注信息
@@ -19506,7 +25162,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.update_hire_note(pylark.UpdateHireNoteReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据备注 ID 更新备注信息
@@ -19551,7 +25221,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_note(pylark.GetHireNoteReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据备注 ID 获取备注信息
@@ -19596,7 +25280,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_note_list(pylark.GetHireNoteListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取备注列表
@@ -19641,7 +25339,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_referral_by_application(pylark.GetHireReferralByApplicationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据投递 ID 获取内推信息
@@ -19686,7 +25398,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_job_process_list(pylark.GetHireJobProcessListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取全部招聘流程信息
@@ -19731,7 +25457,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.create_hire_application(pylark.CreateHireApplicationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据人才 ID 和职位 ID 创建投递
@@ -19776,7 +25516,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.terminate_hire_application(pylark.TerminateHireApplicationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据投递 ID 修改投递状态为「已终止」
@@ -19821,7 +25575,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_application(pylark.GetHireApplicationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据投递 ID 获取单个投递信息
@@ -19866,7 +25634,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_application_list(pylark.GetHireApplicationListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据限定条件获取投递列表信息
@@ -19911,7 +25693,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_application_interview_list(pylark.GetHireApplicationInterviewListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据投递 ID 获取面试记录列表
@@ -19956,7 +25752,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_offer_by_application(pylark.GetHireOfferByApplicationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据投递 ID 获取 Offer 信息
@@ -20001,7 +25811,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_offer_schema(pylark.GetHireOfferSchemaReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据 Offer 申请表 ID，获取 Offer 申请表的详细信息
@@ -20046,7 +25870,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.make_hire_transfer_onboard_by_application(pylark.MakeHireTransferOnboardByApplicationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据投递 ID 操作候选人入职并创建员工，投递须处于「待入职」阶段
@@ -20091,7 +25929,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.update_hire_employee(pylark.UpdateHireEmployeeReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 根据员工 ID 更新员工转正、离职状态
@@ -20136,7 +25988,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_employee_by_application(pylark.GetHireEmployeeByApplicationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 通过投递 ID 获取入职信息
@@ -20181,7 +26047,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.hire.get_hire_employee(pylark.GetHireEmployeeReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 通过员工 ID 获取入职信息
@@ -20229,7 +26109,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.create_task_collaborator(pylark.CreateTaskCollaboratorReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于新增任务协作者
@@ -20274,7 +26168,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.get_task_collaborator_list(pylark.GetTaskCollaboratorListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于查询任务协作者列表，支持分页，最大值为50
@@ -20319,7 +26227,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.delete_task_collaborator(pylark.DeleteTaskCollaboratorReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于删除任务协作者
@@ -20364,7 +26286,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.create_task_follower(pylark.CreateTaskFollowerReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于创建任务关注者
@@ -20409,7 +26345,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.get_task_follower_list(pylark.GetTaskFollowerListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于查询任务关注者列表，支持分页，最大值为50
@@ -20454,7 +26404,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.delete_task_follower(pylark.DeleteTaskFollowerReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于删除任务关注者
@@ -20499,7 +26463,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.create_task_reminder(pylark.CreateTaskReminderReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于创建任务的提醒时间
@@ -20544,7 +26522,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.get_task_reminder_list(pylark.GetTaskReminderListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 返回提醒时间列表，支持分页，最大值为50
@@ -20589,7 +26581,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.delete_task_reminder(pylark.DeleteTaskReminderReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 删除提醒时间，返回结果状态
@@ -20634,7 +26640,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.create_task(pylark.CreateTaskReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口可以创建一个任务（基本信息），如果需要绑定协作者等需要调用别的资源管理接口。
@@ -20679,7 +26699,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.get_task(pylark.GetTaskReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取任务详情，包括任务标题、描述、时间、来源等信息
@@ -20724,7 +26758,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.delete_task(pylark.DeleteTaskReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于删除任务
@@ -20769,7 +26817,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.update_task(pylark.UpdateTaskReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于修改任务的标题、描述、时间、来源等相关信息
@@ -20814,7 +26876,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.complete_task(pylark.CompleteTaskReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于将接任务状态修改为已完成
@@ -20859,7 +26935,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.uncomplete_task(pylark.UncompleteTaskReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于取消任务的已完成状态
@@ -20904,7 +26994,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.create_task_comment(pylark.CreateTaskCommentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于创建和回复任务的评论。当parent_id字段为0时，为创建评论；当parent_id不为0时，为回复某条评论
@@ -20949,7 +27053,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.get_task_comment(pylark.GetTaskCommentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于通过评论ID获取评论详情
@@ -20994,7 +27112,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.delete_task_comment(pylark.DeleteTaskCommentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于通过评论ID删除评论
@@ -21039,7 +27171,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.update_task_comment(pylark.UpdateTaskCommentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于更新评论内容
@@ -21087,7 +27233,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.acs.get_acs_access_record_photo(pylark.GetACSAccessRecordPhotoReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -21147,7 +27307,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.acs.get_acs_access_record_list(pylark.GetACSAccessRecordListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 
@@ -21207,7 +27381,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.acs.get_acs_device_list(pylark.GetACSDeviceListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 使用该接口获取租户内所有设备
@@ -21252,7 +27440,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.acs.get_acs_user_face(pylark.GetACSUserFaceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 对于已经录入人脸图片的用户，可以使用该接口下载用户人脸图片
@@ -21297,7 +27499,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.acs.update_acs_user_face(pylark.UpdateACSUserFaceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 用户需要录入人脸图片才可以使用门禁考勤机。使用该 API 上传门禁用户的人脸图片。
@@ -21342,7 +27558,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.acs.get_acs_user(pylark.GetACSUserReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 该接口用于获取智能门禁中单个用户的信息。
@@ -21395,7 +27625,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.acs.update_acs_user(pylark.UpdateACSUserReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 飞书智能门禁在人脸识别成功后会有韦根信号输出，输出用户的卡号。
@@ -21440,7 +27684,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.acs.get_acs_user_list(pylark.GetACSUserListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 使用该接口获取智能门禁中所有用户信息
@@ -21496,7 +27754,21 @@ func example(ctx context.Context, cli *lark.Lark) {
 ```
 
 ```python
-todo
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.ecosystem.get_ecosystem_bind_aweme_user(pylark.GetEcosystemBindAwemeUserReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
 ```
 
 获取绑定信息

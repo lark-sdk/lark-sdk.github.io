@@ -59,7 +59,7 @@ file-embed: ./libs/code/1-init-normal.go
 ```
 
 ```python
-todo
+file-embed: ./libs/code/1-init-normal.py
 ```
 
 常规初始化只需要两个参数：app-id 和 app-secret，可以处理大部分场景。
@@ -72,7 +72,7 @@ todo
 file-embed: ./libs/code/2-init-encrypt.go
 ```
 
-```python
+file-embed: ./libs/code/2-init-encrypt.py
 todo
 ```
 
@@ -91,7 +91,7 @@ file-embed: ./libs/code/3-init-custom-bot.go
 ```
 
 ```python
-todo
+file-embed: ./libs/code/3-init-custom-bot.py
 ```
 
 自定义机器人不需要单独创建应用，也不需要申请权限，只需要在群聊中添加自定义机器人即可。
@@ -109,7 +109,7 @@ file-embed: ./libs/code/4-init-helpdesk.go
 ```
 
 ```python
-todo
+file-embed: ./libs/code/4-init-helpdesk.py
 ```
 
 服务台应用的初始化，除了需要两个参数：app-id 和 app-secret 外，还需要 helpdeskID 和 helpdeskToken，这两个参数可以在服务台的后台查看。
