@@ -2192,6 +2192,215 @@ def example(cli: pylark.Lark):
 
 `POST`
 
+## SendUrgentAppMessage
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Message.SendUrgentAppMessage(ctx, &lark.SendUrgentAppMessageReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.send_urgent_app_message(pylark.SendUrgentAppMessageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+对指定消息进行应用内加急。
+
+注意事项:
+- 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
+- 只能加急机器人自己发送的消息
+- 加急时机器人仍需要在会话内
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/urgent_app](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/urgent_app)
+
+### URL
+
+`https://open.feishu.cn/open-apis/im/v1/messages/:message_id/urgent_app`
+
+### Method
+
+`PATCH`
+
+## SendUrgentSmsMessage
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Message.SendUrgentSmsMessage(ctx, &lark.SendUrgentSmsMessageReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.send_urgent_sms_message(pylark.SendUrgentSmsMessageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+对指定消息进行应用内加急与短信加急。
+
+特别说明：
+- 通过接口产生的短信加急将消耗企业的加急额度，请慎重调用。
+
+
+注意事项:
+- 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
+- 只能加急机器人自己发送的消息
+- 加急时机器人仍需要在会话内
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/urgent_sms](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/urgent_sms)
+
+### URL
+
+`https://open.feishu.cn/open-apis/im/v1/messages/:message_id/urgent_sms`
+
+### Method
+
+`PATCH`
+
+## SendUrgentPhoneMessage
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Message.SendUrgentPhoneMessage(ctx, &lark.SendUrgentPhoneMessageReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.send_urgent_phone_message(pylark.SendUrgentPhoneMessageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+对指定消息进行应用内加急与电话加急
+
+特别说明：
+- 通过接口产生的电话加急将消耗企业的加急额度，请慎重调用。
+
+
+注意事项:
+- 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
+- 只能加急机器人自己发送的消息
+- 加急时机器人仍需要在会话内
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/urgent_phone](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/urgent_phone)
+
+### URL
+
+`https://open.feishu.cn/open-apis/im/v1/messages/:message_id/urgent_phone`
+
+### Method
+
+`PATCH`
+
 ## SendRawMessage
 
 ```go
@@ -3239,6 +3448,7 @@ def example(cli: pylark.Lark):
 
 注意事项：
  - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
+- 查询参数**user_id_type**用于控制响应体中owner_id的类型
 
 
 #
@@ -3427,7 +3637,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-判断用户或者机器人是否在群里。
+根据使用的access_token判断对应的用户或者机器人是否在群里。
 
 #
 
