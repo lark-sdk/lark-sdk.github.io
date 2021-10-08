@@ -248,6 +248,70 @@ def example(cli: pylark.Lark):
 
 # Contact
 
+## SearchUserOld
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.SearchUserOld(ctx, &lark.SearchUserOldReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.search_user_old(pylark.SearchUserOldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+
+
+以用户身份搜索其他用户的信息，无法搜索到外部企业或已离职的用户。<br>
+调用该接口需要申请 `搜索用户` 权限。
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uMTM4UjLzEDO14yMxgTN](https://open.feishu.cn/document/ukTMukTMukTM/uMTM4UjLzEDO14yMxgTN)
+
+### URL
+
+`https://open.feishu.cn/open-apis/search/v1/user`
+
+### Method
+
+`GET`
+
 ## CreateUser
 
 ```go
@@ -969,9 +1033,9 @@ def example(cli: pylark.Lark):
 
 该接口用于获取当前部门子部门列表。
 
-- 使用tenant_access_token时,只返回权限范围内的部门。
+- 使用tenant_access_token时,只返回该应用通讯录权限范围内的部门。
 
- - 使用user_access_token时，返回可见性范围内的所有可见部门。当进行递归查询时，只筛查最多1000个部门的可见性。
+ - 使用user_access_token时，返回该用户组织架构可见性范围内的所有可见部门。当进行递归查询时，只筛查最多1000个部门的可见性。
 
  - fetch_child字段填写为false：如果填写具体的部门ID，则返回该部门下的一级子部门；如果没有填写部门ID， 若有全员权限，返回根部门信息，若没有全员权限则返回通讯录范围中配置的部门及其一级子部门。
 
@@ -2237,15 +2301,7 @@ def example(cli: pylark.Lark):
 
 对指定消息进行应用内加急。
 
-注意事项:
-- 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
-- 只能加急机器人自己发送的消息
-- 加急时机器人仍需要在会话内
 
-
-
-
-#
 
 ### Doc
 
@@ -2304,19 +2360,7 @@ def example(cli: pylark.Lark):
 
 对指定消息进行应用内加急与短信加急。
 
-特别说明：
-- 通过接口产生的短信加急将消耗企业的加急额度，请慎重调用。
 
-
-注意事项:
-- 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
-- 只能加急机器人自己发送的消息
-- 加急时机器人仍需要在会话内
-
-
-
-
-#
 
 ### Doc
 
@@ -2375,19 +2419,7 @@ def example(cli: pylark.Lark):
 
 对指定消息进行应用内加急与电话加急
 
-特别说明：
-- 通过接口产生的电话加急将消耗企业的加急额度，请慎重调用。
 
-
-注意事项:
-- 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
-- 只能加急机器人自己发送的消息
-- 加急时机器人仍需要在会话内
-
-
-
-
-#
 
 ### Doc
 
@@ -3110,6 +3142,8 @@ def example(cli: pylark.Lark):
 注意事项：
  - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
 - 本接口只支持创建群，如果需要拉用户或者机器人入群参考 [将用户或机器人拉入群聊](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat-members/create)接口
+
+
 
 
 #
@@ -8675,7 +8709,7 @@ def example(cli: pylark.Lark):
 
 
 
-在使用此接口前，请仔细阅读[概述](/ssl:ttdoc/ukTMukTMukTM/ukjM5YjL5ITO24SOykjN)和[准备接入文档 API](//ssl:ttdoc/ukTMukTMukTM/ugzNzUjL4czM14CO3MTN/guide/getting-start)了解文档调用的规则和约束，确保你的文档数据不会丢失或出错。  
+在使用此接口前，请仔细阅读[概述](/ssl:ttdoc/ukTMukTMukTM/ukjM5YjL5ITO24SOykjN)和[准备接入文档 API](/ssl:ttdoc/ukTMukTMukTM/ugzNzUjL4czM14CO3MTN/guide/getting-start)了解文档调用的规则和约束，确保你的文档数据不会丢失或出错。  
 文档数据结构定义可参考：[文档数据结构概述](/ssl:ttdoc/ukTMukTMukTM/uAzM5YjLwMTO24CMzkjN) 
 该接口用于获取结构化的文档内容。
 
