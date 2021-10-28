@@ -113,6 +113,7 @@ def example(cli: pylark.Lark):
 
 
 
+
 #
 
 ### Doc
@@ -294,6 +295,7 @@ def example(cli: pylark.Lark):
 
 
 以用户身份搜索其他用户的信息，无法搜索到外部企业或已离职的用户。<br>
+
 调用该接口需要申请 `搜索用户` 权限。
 
 
@@ -355,9 +357,10 @@ def example(cli: pylark.Lark):
 
 ```
 
-使用该接口向通讯录创建一个用户，可以理解为员工入职。创建部门后只返回有数据权限的数据。具体的数据权限的与字段的对应关系请参照[应用权限](https://open.feishu.cn/document/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)。
+使用该接口向通讯录创建一个用户，可以理解为员工入职。创建用户后只返回有数据权限的数据。具体的数据权限的与字段的对应关系请参照[应用权限](https://open.feishu.cn/document/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
 新增用户的所有部门必须都在当前应用的通讯录授权范围内才允许新增用户，如果想要在根部门下新增用户，必须要有全员权限。 应用商店应用无权限调用此接口。
+
 
 
 
@@ -422,9 +425,10 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口向通讯录删除一个用户信息，可以理解为员工离职。
+该接口向通讯录删除一个用户信息，可以理解为员工离职。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
 若用户归属部门A、部门B，应用的通讯录权限范围必须包括部门A和部门B才可以删除用户。应用商店应用无权限调用接口。用户可以在删除员工时设置删除员工数据的接收者，如果不设置则由其leader接收，如果该员工没有leader，则会将该员工的数据删除。
+
 
 
 
@@ -489,9 +493,10 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于获取通讯录中单个用户的信息。
+该接口用于获取通讯录中单个用户的信息。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
 <b>以应用身份访问通讯录</b> 权限为历史版本，不推荐申请。应用访问通讯录相关接口请申请 <b>以应用身份读取通讯录</b>
+
 
 
 该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
@@ -628,6 +633,7 @@ def example(cli: pylark.Lark):
 
 
 根据用户邮箱或手机号查询用户 open_id 和 user_id，支持批量查询。<br>
+
 调用该接口需要申请 `通过手机号或邮箱获取用户 ID` 权限。<br>只能查询到应用可用性范围内的用户 ID，不在范围内的用户会表现为不存在。
 
 
@@ -689,16 +695,16 @@ def example(cli: pylark.Lark):
 
 ```
 
+基于部门ID获取部门下直属用户列表。
 
-
-当应用的通讯录权限范围为全员时，传入 department_id，以获取该部门下所有的直属成员。根部门的 department_id 是 0。
-
-当应用的通讯录权限范围为非全员时，传入权限范围内的 department_id，以获取该部门下所有的直属成员。不传 department_id 时，会获取到权限范围内的独立成员。（当权限范围包含了某成员，但不包含成员所在部门，则该成员视为权限范围内的独立成员）{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=contact&version=v3&resource=user&method=list)
-
-
-
+- 使用 user_access_token 情况下根据个人组织架构的通讯录可见范围进行权限过滤，返回个人组织架构通讯录范围（[登陆企业管理后台进行权限配置](https://bytedance.feishu.cn/admin/security/permission/visibility)）内可见的用户数据。
+-  tenant_access_token  基于应用通讯录范围进行权限鉴定。由于 department_id 是非必填参数，填与不填存在<b>两种数据权限校验与返回</b>情况：<br>1、请求设置了 department_id 
+（根部门为0），会检验所带部门ID是否具有通讯录权限（如果带上 
+ department_id=0 会校验是否有全员权限），有则返回部门下直属的成员列表, 否则提示无部门权限的错误码返回。<br>2、请求未带 
+  department_id 参数，则会返回权限范围内的独立用户（权限范围直接包含了某用户，则该用户视为权限范围内的独立用户）。
 
 <b>以应用身份访问通讯录</b> 权限为历史版本，不推荐申请。应用访问通讯录相关接口请申请 <b>以应用身份读取通讯录</b>
+
 
 
 该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
@@ -763,7 +769,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于更新通讯录中用户的字段，未传递的参数不会更新。
+该接口用于更新通讯录中用户的字段，未传递的参数不会更新。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
 该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
 
@@ -827,9 +833,10 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于更新通讯录中用户的字段。
+该接口用于更新通讯录中用户的字段。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
 应用需要拥有待更新用户的通讯录授权，如果涉及到用户部门变更，还需要同时拥有所有新部门的通讯录授权。应用商店应用无权限调用此接口。
+
 
 
 该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
@@ -894,9 +901,10 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于向通讯录中创建部门。
+该接口用于向通讯录中创建部门。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
 只可在应用的通讯录权限范围内的部门下创建部门。若需要在根部门下创建子部门，则应用通讯录权限范围需要设置为“全部成员”。应用商店应用无权限调用此接口。
+
 
 
 该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
@@ -961,12 +969,13 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于向通讯录获取单个部门信息。
+该接口用于向通讯录获取单个部门信息。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
 使用tenant_access_token时，应用需要拥有待查询部门的通讯录授权。如果需要获取根部门信息，则需要拥有全员权限。
 使用user_access_token时，用户需要有待查询部门的可见性，如果需要获取根部门信息，则要求员工可见所有人。
 
-<b>以应用身份访问通讯录</b> 权限为历史版本，不推荐申请。应用访问通讯录相关接口请申请 <b>以应用身份读取通讯录</b>
+<b>以应用身份访问通讯录</b> 权限为历史版本，不推荐申请。应用访问通讯录相关接口请申请 <b>以应用身份读取通讯录</b> 。
+
 
 
 该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
@@ -1031,17 +1040,21 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于获取当前部门子部门列表。
+该接口用于获取当前部门子部门列表。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
-- 使用tenant_access_token时,只返回该应用通讯录权限范围内的部门。
+- 使用 user_access_token 时，返回该用户组织架构可见性范围（[登陆企业管理后台进行权限配置](https://bytedance.feishu.cn/admin/security/permission/visibility)）内的所有可见部门。当进行递归查询时，只筛查最多1000个部门的可见性。
 
- - 使用user_access_token时，返回该用户组织架构可见性范围内的所有可见部门。当进行递归查询时，只筛查最多1000个部门的可见性。
-
- - fetch_child字段填写为false：如果填写具体的部门ID，则返回该部门下的一级子部门；如果没有填写部门ID， 若有全员权限，返回根部门信息，若没有全员权限则返回通讯录范围中配置的部门及其一级子部门。
-
- - fetch_child字段填写为true：如果填写具体的部门ID，则返回该部门下所有子部门；如果没有填写部门ID， 若有全员权限，返回根部门信息，可以根据根部门ID获取其下的一级子部门，若没有全员权限则返回通讯录范围中配置的部门及其子部门。
+- 使用 
+ tenant_access_token 则基于应用的通讯录权限范围进行权限校验与过滤。由于 
+ parent_department_id 是非必填参数，填与不填存在<b>两种数据权限校验与返回</b>情况：
+<br> <br>1、请求设置了 
+ parent_department_id 为A（根部门0），会检验A是否在通讯录权限内，若在( parent_department_id=0 时会校验是否为全员权限），则返回部门下子部门列表（根据fetch_child决定是否递归），否则返回无部门通讯录权限错误码。
+<br> <br>2、请求未带 
+ parent_department_id 参数，如通讯录范围为全员权限，只返回根部门ID(部门ID为0)，否则返回根据通讯录范围配置的部门ID及子部门(根据 
+ fetch_child 决定是否递归)。
 
 <b>以应用身份访问通讯录</b> 权限为历史版本，不推荐申请。应用访问通讯录相关接口请申请 <b>以应用身份读取通讯录</b>
+
 
 
 该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
@@ -1106,7 +1119,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用来递归获取部门父部门的信息，并按照由子到父的顺序返回有权限的父部门信息列表。
+该接口用来递归获取部门父部门的信息，并按照由子到父的顺序返回有权限的父部门信息列表。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
 使用tenant_access_token时,该接口只返回可见性范围内的父部门信息
 
@@ -1114,6 +1127,7 @@ def example(cli: pylark.Lark):
 使用user_access_token时,该接口只返回对于用户可见的父部门信息
 
 <b>以应用身份访问通讯录</b> 权限为历史版本，不推荐申请。应用访问通讯录相关接口请申请 <b>以应用身份读取通讯录</b>
+
 
 
 该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
@@ -1178,9 +1192,10 @@ def example(cli: pylark.Lark):
 
 ```
 
-搜索部门，用户通过关键词查询可见的部门数据，部门可见性需要管理员在后台配置
+搜索部门，用户通过关键词查询可见的部门数据，部门可见性需要管理员在后台配置。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
 部门存在，但用户搜索不到并不一定是搜索有问题，可能是管理员在后台配置了权限控制，导致用户无法搜索到该部门
+
 
 
 
@@ -1245,9 +1260,10 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于更新通讯录中部门的信息中的任一个字段。
+该接口用于更新通讯录中部门的信息中的任一个字段。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
 调用该接口需要具有该部门以及更新操作涉及的部门的通讯录权限。应用商店应用无权限调用此接口。
+
 
 
 该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
@@ -1312,11 +1328,12 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于更新当前部门所有信息。
+该接口用于更新当前部门所有信息。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
 - 调用该接口需要具有该部门以及更新操作涉及的部门的通讯录权限。应用商店应用无权限调用此接口。
 
  - 没有填写的字段会被置为空值（order字段除外）。
+
 
 
 该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
@@ -1381,9 +1398,10 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于向通讯录中删除部门。
+该接口用于向通讯录中删除部门。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
 应用需要同时拥有待删除部门及其父部门的通讯录授权。应用商店应用无权限调用该接口。
+
 
 
 
@@ -1448,7 +1466,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-使用该接口创建用户组，请注意创建用户组时应用的通讯录权限范围需为“全部员工”，否则会创建失败，[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+使用该接口创建用户组，请注意创建用户组时应用的通讯录权限范围需为“全部员工”，否则会创建失败，[点击了解通讯录权限范围](https://open.feishu.cn/document/ukTMukTMukTM/uETNz4SM1MjLxUzM/v3/guides/scope_authority)。
 
 #
 
@@ -1507,7 +1525,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-使用该接口更新用户组信息，请注意更新用户组时应用的通讯录权限范围需为“全部员工”，否则会更新失败。[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+使用该接口更新用户组信息，请注意更新用户组时应用的通讯录权限范围需为“全部员工”，否则会更新失败。[点击了解通讯录权限范围](https://open.feishu.cn/document/ukTMukTMukTM/uETNz4SM1MjLxUzM/v3/guides/scope_authority)。
 
 #
 
@@ -1566,7 +1584,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-通过该接口可删除企业中的用户组，请注意删除用户组时应用的通讯录权限范围需为“全部员工”，否则会删除失败，[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+通过该接口可删除企业中的用户组，请注意删除用户组时应用的通讯录权限范围需为“全部员工”，否则会删除失败，[点击了解通讯录权限范围](https://open.feishu.cn/document/ukTMukTMukTM/uETNz4SM1MjLxUzM/v3/guides/scope_authority)。
 
 #
 
@@ -1625,7 +1643,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-根据用户组 ID 查询某个用户组的基本信息，请确保应用的通讯录权限范围里包括该用户组或者是“全部员工”，[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+根据用户组 ID 查询某个用户组的基本信息，请确保应用的通讯录权限范围里包括该用户组或者是“全部员工”，[点击了解通讯录权限范围](https://open.feishu.cn/document/ukTMukTMukTM/uETNz4SM1MjLxUzM/v3/guides/scope_authority)。
 
 #
 
@@ -1684,7 +1702,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-通过该接口可查询企业的用户组列表，如果应用的通讯录权限范围是“全部员工”，则可获取企业全部用户组列表。如果应用的通讯录权限范围不是“全部员工”，则仅可获取通讯录权限范围内的用户组。[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+通过该接口可查询企业的用户组列表，如果应用的通讯录权限范围是“全部员工”，则可获取企业全部用户组列表。如果应用的通讯录权限范围不是“全部员工”，则仅可获取通讯录权限范围内的用户组。[点击了解通讯录权限范围](https://open.feishu.cn/document/ukTMukTMukTM/uETNz4SM1MjLxUzM/v3/guides/scope_authority)。
 
 #
 
@@ -1743,7 +1761,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-向用户组中添加成员(目前成员仅支持用户，未来会支持部门)，如果应用的通讯录权限范围是“全部员工”，则可将任何成员添加到任何用户组。如果应用的通讯录权限范围不是“全部员工”，则仅可将通讯录权限范围中的成员添加到通讯录权限范围的用户组中，[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+向用户组中添加成员(目前成员仅支持用户，未来会支持部门)，如果应用的通讯录权限范围是“全部员工”，则可将任何成员添加到任何用户组。如果应用的通讯录权限范围不是“全部员工”，则仅可将通讯录权限范围中的成员添加到通讯录权限范围的用户组中，[点击了解通讯录权限范围](https://open.feishu.cn/document/ukTMukTMukTM/uETNz4SM1MjLxUzM/v3/guides/scope_authority)。
 
 #
 
@@ -1802,7 +1820,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-从用户组中移除成员 (目前成员仅支持用户，未来会支持部门)，如果应用的通讯录权限范围是“全部员工”，则可将任何成员移出任何用户组。如果应用的通讯录权限范围不是“全部员工”，则仅可将通讯录权限范围中的成员从通讯录权限范围的用户组中移除, [点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+从用户组中移除成员 (目前成员仅支持用户，未来会支持部门)，如果应用的通讯录权限范围是“全部员工”，则可将任何成员移出任何用户组。如果应用的通讯录权限范围不是“全部员工”，则仅可将通讯录权限范围中的成员从通讯录权限范围的用户组中移除, [点击了解通讯录权限范围](https://open.feishu.cn/document/ukTMukTMukTM/uETNz4SM1MjLxUzM/v3/guides/scope_authority)。
 
 #
 
@@ -1861,7 +1879,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-通过该接口可查询某个用户组的成员(目前成员仅支持用户，未来会支持部门)列表，如果应用的通讯录权限范围是“全部员工”，则可查询企业内任何用户组的成员列表。如果应用的通讯录权限范围不是“全部员工”，则仅可查询通讯录权限范围中的用户组的成员列表，[点击了解通讯录权限范围](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/overview)。
+通过该接口可查询某个用户组的成员(目前成员仅支持用户，未来会支持部门)列表，如果应用的通讯录权限范围是“全部员工”，则可查询企业内任何用户组的成员列表。如果应用的通讯录权限范围不是“全部员工”，则仅可查询通讯录权限范围中的用户组的成员列表，[点击了解通讯录权限范围](https://open.feishu.cn/document/ukTMukTMukTM/uETNz4SM1MjLxUzM/v3/guides/scope_authority)。
 
 #
 
@@ -2232,7 +2250,9 @@ def example(cli: pylark.Lark):
 ## 使用场景
 临时消息卡片多用于群聊中用户与机器人交互的中间态。例如在群聊中用户需要使用待办事项类bot创建一条提醒，bot 发送了可设置提醒日期和提醒内容的一张可交互的消息卡片，此卡片在没有设置为临时卡片的情况下为群内全员可见，即群内可看见该用户与 bot 交互的过程。而设置为临时卡片后，交互过程仅该用户可见，群内其他成员只会看到最终设置完成的提醒卡片。<br>临时消息卡片可降低群消息的信噪比，并间接增加 bot 通知的用户触达。
 
+
 需要启用机器人能力；需要机器人在会话群里。
+
 
 
 -  仅触发临时卡片的用户自己可见。
@@ -2476,7 +2496,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-给指定用户或者会话发送消息，支持文本、富文本、卡片、群名片、个人名片、图片、视频、音频、文件、表情包。
+给指定用户或者会话发送消息，支持文本、富文本、可交互的[消息卡片](https://open.feishu.cn/document/ukTMukTMukTM/uczM3QjL3MzN04yNzcDN)、群名片、个人名片、图片、视频、音频、文件、表情包。
 
 注意事项:
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
@@ -2556,6 +2576,79 @@ def example(cli: pylark.Lark):
 ### URL
 
 `https://open.feishu.cn/open-apis/message/v4/send/`
+
+### Method
+
+`POST`
+
+## BatchSendOldRawMessage
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Message.BatchSendOldRawMessage(ctx, &lark.BatchSendOldRawMessageReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.batch_send_old_raw_message(pylark.BatchSendOldRawMessageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+
+
+给多个用户或者多个部门发送消息。
+
+**注意事项：**
+- 调用该接口需要注意
+  - 应用需要启用机器人能力，并且拥**以应用的身份发消息**权限
+  - 应用需要拥有批量发送消息权限
+  	- 给用户发送需要拥有 **给多个用户批量发消息** 权限
+  	- 给部门发送需要拥有 **给一个或多个部门的成员批量发消息** 权限
+  - 应用需要拥有对所发送用户或部门的可见性
+- 通过该接口发送的消息 **不支持更新以及回复等操作**
+- 只能发送给用户，无法发送给群组
+- 异步接口，会有一定延迟，每个应用待发送的消息按顺序处理，请合理安排批量发送范围和顺序
+- 单个应用每天通过该接口发送的总消息条数不超过50万
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/ucDO1EjL3gTNx4yN4UTM](https://open.feishu.cn/document/ukTMukTMukTM/ucDO1EjL3gTNx4yN4UTM)
+
+### URL
+
+`https://open.feishu.cn/open-apis/message/v4/batch_send/`
 
 ### Method
 
@@ -2696,6 +2789,73 @@ def example(cli: pylark.Lark):
 
 `DELETE`
 
+## BatchDeleteMessage
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Message.BatchDeleteMessage(ctx, &lark.BatchDeleteMessageReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.batch_delete_message(pylark.BatchDeleteMessageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+批量撤回消息
+
+注意事项：
+- 只能撤回通过[批量发送消息](/ssl:ttdoc/ukTMukTMukTM/ucDO1EjL3gTNx4yN4UTM)接口产生的消息，单条消息的撤回请使用[撤回消息](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/delete)接口
+- 路径参数**batch_message_id**为[批量发送消息](/ssl:ttdoc/ukTMukTMukTM/ucDO1EjL3gTNx4yN4UTM)接口返回值中的**message_id**字段，用于标识一次批量发送消息请求，格式为：**bm-xxx**
+- 一次调用涉及大量消息，所以为异步接口，会有一定延迟。
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/batch_message/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/batch_message/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/im/v1/batch_messages/:batch_message_id`
+
+### Method
+
+`DELETE`
+
 ## UpdateMessage
 
 ```go
@@ -2814,6 +2974,8 @@ def example(cli: pylark.Lark):
 - 查询消息已读信息时机器人仍需要在会话内
 
 
+
+
 #
 
 ### Doc
@@ -2823,6 +2985,72 @@ def example(cli: pylark.Lark):
 ### URL
 
 `https://open.feishu.cn/open-apis/im/v1/messages/:message_id/read_users`
+
+### Method
+
+`GET`
+
+## GetBatchSentMessageReadUser
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Message.GetBatchSentMessageReadUser(ctx, &lark.GetBatchSentMessageReadUserReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.get_batch_sent_message_read_user(pylark.GetBatchSentMessageReadUserReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+查询批量消息推送和阅读人数
+
+注意事项：
+- 只能查询通过[批量发送消息](/ssl:ttdoc/ukTMukTMukTM/ucDO1EjL3gTNx4yN4UTM)接口产生的消息
+- 该接口返回的数据为查询时刻的快照数据。
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/batch_message/read_user](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/batch_message/read_user)
+
+### URL
+
+`https://open.feishu.cn/open-apis/im/v1/batch_messages/:batch_message_id/read_user`
 
 ### Method
 
@@ -2873,10 +3101,12 @@ def example(cli: pylark.Lark):
 
 获取会话（包括单聊、群组）的历史消息。
 
-注意事项:
+接口级别权限默认只能获取单聊消息，如果需要获取群组消息，应用还必须拥有 ***获取群组中所有的消息*** 权限
+
+
+
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
 - 获取消息时，机器人必须在群组中
-- 接口级别权限默认只能获取单聊消息，如果需要获取群组消息，应用还必须拥有 ***获取群组中所有的消息*** 权限
 
 
 
@@ -3075,6 +3305,7 @@ def example(cli: pylark.Lark):
 
 在群会话中删除指定用户的临时消息卡片<br>
 临时卡片消息可以通过该接口进行显式删除，临时卡片消息删除后将不会在该设备上留下任何痕迹。
+
 **权限说明** ：需要启用机器人能力；需要机器人在会话群里
 
 #
@@ -3205,15 +3436,9 @@ def example(cli: pylark.Lark):
 
 
 
-:::html
-
-<md-alert type="error">
-
 为了更好地提升该接口的安全性，我们对其进行了升级，请尽快迁移至[新版本>>](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat/get)
 
-</md-alert>
 
-:::
 获取群名称、群主 ID、成员列表 ID 等群基本信息。  
 
 - 需要启用机器人能力；机器人必须在群里
@@ -3280,7 +3505,7 @@ def example(cli: pylark.Lark):
 
 注意事项：
  - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
- - 机器人或授权用户必须在群里
+ - 机器人或授权用户必须在群里（否则只会返回群名称、群头像等基本信息）
 
 
 
@@ -3346,11 +3571,11 @@ def example(cli: pylark.Lark):
 
 注意事项：
 - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
-- 若群未开启==仅群主可编辑群信息== 配置：
- 	- 群主 或 创建群组且具备==更新应用所创建群的群信息==权限的机器人，可更新所有信息
+- 若群未开启==仅群主和群管理员可编辑群信息== 配置：
+ 	- 群主/群管理员 或 创建群组且具备==更新应用所创建群的群信息==权限的机器人，可更新所有信息
  	- 不满足上述条件的群成员或机器人，仅可更新群头像、群名称、群描述、群国际化名称信息 
-- 若群开启了==仅群主可编辑群信息==配置：
- 	- 群主 或 创建群组且具备==更新应用所创建群的群信息==权限的机器人，可更新所有信息
+- 若群开启了==仅群主和群管理员可编辑群信息==配置：
+ 	- 群主/群管理员 或 创建群组且具备==更新应用所创建群的群信息==权限的机器人，可更新所有信息
  	- 不满足上述条件的群成员或者机器人，任何群信息都不能修改
 
 
@@ -3612,6 +3837,8 @@ def example(cli: pylark.Lark):
 注意事项：
  - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
  - 该接口不会返回群内的机器人成员
+ - 由于返回的群成员列表会过滤掉机器人成员，因此返回的群成员个数可能会小于指定的page_size
+ - 如果有同一时间加入群的群成员，会一次性返回，这会导致返回的群成员个数可能会大于指定的page_size
 
 
 #
@@ -3934,6 +4161,8 @@ def example(cli: pylark.Lark):
 - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
 
 
+
+
 #
 
 ### Doc
@@ -4000,6 +4229,8 @@ def example(cli: pylark.Lark):
 - 当授权用户或机器人非群主，且群主设置了 ==仅群主可编辑群信息== 时，无法更新公告信息
 
 
+
+
 #
 
 ### Doc
@@ -4063,6 +4294,7 @@ def example(cli: pylark.Lark):
 获取机器人的基本信息。
 
 需要启用机器人能力
+
 
 
 
@@ -4203,6 +4435,9 @@ def example(cli: pylark.Lark):
 
 
 
+
+
+
 当前身份需要有日历的 owner 权限，并且日历的类型只能为 primary 或 shared。
 
 
@@ -4275,6 +4510,9 @@ def example(cli: pylark.Lark):
 
 
 
+
+
+
 当前身份需要有日历的 owner 权限，并且日历的类型只能为 primary 或 shared。
 
 
@@ -4340,6 +4578,9 @@ def example(cli: pylark.Lark):
 该接口用于以当前身份（应用 / 用户）获取日历的控制权限列表。
 
 身份由 Header Authorization 的 Token 类型决定。{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=calendar&version=v4&resource=calendar.acl&method=list)
+
+
+
 
 
 
@@ -4484,6 +4725,9 @@ def example(cli: pylark.Lark):
 
 
 
+
+
+
 #
 
 ### Doc
@@ -4546,6 +4790,9 @@ def example(cli: pylark.Lark):
 该接口用于以当前身份（应用 / 用户）删除一个共享日历。
 
 身份由 Header Authorization 的 Token 类型决定。{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=calendar&version=v4&resource=calendar&method=delete)
+
+
+
 
 
 
@@ -4625,6 +4872,9 @@ def example(cli: pylark.Lark):
 
 
 
+
+
+
 当前身份必须对日历有访问权限。
 
 
@@ -4697,6 +4947,9 @@ def example(cli: pylark.Lark):
 
 
 
+
+
+
 调用时首先使用 page_token 分页拉取存量数据，之后使用 sync_token 增量同步变更数据。
 
 
@@ -4762,6 +5015,9 @@ def example(cli: pylark.Lark):
 该接口用于以当前身份（应用 / 用户）修改日历信息。
 
 身份由 Header Authorization 的 Token 类型决定。{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=calendar&version=v4&resource=calendar&method=patch)
+
+
+
 
 
 
@@ -4902,6 +5158,9 @@ def example(cli: pylark.Lark):
 
 
 
+
+
+
 仅可订阅类型为 primary 或 shared 的公开日历。
 
 
@@ -4967,6 +5226,9 @@ def example(cli: pylark.Lark):
 该接口用于以当前身份（应用 / 用户）取消对某日历的订阅状态。
 
 身份由 Header Authorization 的 Token 类型决定。{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=calendar&version=v4&resource=calendar&method=unsubscribe)
+
+
+
 
 
 
@@ -5105,6 +5367,9 @@ def example(cli: pylark.Lark):
 
 
 
+
+
+
 当前身份必须对日历有 writer 或 owner 权限，并且日历的类型只能为 primary 或 shared。
 
 
@@ -5179,6 +5444,9 @@ def example(cli: pylark.Lark):
 
 
 
+
+
+
 当前身份必须对日历有 writer 或 owner 权限，并且日历的类型只能为 primary 或 shared。
 
 当前身份必须是日程的组织者。
@@ -5245,7 +5513,7 @@ def example(cli: pylark.Lark):
 
 该接口用于以当前身份（应用 / 用户）获取日历上的一个日程。
 
-当前身份必须对日历有访问权限。
+当前身份必须对日历有reader、writer或owner权限才会返回日程详细信息（调用[获取日历](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar/get)接口，role字段可查看权限）。
 
 
 
@@ -5309,11 +5577,11 @@ def example(cli: pylark.Lark):
 
 该接口用于以当前身份（应用 / 用户）获取日历下的日程列表。
 
-当前身份必须对日历有访问权限。
+- 当前身份必须对日历有reader、writer或owner权限才会返回日程详细信息（调用[获取日历](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar/get)接口，role字段可查看权限）。
 
-调用时首先使用 page_token 分页拉取存量数据，之后使用 sync_token 增量同步变更数据。
+- 调用时首先使用 page_token 分页拉取存量数据，之后使用 sync_token 增量同步变更数据。
 
-为了确保调用方日程同步数据的一致性，在使用sync_token时，不能同时使用start_time和end_time，否则可能造成日程数据缺失。
+- 为了确保调用方日程同步数据的一致性，在使用sync_token时，不能同时使用start_time和end_time，否则可能造成日程数据缺失。
 
 
 
@@ -5380,6 +5648,9 @@ def example(cli: pylark.Lark):
 该接口用于以当前身份（应用 / 用户）更新日历上的一个日程。
 
 身份由 Header Authorization 的 Token 类型决定。{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=calendar&version=v4&resource=calendar.event&method=patch)
+
+
+
 
 
 
@@ -5465,7 +5736,10 @@ def example(cli: pylark.Lark):
 
 
 
-当前身份必须对日历有访问权限。
+
+
+
+当前身份必须对日历有reader、writer或owner权限（调用[获取日历](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar/get)接口，role字段可查看权限）。
 
 
 
@@ -5529,7 +5803,7 @@ def example(cli: pylark.Lark):
 
 该接口用于以用户身份订阅指定日历下的日程变更事件。
 
-用户必须对日历有访问权限。
+当前身份必须对日历有reader、writer或owner权限（调用[获取日历](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar/get)接口，role字段可查看权限）。
 
 
 #
@@ -5607,6 +5881,7 @@ def example(cli: pylark.Lark):
 
 
 
+
 #
 
 ### Doc
@@ -5666,9 +5941,10 @@ def example(cli: pylark.Lark):
 
 获取日程的参与人列表，若参与者列表中有群组，请使用 [获取参与人群成员列表](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar-event-attendee-chat_member/list) 。
 
-- 当前身份必须对日历有访问权限。
+- 当前身份必须对日历有reader、writer或owner权限（调用[获取日历](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar/get)接口，role字段可查看权限）。
 
 - 当前身份必须有权限查看日程的参与人列表。
+
 
 
 
@@ -5745,6 +6021,7 @@ def example(cli: pylark.Lark):
 
 
 
+
 #
 
 ### Doc
@@ -5807,6 +6084,7 @@ def example(cli: pylark.Lark):
 - 当前身份必须有权限查看日程的参与人列表。
 
 - 当前身份必须在群聊中，或有权限查看群成员列表。
+
 
 
 
@@ -6363,14 +6641,10 @@ def example(cli: pylark.Lark):
 
 该接口用于根据 docToken 删除对应的 Docs 文档。
 
-:::html
 
-<md-alert type="warn">
 
 文档只能被文档所有者删除，文档被删除后将会放到回收站里
-</md-alert>
 
-:::
 该接口不支持并发调用，且调用频率上限为5QPS
 
 #
@@ -6432,14 +6706,8 @@ def example(cli: pylark.Lark):
 
 该接口用于根据 spreadsheetToken 删除对应的 sheet 文档。
 
-:::html
-
-<md-alert type="warn">
-
 文档只能被文档所有者删除，文档被删除后将会放到回收站里
-</md-alert>
 
-:::
 
 该接口不支持并发调用，且调用频率上限为5QPS
 
@@ -6503,6 +6771,7 @@ def example(cli: pylark.Lark):
 
 
 该接口用于根据 folderToken 在该 folder 下创建文件夹。
+
 
 该接口不支持并发创建，且调用频率上限为 5QPS 以及 10000次/天
 
@@ -6875,6 +7144,7 @@ def example(cli: pylark.Lark):
 使用此方式上传可以快速传输小于等于20MB的文件
 
 
+
 该接口支持调用频率上限为5QPS
 
 
@@ -6940,6 +7210,7 @@ def example(cli: pylark.Lark):
 发送初始化请求获取上传事务ID和分块策略，目前是以4MB大小进行定长分片。
 
 你在24小时内可保存上传事务ID和上传进度，以便可以恢复上传
+
 
 
 该接口不支持太高的并发，且调用频率上限为5QPS
@@ -7263,6 +7534,7 @@ def example(cli: pylark.Lark):
 发送初始化请求获取上传事务ID和分块策略，目前是以4MB大小进行定长分片。
 
 您在24小时内可保存上传事务ID和上传进度，以便可以恢复上传
+
 
 
 该接口不支持太高的并发，且调用频率上限为5QPS
@@ -8291,6 +8563,15 @@ def example(cli: pylark.Lark):
 
 通过分页方式获取云文档中的全文评论列表。
 
+注意：该接口仅可获取在线文档的全文评论，不支持获取局部评论或者在线表格中的评论。
+
+
+
+
+
+
+
+
 #
 
 ### Doc
@@ -8407,7 +8688,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-往云文档添加一条评论。
+往云文档添加一条全局评论。
 
 #
 
@@ -9373,7 +9654,7 @@ def example(cli: pylark.Lark):
 
 
 
-该接口用于根据 spreadsheetToken 和 range 向范围之前增加相应数据的行和相应的数据，相当于数组的插入操作；单次写入不超过5000行，100列，每个格子大小为0.5M。
+该接口用于根据 spreadsheetToken 和 range 向范围之前增加相应数据的行和相应的数据，相当于数组的插入操作；单次写入不超过5000行，100列，每个格子不超过5万字符。
 #
 
 ### Doc
@@ -9433,7 +9714,7 @@ def example(cli: pylark.Lark):
 
 
 
-该接口用于根据 spreadsheetToken 和 range 遇到空行则进行覆盖追加或新增行追加数据。 空行：默认该行第一个格子是空，则认为是空行；单次写入不超过5000行，100列，每个格子大小为0.5M。
+该接口用于根据 spreadsheetToken 和 range 遇到空行则进行覆盖追加或新增行追加数据。 空行：默认该行第一个格子是空，则认为是空行；单次写入不超过5000行，100列，每个格子不超过5万字符。
 
 #
 
@@ -9861,7 +10142,7 @@ def example(cli: pylark.Lark):
 
 
 
-该接口用于根据 spreadsheetToken 和 range 向单个范围写入数据，若范围内有数据，将被更新覆盖；单次写入不超过5000行，100列，每个格子大小为0.5M。
+该接口用于根据 spreadsheetToken 和 range 向单个范围写入数据，若范围内有数据，将被更新覆盖；单次写入不超过5000行，100列，每个格子不超过5万字符。
 #
 
 ### Doc
@@ -9921,7 +10202,7 @@ def example(cli: pylark.Lark):
 
 
 
-该接口用于根据 spreadsheetToken 和 range 向多个范围写入数据，若范围内有数据，将被更新覆盖；单次写入不超过5000行，100列，每个格子大小为0.5M。
+该接口用于根据 spreadsheetToken 和 range 向多个范围写入数据，若范围内有数据，将被更新覆盖；单次写入不超过5000行，100列，每个格子不超过5万字符。
 
 #
 
@@ -12209,6 +12490,562 @@ def example(cli: pylark.Lark):
 
 `GET`
 
+## CreateWikiSpace
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.CreateWikiSpace(ctx, &lark.CreateWikiSpaceReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_wiki_space(pylark.CreateWikiSpaceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+此接口用于创建知识空间
+
+此接口不支持应用身份访问
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space/create](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/wiki/v2/spaces`
+
+### Method
+
+`POST`
+
+## GetWikiSpaceList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.GetWikiSpaceList(ctx, &lark.GetWikiSpaceListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_wiki_space_list(pylark.GetWikiSpaceListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+此接口用于获取有权限访问的知识空间列表
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space/list](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/wiki/v2/spaces`
+
+### Method
+
+`GET`
+
+## GetWikiSpace
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.GetWikiSpace(ctx, &lark.GetWikiSpaceReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_wiki_space(pylark.GetWikiSpaceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+此接口用于根据知识空间ID来查询知识空间的信息
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space/get](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/wiki/v2/spaces/:space_id`
+
+### Method
+
+`GET`
+
+## UpdateWikiSpaceSetting
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.UpdateWikiSpaceSetting(ctx, &lark.UpdateWikiSpaceSettingReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_wiki_space_setting(pylark.UpdateWikiSpaceSettingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+根据space_id更新知识空间公共设置
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space-setting/update](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space-setting/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/wiki/v2/spaces/:space_id/setting`
+
+### Method
+
+`PUT`
+
+## AddWikiSpaceMember
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.AddWikiSpaceMember(ctx, &lark.AddWikiSpaceMemberReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.add_wiki_space_member(pylark.AddWikiSpaceMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+添加知识空间成员
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space-member/create](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space-member/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/wiki/v2/spaces/:space_id/members`
+
+### Method
+
+`POST`
+
+## CreateWikiNode
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.CreateWikiNode(ctx, &lark.CreateWikiNodeReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_wiki_node(pylark.CreateWikiNodeReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+此接口用于在知识库里创建节点
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space-node/create](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space-node/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/wiki/v2/spaces/:space_id/nodes`
+
+### Method
+
+`POST`
+
+## GetWikiNodeList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.GetWikiNodeList(ctx, &lark.GetWikiNodeListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_wiki_node_list(pylark.GetWikiNodeListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+此接口用于分页获取Wiki节点的子节点列表
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space-node/list](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space-node/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/wiki/v2/spaces/:space_id/nodes`
+
+### Method
+
+`GET`
+
+## GetWikiNode
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.GetWikiNode(ctx, &lark.GetWikiNodeReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_wiki_node(pylark.GetWikiNodeReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取节点信息
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space/get_node](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space/get_node)
+
+### URL
+
+`https://open.feishu.cn/open-apis/wiki/v2/spaces/get_node`
+
+### Method
+
+`GET`
+
+## MoveDocsToWiki
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.MoveDocsToWiki(ctx, &lark.MoveDocsToWikiReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.move_docs_to_wiki(pylark.MoveDocsToWikiReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+该接口允许添加已有云文档至知识库，并挂载在指定父页面下
+
+### 移动操作 ###
+移动后，文档将从“我的空间”或“共享空间”转移至“知识库”，并将从以下功能入口消失：
+- 云空间主页：最近访问、快速访问
+- 我的空间
+- 共享空间
+- 收藏
+
+### 权限变更 ###
+移动后，文档会向所有可查看“页面树”的用户显示，默认继承父页面的权限设置。
+</md-alert
+
+
+
+仅支持文档所有者发起请求
+
+仅支持移动未升级 **权限+** 的文档
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space-node/move_docs_to_wiki](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space-node/move_docs_to_wiki)
+
+### URL
+
+`https://open.feishu.cn/open-apis/wiki/v2/spaces/:space_id/nodes/move_docs_to_wiki`
+
+### Method
+
+`POST`
+
 
 # Bitable
 
@@ -12432,7 +13269,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于列出数据表中的现有记录
+该接口用于列出数据表中的现有记录，单次最多列出 100 行记录，支持分页获取。
 
 #
 
@@ -14458,6 +15295,96 @@ def example(cli: pylark.Lark):
 `GET`
 
 
+# Jssdk
+
+## GetJssdkTicket
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Jssdk.GetJssdkTicket(ctx, &lark.GetJssdkTicketReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.jssdk.get_jssdk_ticket(pylark.GetJssdkTicketReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+
+
+通过在你的网页中引入**飞书网页组件**，可在你的网页中直接使用飞书的功能。
+- 网页组件只适用于自建应用，暂不支持商店应用。
+- 网页组件适用于普通web网页，不建议在小程序webview中调用此组件
+
+## 准备工作
+- 在开发者后台[创建一个企业自建应用](/ssl:ttdoc/home/introduction-to-custom-app-development/self-built-application-development-process)。
+
+- 引入组件库。在网页 html 中引入如下代码：
+```html
+<script src="https://lf1-cdn-tos.bytescm.com/goofy/locl/lark/external_js_sdk/h5-js-sdk-1.0.8.js"></script>
+```
+
+若要使用成员卡片组件，SDK需要在`<body>`加载后引入。
+
+
+## 鉴权流程
+### 1. 获取 access_token
+- 不同的 token 代表了组件使用者的身份。user_access_token代表以用户身份鉴权，app_access_token代表以应用身份授权。
+- 成员名片组件仅支持以用户身份(user_access_token)鉴权
+- 云文档组件可以同时支持以用户身份(user_access_token)和应用身份(app_access_token)授权。但是以应用身份授权云文档时，访问量受 80 次/分钟限制，且组件不支持 “编辑”、“评论”、“点赞” 等功能。
+- 开发者需要通过以下两种方式之一获取 token，再通过接口生成 ticket。
+
+	-  方法一：获取用户身份。通过 [第三方网站免登](/ssl:ttdoc/ukTMukTMukTM/uETOwYjLxkDM24SM5AjN)获得 `user_access_token` 
+	- 方法二：获取应用身份。通过[服务端API](/ssl:ttdoc/ukTMukTMukTM/ukDNz4SO0MjL5QzM/auth-v3/auth/app_access_token_internal)获得 `app_access_token`。
+
+
+### 2. 获取 jsapi_ticket
+
+为了降低泄漏风险，这一步应当在你的服务端进行。
+
+### Doc
+
+[https://open.feishu.cn/document/uYjL24iN/uUDO3YjL1gzN24SN4cjN](https://open.feishu.cn/document/uYjL24iN/uUDO3YjL1gzN24SN4cjN)
+
+### URL
+
+`https://open.feishu.cn/open-apis/jssdk/ticket/get`
+
+### Method
+
+`POST`
+
+
 # VC
 
 ## ApplyVCReserve
@@ -14506,6 +15433,7 @@ def example(cli: pylark.Lark):
 创建一个会议预约。
 
 支持预约最近30天内的会议（到期时间距离当前时间不超过30天），预约到期后会议号将被释放，如需继续使用可通过"更新预约"接口进行续期；预约会议时可配置参会人在会中的权限，以达到控制会议的目的
+
 
 
 
@@ -14580,6 +15508,7 @@ def example(cli: pylark.Lark):
 
 
 
+
 #
 
 ### Doc
@@ -14640,6 +15569,7 @@ def example(cli: pylark.Lark):
 删除一个预约
 
 只能删除归属于自己的预约；删除后数据不可恢复
+
 
 
 
@@ -14714,6 +15644,7 @@ def example(cli: pylark.Lark):
 
 
 
+
 #
 
 ### Doc
@@ -14774,6 +15705,7 @@ def example(cli: pylark.Lark):
 获取一个预约的当前活跃会议
 
 只能获取归属于自己的预约的活跃会议（一个预约最多有一个正在进行中的会议）
+
 
 
 
@@ -14848,6 +15780,7 @@ def example(cli: pylark.Lark):
 
 
 
+
 #
 
 ### Doc
@@ -14908,6 +15841,7 @@ def example(cli: pylark.Lark):
 邀请参会人进入会议
 
 发起邀请的操作者必须具有相应的权限（如果操作者为用户，则必须在会中），如果会议被锁定、或参会人数如果达到上限，则会邀请失败
+
 
 
 
@@ -15041,6 +15975,7 @@ def example(cli: pylark.Lark):
 
 
 
+
 #
 
 ### Doc
@@ -15101,6 +16036,7 @@ def example(cli: pylark.Lark):
 结束一个进行中的会议
 
 会议正在进行中，且操作者须具有相应的权限（如果操作者为用户，必须是会中当前主持人）
+
 
 
 
@@ -15175,6 +16111,7 @@ def example(cli: pylark.Lark):
 
 
 
+
 #
 
 ### Doc
@@ -15235,6 +16172,7 @@ def example(cli: pylark.Lark):
 在会议中停止录制。
 
 会议正在录制中，且操作者具有相应权限（如果操作者为用户，必须是会中当前主持人）
+
 
 
 
@@ -15309,6 +16247,7 @@ def example(cli: pylark.Lark):
 
 
 
+
 #
 
 ### Doc
@@ -15369,6 +16308,7 @@ def example(cli: pylark.Lark):
 将一个会议的录制文件授权给组织、用户或公开到公网
 
 会议结束后并且收到了"录制完成"的事件方可进行授权；会议owner（通过开放平台预约的会议即为预约人）才有权限操作
+
 
 
 
@@ -15443,6 +16383,7 @@ def example(cli: pylark.Lark):
 
 
 
+
 #
 
 ### Doc
@@ -15503,6 +16444,7 @@ def example(cli: pylark.Lark):
 获取一段时间内组织内会议使用的top用户列表。
 
 支持最近90天内的数据查询；默认返回前10位，最多可查询前100位
+
 
 
 
@@ -15573,6 +16515,7 @@ def example(cli: pylark.Lark):
 
 
 
+
 #
 
 ### Doc
@@ -15633,6 +16576,7 @@ def example(cli: pylark.Lark):
 设置一个范围内的会议室配置。
 
 根据设置范围传入对应的参数
+
 
 
 
@@ -16308,23 +17252,26 @@ def example(cli: pylark.Lark):
 
 ```
 
+查看应用在某一天/某一周/某一个月的使用数据，可以查看租户整体对应用的使用情况，也可以分部门查看。
+
+1. 仅支持企业版/旗舰版租户使用
+2. 一般每天早上10点产出前一天的数据
+3. 已经支持的指标包括：应用的活跃用户数、累计用户数、新增用户数
+4. 数据从飞书3.46版本开始统计，使用飞书版本3.45及以下版本的用户数据不会被统计到
+5. 按照部门查看数据时，会展示当前部门以及其子部门的整体使用情况
 
 
-查询应用在指定时间段内企业员工的使用概览信息。
-:::warning
-此接口目前仅支持小程序的使用情况查询，不支持网页应用和机器人应用的使用情况查询；
-仅支持查询自建应用，不支持查询商店应用
-:::
+
 
 #
 
 ### Doc
 
-[https://open.feishu.cn/document/ukTMukTMukTM/uETN0YjLxUDN24SM1QjN](https://open.feishu.cn/document/ukTMukTMukTM/uETN0YjLxUDN24SM1QjN)
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application-app_usage/overview](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application-app_usage/overview)
 
 ### URL
 
-`https://open.feishu.cn/open-apis/application/v1/app_usage_overview`
+`https://open.feishu.cn/open-apis/application/v6/applications/:app_id/app_usage/overview`
 
 ### Method
 
@@ -16376,9 +17323,9 @@ def example(cli: pylark.Lark):
 
 
 查询应用在指定时间段内企业员工的使用趋势信息。
-:::warning
+
 此接口目前仅支持小程序的使用情况查询，不支持网页应用和机器人应用的使用情况查询;仅支持查询自建应用，不支持查询商店应用
-:::
+
 
 #
 
@@ -17754,6 +18701,65 @@ def example(cli: pylark.Lark):
 
 `PUT`
 
+## DeletePublicMailbox
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Mail.DeletePublicMailbox(ctx, &lark.DeletePublicMailboxReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.delete_public_mailbox(pylark.DeletePublicMailboxReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+该接口会永久删除公共邮箱地址。可用于释放邮箱回收站的公共邮箱地址，一旦删除，该邮箱地址将无法恢复。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id`
+
+### Method
+
+`DELETE`
+
 ## CreatePublicMailboxMember
 
 ```go
@@ -18526,7 +19532,7 @@ def example(cli: pylark.Lark):
 
 
 
-对于单个审批实例进行撤销操作。撤销后审批流程结束。
+对于单个审批实例进行撤销操作，撤销后审批流程结束。
 
 #
 
@@ -18537,67 +19543,6 @@ def example(cli: pylark.Lark):
 ### URL
 
 `https://www.feishu.cn/approval/openapi/v2/instance/cancel`
-
-### Method
-
-`POST`
-
-## UploadApprovalFile
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Approval.UploadApprovalFile(ctx, &lark.UploadApprovalFileReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.approval.upload_approval_file(pylark.UploadApprovalFileReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-当审批表单中有图片或附件控件时，开发者需在创建审批实例前通过审批上传文件接口将文件上传到审批系统。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/ukTMukTMukTM/uUDOyUjL1gjM14SN4ITN](https://open.feishu.cn/document/ukTMukTMukTM/uUDOyUjL1gjM14SN4ITN)
-
-### URL
-
-`https://www.feishu.cn/approval/openapi/v2/file/upload`
 
 ### Method
 
@@ -18664,6 +19609,128 @@ def example(cli: pylark.Lark):
 
 `POST`
 
+## AddApprovalInstanceSign
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Approval.AddApprovalInstanceSign(ctx, &lark.AddApprovalInstanceSignReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.add_approval_instance_sign(pylark.AddApprovalInstanceSignReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+
+
+对于单个审批任务进行加签操作。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-task-addsign](https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-task-addsign)
+
+### URL
+
+`https://open.feishu.cn/open-apis/approval/v4/instances/add_sign`
+
+### Method
+
+`POST`
+
+## UploadApprovalFile
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Approval.UploadApprovalFile(ctx, &lark.UploadApprovalFileReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.upload_approval_file(pylark.UploadApprovalFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+
+
+当审批表单中有图片或附件控件时，开发者需在创建审批实例前通过审批上传文件接口将文件上传到审批系统。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uUDOyUjL1gjM14SN4ITN](https://open.feishu.cn/document/ukTMukTMukTM/uUDOyUjL1gjM14SN4ITN)
+
+### URL
+
+`https://www.feishu.cn/approval/openapi/v2/file/upload`
+
+### Method
+
+`POST`
+
 ## SearchApprovalTask
 
 ```go
@@ -18724,6 +19791,65 @@ def example(cli: pylark.Lark):
 ### Method
 
 `POST`
+
+## GetApprovalUserTaskList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Approval.GetApprovalUserTaskList(ctx, &lark.GetApprovalUserTaskListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.get_approval_user_task_list(pylark.GetApprovalUserTaskListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+根据用户和任务分组查询任务列表
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/approval-v4/task/query](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/approval-v4/task/query)
+
+### URL
+
+`https://open.feishu.cn/open-apis/approval/v4/tasks/query`
+
+### Method
+
+`GET`
 
 ## SearchApprovalCarbonCopy
 
@@ -18847,67 +19973,6 @@ def example(cli: pylark.Lark):
 
 `POST`
 
-## AddApprovalInstanceSign
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Approval.AddApprovalInstanceSign(ctx, &lark.AddApprovalInstanceSignReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.approval.add_approval_instance_sign(pylark.AddApprovalInstanceSignReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-对于单个审批任务进行加签操作。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-task-addsign](https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-task-addsign)
-
-### URL
-
-`https://open.feishu.cn/open-apis/approval/v4/instances/add_sign`
-
-### Method
-
-`POST`
-
 ## PreviewApprovalInstance
 
 ```go
@@ -18964,6 +20029,67 @@ def example(cli: pylark.Lark):
 ### URL
 
 `https://open.feishu.cn/open-apis/approval/v4/instances/preview`
+
+### Method
+
+`POST`
+
+## UpdateApprovalMessage
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Approval.UpdateApprovalMessage(ctx, &lark.UpdateApprovalMessageReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.update_approval_message(pylark.UpdateApprovalMessageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+
+
+此接口可以根据审批bot消息id及相应状态，更新相应的审批bot消息，只可用于更新待审批模板的bot消息。例如，给用户推送了审批待办消息，当用户处理该消息后，可以将之前推送的Bot消息更新为已审批。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uAjNyYjLwYjM24CM2IjN](https://open.feishu.cn/document/ukTMukTMukTM/uAjNyYjLwYjM24CM2IjN)
+
+### URL
+
+`https://www.feishu.cn/approval/openapi/v1/message/update`
 
 ### Method
 
@@ -21405,6 +22531,7 @@ def example(cli: pylark.Lark):
 
 
 
+
 #
 
 ### Doc
@@ -21469,6 +22596,7 @@ def example(cli: pylark.Lark):
 - 当天的数据会在第二天的凌晨五点产出（UTC+8）
 
 - 用户维度的数据最多查询最近31天的数据（包含31天）的数据
+
 
 
 
@@ -22107,12 +23235,7 @@ def example(cli: pylark.Lark):
 
 检测图片中的人脸属性和质量等信息
 
-注意：返回值为 -1 表示该功能还暂未实现
 
-
-
-
-#
 
 ### Doc
 
@@ -23866,7 +24989,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-上传图片接口，可以上传 JPEG、PNG、WEBP 格式图片
+上传图片接口，可以上传 JPEG、PNG、WEBP、GIF、TIFF、BMP、ICO格式图片
 
 注意事项:
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
@@ -24131,8 +25254,7 @@ def example(cli: pylark.Lark):
 
 获取OKR周期列表
 
-使用tenant_access_token需要额外申请权限<md-perm 
-href="/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN">以应用身份访问OKR信息</md-perm>
+使用tenant_access_token需要额外申请权限以应用身份访问OKR信息
 
 
 
@@ -24196,8 +25318,7 @@ def example(cli: pylark.Lark):
 
 根据OKR id批量获取OKR
 
-使用tenant_access_token需要额外申请权限<md-perm 
-href="/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN">以应用身份访问OKR信息</md-perm>
+使用tenant_access_token需要额外申请权限以应用身份访问OKR信息
 
 
 
@@ -24261,8 +25382,7 @@ def example(cli: pylark.Lark):
 
 根据用户的id获取OKR列表
 
-使用tenant_access_token需要额外申请权限<md-perm 
-href="/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN">以应用身份访问OKR信息</md-perm>
+使用tenant_access_token需要额外申请权限以应用身份访问OKR信息
 
 
 
@@ -24405,6 +25525,9 @@ def example(cli: pylark.Lark):
 
 
 
+
+
+
 #
 
 ### Doc
@@ -24468,6 +25591,7 @@ def example(cli: pylark.Lark):
 获取企业名称、企业编号等企业信息
 
 如果ISV应用是预装的并且180天内企业未使用过此应用，则无法通过此接口获取到企业信息
+
 
 
 
@@ -26370,7 +27494,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于新增任务协作者
+该接口用于新增任务执行者
 
 #
 
@@ -26429,7 +27553,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于查询任务协作者列表，支持分页，最大值为50
+该接口用于查询任务执行者列表，支持分页，最大值为50
 
 #
 
@@ -26488,7 +27612,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于删除任务协作者
+该接口用于删除任务执行者
 
 #
 
@@ -27511,6 +28635,9 @@ def example(cli: pylark.Lark):
 
 
 
+
+
+
 #
 
 ### Doc
@@ -27573,6 +28700,9 @@ def example(cli: pylark.Lark):
 用户在门禁考勤机上成功开门或打卡后，智能门禁应用都会生成一条门禁记录。
 
 该接口返回满足查询参数的识别记录{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=acs&version=v1&resource=access_record&method=list)
+
+
+
 
 
 
@@ -27829,6 +28959,7 @@ def example(cli: pylark.Lark):
 
 
 
+
 #
 
 ### Doc
@@ -27955,6 +29086,7 @@ def example(cli: pylark.Lark):
 
 
 
+
 #
 
 ### Doc
@@ -28015,7 +29147,25 @@ def example(cli: pylark.Lark):
 
 ```
 
+
+
 获取绑定信息
+
+适用于获取飞书账号是否为“抖音员工号”运营者。{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=aweme_ecosystem&version=v1&resource=aweme_user&method=get_bind_info)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #
 
