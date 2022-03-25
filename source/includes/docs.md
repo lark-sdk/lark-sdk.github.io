@@ -105,7 +105,7 @@ def example(cli: pylark.Lark):
 
 获取登录预授权码 code 对应的登录用户身份。
 
-该接口仅适用于通过网页应用登录方式获取的预授权码，小程序登录中用户身份的获取，请使用[小程序 code2session 接口](/ssl:ttdoc/uYjL24iN/ukjM04SOyQjL5IDN)
+该接口仅适用于通过[第三方网站免登](/ssl:ttdoc/ukTMukTMukTM/uETOwYjLxkDM24SM5AjN)文档中的登录方式获取的预授权码，小程序登录中用户身份的获取，请使用[小程序 code2session 接口](/ssl:ttdoc/uYjL24iN/ukjM04SOyQjL5IDN)
 
 
 
@@ -359,7 +359,9 @@ def example(cli: pylark.Lark):
 
 使用该接口向通讯录创建一个用户，可以理解为员工入职。创建用户后只返回有数据权限的数据。具体的数据权限的与字段的对应关系请参照[应用权限](https://open.feishu.cn/document/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
-新增用户的所有部门必须都在当前应用的通讯录授权范围内才允许新增用户，如果想要在根部门下新增用户，必须要有全员权限。 应用商店应用无权限调用此接口。
+- 新增用户的所有部门必须都在当前应用的通讯录授权范围内才允许新增用户，如果想要在根部门下新增用户，必须要有全员权限。
+- 应用商店应用无权限调用此接口。
+- 创建用户后，会给用户发送邀请短信/邮件，用户在操作同意后才可访问团队。
 
 
 
@@ -495,15 +497,6 @@ def example(cli: pylark.Lark):
 
 该接口用于获取通讯录中单个用户的信息。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
-<b>以应用身份访问通讯录</b> 权限为历史版本，不推荐申请。应用访问通讯录相关接口请申请 <b>以应用身份读取通讯录</b>
-
-
-
-该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
-
-
-
-
 #
 
 ### Doc
@@ -513,6 +506,151 @@ def example(cli: pylark.Lark):
 ### URL
 
 `https://open.feishu.cn/open-apis/contact/v3/users/:user_id`
+
+### Method
+
+`GET`
+
+## GetUserList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.GetUserList(ctx, &lark.GetUserListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_user_list(pylark.GetUserListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+基于部门ID获取，获取部门直属用户列表。
+
+部门ID 必填，根部门的部门ID为0
+
+
+
+- 使用 user_access_token 情况下根据个人组织架构的通讯录可见范围进行权限过滤，返回个人组织架构通讯录范围（[登陆企业管理后台进行权限配置](https://www.feishu.cn/admin/security/permission/visibility)）内可见的用户数据。
+- 使用tenant_access_token，会根据应用通讯录的范围进行权限过滤。 如果请求的部门ID为0，则校验应用是否具有全员通讯录权限； 如果是非0的部门ID，则会验证应用是否具有该部门的通讯录权限。 无权限返回无权限错误码，有权限则返回对应部门下的直接用户列表。
+
+
+
+
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/user/find_by_department](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/user/find_by_department)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/users/find_by_department`
+
+### Method
+
+`GET`
+
+## GetUserListOld
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.GetUserListOld(ctx, &lark.GetUserListOldReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_user_list_old(pylark.GetUserListOldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+基于部门ID获取部门下直属用户列表。
+
+- 使用 user_access_token 情况下根据个人组织架构的通讯录可见范围进行权限过滤，返回个人组织架构通讯录范围（[登陆企业管理后台进行权限配置](https://www.feishu.cn/admin/security/permission/visibility)）内可见的用户数据。
+-  tenant_access_token  基于应用通讯录范围进行权限鉴定。由于 department_id 是非必填参数，填与不填存在<b>两种数据权限校验与返回</b>情况：<br>1、请求设置了 department_id 
+（根部门为0），会检验所带部门ID是否具有通讯录权限（如果带上 
+ department_id=0 会校验是否有全员权限），有则返回部门下直属的成员列表, 否则提示无部门权限的错误码返回。<br>2、请求未带 
+  department_id 参数，则会返回权限范围内的独立用户（权限范围直接包含了某用户，则该用户视为权限范围内的独立用户）。
+
+
+
+
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/user/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/user/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/users`
 
 ### Method
 
@@ -563,13 +701,10 @@ def example(cli: pylark.Lark):
 
 
 
-为了更好地提升该接口的安全性，我们对其进行了升级，请尽快迁移至[新版本>>](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/user/list)
+为了更好地提升该接口的安全性，我们对其进行了升级，请尽快迁移至[新版本>>](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/user/get)
 
 
 该接口用于批量获取用户详细信息。
-
-
-- 调用该接口需要申请“以应用身份读取通讯录”以及[用户数据权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)。请求的用户如果在当前应用的通讯录授权范围内，会返回该用户的详细信息；否则不会返回。
 
 
 
@@ -582,145 +717,6 @@ def example(cli: pylark.Lark):
 ### URL
 
 `https://open.feishu.cn/open-apis/contact/v1/user/batch_get`
-
-### Method
-
-`GET`
-
-## BatchGetUserByID
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Contact.BatchGetUserByID(ctx, &lark.BatchGetUserByIDReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.contact.batch_get_user_by_id(pylark.BatchGetUserByIDReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-根据用户邮箱或手机号查询用户 open_id 和 user_id，支持批量查询。<br>
-
-调用该接口需要申请 `通过手机号或邮箱获取用户 ID` 权限。<br>只能查询到应用可用性范围内的用户 ID，不在范围内的用户会表现为不存在。
-
-
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/ukTMukTMukTM/uUzMyUjL1MjM14SNzITN](https://open.feishu.cn/document/ukTMukTMukTM/uUzMyUjL1MjM14SNzITN)
-
-### URL
-
-`https://open.feishu.cn/open-apis/user/v1/batch_get_id`
-
-### Method
-
-`GET`
-
-## GetUserList
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Contact.GetUserList(ctx, &lark.GetUserListReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.contact.get_user_list(pylark.GetUserListReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-基于部门ID获取部门下直属用户列表。
-
-- 使用 user_access_token 情况下根据个人组织架构的通讯录可见范围进行权限过滤，返回个人组织架构通讯录范围（[登陆企业管理后台进行权限配置](https://bytedance.feishu.cn/admin/security/permission/visibility)）内可见的用户数据。
--  tenant_access_token  基于应用通讯录范围进行权限鉴定。由于 department_id 是非必填参数，填与不填存在<b>两种数据权限校验与返回</b>情况：<br>1、请求设置了 department_id 
-（根部门为0），会检验所带部门ID是否具有通讯录权限（如果带上 
- department_id=0 会校验是否有全员权限），有则返回部门下直属的成员列表, 否则提示无部门权限的错误码返回。<br>2、请求未带 
-  department_id 参数，则会返回权限范围内的独立用户（权限范围直接包含了某用户，则该用户视为权限范围内的独立用户）。
-
-<b>以应用身份访问通讯录</b> 权限为历史版本，不推荐申请。应用访问通讯录相关接口请申请 <b>以应用身份读取通讯录</b>
-
-
-
-该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
-
-
-
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/user/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/user/list)
-
-### URL
-
-`https://open.feishu.cn/open-apis/contact/v3/users`
 
 ### Method
 
@@ -770,11 +766,6 @@ def example(cli: pylark.Lark):
 ```
 
 该接口用于更新通讯录中用户的字段，未传递的参数不会更新。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
-
-该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
-
-
-
 
 #
 
@@ -839,7 +830,7 @@ def example(cli: pylark.Lark):
 
 
 
-该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
+
 
 
 
@@ -857,6 +848,135 @@ def example(cli: pylark.Lark):
 ### Method
 
 `PUT`
+
+## BatchGetUserByID
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.BatchGetUserByID(ctx, &lark.BatchGetUserByIDReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.batch_get_user_by_id(pylark.BatchGetUserByIDReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过该接口，可使用手机号/邮箱获取用户的 ID 信息，具体获取支持的 ID 类型包括 open_id、user_id、union_id，可通过查询参数指定。
+
+如果查询的手机号、邮箱不存在，或者无权限查看对应的用户，则返回的open_id为空。
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/user/batch_get_id](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/user/batch_get_id)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/users/batch_get_id`
+
+### Method
+
+`POST`
+
+## BatchGetUserByIDOld
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.BatchGetUserByIDOld(ctx, &lark.BatchGetUserByIDOldReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.batch_get_user_by_id_old(pylark.BatchGetUserByIDOldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+
+
+根据用户邮箱或手机号查询用户 open_id 和 user_id，支持批量查询。<br>
+
+调用该接口需要申请 `通过手机号或邮箱获取用户 ID` 权限。<br>只能查询到应用可用性范围内的用户 ID，不在范围内的用户会表现为不存在。
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uUzMyUjL1MjM14SNzITN](https://open.feishu.cn/document/ukTMukTMukTM/uUzMyUjL1MjM14SNzITN)
+
+### URL
+
+`https://open.feishu.cn/open-apis/user/v1/batch_get_id`
+
+### Method
+
+`GET`
 
 ## CreateDepartment
 
@@ -907,7 +1027,7 @@ def example(cli: pylark.Lark):
 
 
 
-该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
+
 
 
 
@@ -974,11 +1094,9 @@ def example(cli: pylark.Lark):
 使用tenant_access_token时，应用需要拥有待查询部门的通讯录授权。如果需要获取根部门信息，则需要拥有全员权限。
 使用user_access_token时，用户需要有待查询部门的可见性，如果需要获取根部门信息，则要求员工可见所有人。
 
-<b>以应用身份访问通讯录</b> 权限为历史版本，不推荐申请。应用访问通讯录相关接口请申请 <b>以应用身份读取通讯录</b> 。
 
 
 
-该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
 
 
 
@@ -1040,9 +1158,85 @@ def example(cli: pylark.Lark):
 
 ```
 
+通过部门ID获取部门的子部门列表。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
+
+部门ID 必填，根部门的部门ID 为0
+
+
+
+- 使用 user_access_token 时，返回该用户组织架构可见性范围（[登陆企业管理后台进行权限配置](https://www.feishu.cn/admin/security/permission/visibility)）内的所有可见部门。当进行递归查询时，只筛查最多1000个部门的可见性。
+
+- 使用 
+ tenant_access_token 则基于应用的通讯录权限范围进行权限校验与过滤。
+如果部门ID为0，会检验应用是否有全员通讯录权限，如果是非0 部门ID，则会校验应用是否有该部门的通讯录权限。无部门权限返回无部门通讯录权限错误码，有权限则返回部门下子部门列表（根据fetch_child决定是否递归）。
+
+
+
+
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/department/children](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/department/children)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/departments/:department_id/children`
+
+### Method
+
+`GET`
+
+## GetDepartmentListOld
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.GetDepartmentListOld(ctx, &lark.GetDepartmentListOldReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_department_list_old(pylark.GetDepartmentListOldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
 该接口用于获取当前部门子部门列表。[常见问题答疑](https://open.feishu.cn/document/ugTN1YjL4UTN24CO1UjN/uQzN1YjL0cTN24CN3UjN)。
 
-- 使用 user_access_token 时，返回该用户组织架构可见性范围（[登陆企业管理后台进行权限配置](https://bytedance.feishu.cn/admin/security/permission/visibility)）内的所有可见部门。当进行递归查询时，只筛查最多1000个部门的可见性。
+- 使用 user_access_token 时，返回该用户组织架构可见性范围（[登陆企业管理后台进行权限配置](https://www.feishu.cn/admin/security/permission/visibility)）内的所有可见部门。当进行递归查询时，只筛查最多1000个部门的可见性。
 
 - 使用 
  tenant_access_token 则基于应用的通讯录权限范围进行权限校验与过滤。由于 
@@ -1053,11 +1247,9 @@ def example(cli: pylark.Lark):
  parent_department_id 参数，如通讯录范围为全员权限，只返回根部门ID(部门ID为0)，否则返回根据通讯录范围配置的部门ID及子部门(根据 
  fetch_child 决定是否递归)。
 
-<b>以应用身份访问通讯录</b> 权限为历史版本，不推荐申请。应用访问通讯录相关接口请申请 <b>以应用身份读取通讯录</b>
 
 
 
-该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
 
 
 
@@ -1126,11 +1318,9 @@ def example(cli: pylark.Lark):
 例如：A >>B>>C>>D四级部门，通讯录权限只到B，那么查询D部门的parent，会返回B和C两级部门。
 使用user_access_token时,该接口只返回对于用户可见的父部门信息
 
-<b>以应用身份访问通讯录</b> 权限为历史版本，不推荐申请。应用访问通讯录相关接口请申请 <b>以应用身份读取通讯录</b>
 
 
 
-该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
 
 
 
@@ -1266,7 +1456,7 @@ def example(cli: pylark.Lark):
 
 
 
-该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
+
 
 
 
@@ -1336,7 +1526,7 @@ def example(cli: pylark.Lark):
 
 
 
-该接口部分返回字段受到 <b>数据权限控制</b> ，应用要获取对应字段数据需要额外申请数据权限。具体的数据权限与字段的关系请参考[应用权限](/ssl:ttdoc/ukTMukTMukTM/uQjN3QjL0YzN04CN2cDN)，或查看每个接口响应体参数列表的字段描述。
+
 
 
 
@@ -1422,6 +1612,65 @@ def example(cli: pylark.Lark):
 ### Method
 
 `DELETE`
+
+## UnbindDepartmentChat
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.UnbindDepartmentChat(ctx, &lark.UnbindDepartmentChatReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.unbind_department_chat(pylark.UnbindDepartmentChatReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过该接口将部门群转为普通群。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/department/unbind_department_chat](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/department/unbind_department_chat)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/departments/unbind_department_chat`
+
+### Method
+
+`POST`
 
 ## CreateContactGroup
 
@@ -2056,7 +2305,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-删除自定义人员枚举
+删除自定义人员类型
 
 #
 
@@ -2176,7 +2425,7 @@ def example(cli: pylark.Lark):
 
 获取企业自定义的用户字段配置信息
 
-调用该接口前，需要先确认[企业管理员](https://www.feishu.cn/hc/zh-CN/articles/360049067822)在[企业管理后台 - 组织架构 - 成员字段管理](http://feishu.cn/admin/contacts/employee-field-new/custom) 自定义字段管理栏开启了“允许开放平台API调用“。
+调用该接口前，需要先确认[企业管理员](https://www.feishu.cn/hc/zh-CN/articles/360049067822)在[企业管理后台 - 组织架构 - 成员字段管理](http://www.feishu.cn/admin/contacts/employee-field-new/custom) 自定义字段管理栏开启了“允许开放平台API调用“。
 
 ![通讯录.gif](//sf3-cn.feishucdn.com/obj/open-platform-opendoc/544738c94f13ef0b9ebaff53a5133cc7_E9EGMkXyzX.gif)
 
@@ -2192,6 +2441,537 @@ def example(cli: pylark.Lark):
 ### URL
 
 `https://open.feishu.cn/open-apis/contact/v3/custom_attrs`
+
+### Method
+
+`GET`
+
+## CreateContactUnit
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.CreateContactUnit(ctx, &lark.CreateContactUnitReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.create_contact_unit(pylark.CreateContactUnitReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+使用该接口创建单位，需要有更新单位的权限。注意：单位功能属于旗舰版付费功能，企业需开通对应版本才可以创建单位。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/unit`
+
+### Method
+
+`POST`
+
+## UpdateContactUnit
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.UpdateContactUnit(ctx, &lark.UpdateContactUnitReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.update_contact_unit(pylark.UpdateContactUnitReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+调用该接口，需要有更新单位的权限。注意：单位功能属于旗舰版付费功能，企业需开通对应版本才可以修改单位
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/patch](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/patch)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/unit/:unit_id`
+
+### Method
+
+`PATCH`
+
+## DeleteContactUnit
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.DeleteContactUnit(ctx, &lark.DeleteContactUnitReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.delete_contact_unit(pylark.DeleteContactUnitReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+使用该接口删除单位，需要有更新单位的权限。注意：如果单位的单位类型被其它的业务使用，不允许删除。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/unit/:unit_id`
+
+### Method
+
+`DELETE`
+
+## GetContactUnit
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.GetContactUnit(ctx, &lark.GetContactUnitReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_contact_unit(pylark.GetContactUnitReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+调用该接口获取单位信息，需有获取单位的权限
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/unit/:unit_id`
+
+### Method
+
+`GET`
+
+## GetContactUnitList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.GetContactUnitList(ctx, &lark.GetContactUnitListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_contact_unit_list(pylark.GetContactUnitListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过该接口获取企业的单位列表，需获取单位的权限
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/unit`
+
+### Method
+
+`GET`
+
+## BindContactUnitDepartment
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.BindContactUnitDepartment(ctx, &lark.BindContactUnitDepartmentReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.bind_contact_unit_department(pylark.BindContactUnitDepartmentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过该接口建立部门与单位的绑定关系，需更新单位的权限，需对应部门的通讯录权限。由于单位是旗舰版付费功能，企业需开通相关版本，否则会绑定失败
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/bind_department](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/bind_department)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/unit/bind_department`
+
+### Method
+
+`POST`
+
+## UnbindContactUnitDepartment
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.UnbindContactUnitDepartment(ctx, &lark.UnbindContactUnitDepartmentReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.unbind_contact_unit_department(pylark.UnbindContactUnitDepartmentReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过该接口解除部门与单位的绑定关系，需更新单位的权限，需对应部门的通讯录权限。由于单位是旗舰版付费功能，企业需开通相关功能，否则会解绑失败
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/unbind_department](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/unbind_department)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/unit/unbind_department`
+
+### Method
+
+`POST`
+
+## GetContactUnitDepartmentList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.GetContactUnitDepartmentList(ctx, &lark.GetContactUnitDepartmentListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_contact_unit_department_list(pylark.GetContactUnitDepartmentListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过该接口获取单位绑定的部门列表，需具有获取单位的权限
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/list_department](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/unit/list_department)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/unit/list_department`
+
+### Method
+
+`GET`
+
+## GetContactScopeList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Contact.GetContactScopeList(ctx, &lark.GetContactScopeListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.contact.get_contact_scope_list(pylark.GetContactScopeListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+该接口用于获取应用被授权可访问的通讯录范围，包括可访问的部门列表、用户列表和用户组列表。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/scope/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/contact/v3/scopes`
 
 ### Method
 
@@ -2245,10 +3025,11 @@ def example(cli: pylark.Lark):
 
 
 
-用于机器人在群会话中发送指定用户可见的消息卡片。<br>
+用于机器人在群会话中发送仅指定用户可见的消息卡片。<br>
 
 ## 使用场景
-临时消息卡片多用于群聊中用户与机器人交互的中间态。例如在群聊中用户需要使用待办事项类bot创建一条提醒，bot 发送了可设置提醒日期和提醒内容的一张可交互的消息卡片，此卡片在没有设置为临时卡片的情况下为群内全员可见，即群内可看见该用户与 bot 交互的过程。而设置为临时卡片后，交互过程仅该用户可见，群内其他成员只会看到最终设置完成的提醒卡片。<br>临时消息卡片可降低群消息的信噪比，并间接增加 bot 通知的用户触达。
+临时消息卡片多用于群聊中用户与机器人交互的中间态。例如在群聊中用户需要使用待办事项类bot创建一条提醒，bot 发送了可设置提醒日期和提醒内容的一张可交互的消息卡片，此卡片在没有设置为临时卡片的情况下为群内全员可见，即群内可看见该用户与 bot 交互的过程。而设置为临时卡片后，交互过程仅该用户可见，群内其他成员只会看到最终设置完成的提醒卡片。
+<br><br>通过临时消息卡片，可以减少消息对群聊中不相关用户的打扰，有效降低群消息的噪声。
 
 
 需要启用机器人能力；需要机器人在会话群里。
@@ -2259,7 +3040,7 @@ def example(cli: pylark.Lark):
 - 不支持转发。
 - 只能在群聊使用。
 - 仅在用户处于在线状态的飞书客户端上可见。
-- 临时消息卡片的[呈现能力](/ssl:ttdoc/ukTMukTMukTM/ugTNwUjL4UDM14CO1ATN)、[交互能力](/ssl:ttdoc/ukTMukTMukTM/uYjNwUjL2YDM14iN2ATN)与消息卡片一致。
+- 临时消息卡片的[呈现能力](/ssl:ttdoc/ukTMukTMukTM/uEjNwUjLxYDM14SM2ATN)、[交互能力](/ssl:ttdoc/ukTMukTMukTM/uYjNwUjL2YDM14iN2ATN)与消息卡片一致。
 
 
 #
@@ -2321,7 +3102,15 @@ def example(cli: pylark.Lark):
 
 对指定消息进行应用内加急。
 
+注意事项:
+- 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
+- 只能加急机器人自己发送的消息
+- 加急时机器人仍需要在会话内
 
+
+
+
+#
 
 ### Doc
 
@@ -2380,7 +3169,22 @@ def example(cli: pylark.Lark):
 
 对指定消息进行应用内加急与短信加急。
 
+特别说明：
+- 通过接口产生的短信加急将消耗企业的加急额度，请慎重调用。
+- 通过租户管理后台-费用中心-短信/电话加急 可以查看当前额度。
+- 默认接口限流为50 QPS，请谨慎调用。
 
+
+
+注意事项:
+- 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
+- 只能加急机器人自己发送的消息
+- 加急时机器人仍需要在会话内
+
+
+
+
+#
 
 ### Doc
 
@@ -2439,7 +3243,22 @@ def example(cli: pylark.Lark):
 
 对指定消息进行应用内加急与电话加急
 
+特别说明：
+- 通过接口产生的电话加急将消耗企业的加急额度，请慎重调用。
+- 通过租户管理后台-费用中心-短信/电话加急 可以查看当前额度。
+- 默认接口限流为50 QPS，请谨慎调用。
 
+
+
+注意事项:
+- 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
+- 只能加急机器人自己发送的消息
+- 加急时机器人仍需要在会话内
+
+
+
+
+#
 
 ### Doc
 
@@ -2500,10 +3319,12 @@ def example(cli: pylark.Lark):
 
 注意事项:
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
-- 给用户发送消息，需要机器人对用户有可见性
+- 给用户发送消息，需要机器人对用户有[可用性](/ssl:ttdoc/home/introduction-to-scope-and-authorization/availability)
 - 给群组发送消息，需要机器人在群中
 - 该接口不支持给部门成员发消息，请使用 [批量发送消息](/ssl:ttdoc/ukTMukTMukTM/ucDO1EjL3gTNx4yN4UTM)
-- 消息请求体最大不能超过30k
+- 文本消息请求体最大不能超过150KB
+- 卡片及富文本消息请求体最大不能超过30KB
+- 消息卡片的 `update_multi`（是否为共享卡片）字段在卡片内容的`config`结构体中设置。详细参考文档[配置卡片属性](/ssl:ttdoc/ukTMukTMukTM/uAjNwUjLwYDM14CM2ATN)
 
 
 
@@ -2630,14 +3451,15 @@ def example(cli: pylark.Lark):
 
 **注意事项：**
 - 调用该接口需要注意
-  - 应用需要启用机器人能力，并且拥**以应用的身份发消息**权限
+  - 应用需要启用机器人能力
+  - 必须拥有**获取与发送单聊、群组消息**权限，或者**以应用的身份发消息**权限（历史版本）
   - 应用需要拥有批量发送消息权限
   	- 给用户发送需要拥有 **给多个用户批量发消息** 权限
   	- 给部门发送需要拥有 **给一个或多个部门的成员批量发消息** 权限
   - 应用需要拥有对所发送用户或部门的可见性
 - 通过该接口发送的消息 **不支持更新以及回复等操作**
 - 只能发送给用户，无法发送给群组
-- 异步接口，会有一定延迟，每个应用待发送的消息按顺序处理，请合理安排批量发送范围和顺序
+- 异步接口，会有一定延迟，每个应用待发送的消息按顺序处理，请合理安排批量发送范围和顺序。发送消息给单个用户的场景请使用[发送消息](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/create)接口
 - 单个应用每天通过该接口发送的总消息条数不超过50万
 
 #
@@ -2701,7 +3523,7 @@ def example(cli: pylark.Lark):
 
 注意事项:
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
-- 回复私聊消息，需要机器人对用户有可见性
+- 回复私聊消息，需要机器人对用户有可用性
 - 回复群组消息，需要机器人在群中
 
 
@@ -2904,7 +3726,12 @@ def example(cli: pylark.Lark):
 注意事项:
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
 - 当前仅支持更新 ***卡片消息***
-- 只支持对所有人都更新的「共享卡片」。如果你只想更新特定人的消息卡片，必须要用户在卡片操作交互后触发，开发文档参考[「独享卡片」](/ssl:ttdoc/ukTMukTMukTM/uYjNwUjL2YDM14iN2ATN#49904b71)
+- 不支持更新批量消息
+- 只支持对所有人都更新的[「共享卡片」](ukTMukTMukTM/uAjNwUjLwYDM14CM2ATN)，也即需要在卡片的`config`属性中，显式声明`"update_multi":true`。<br>如果你只想更新特定人的消息卡片，必须要用户在卡片操作交互后触发，开发文档参考[「独享卡片」](/ssl:ttdoc/ukTMukTMukTM/uYjNwUjL2YDM14iN2ATN#49904b71)
+
+
+
+
 
 
 
@@ -2922,6 +3749,65 @@ def example(cli: pylark.Lark):
 ### Method
 
 `PATCH`
+
+## UpdateMessageDelay
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Message.UpdateMessageDelay(ctx, &lark.UpdateMessageDelayReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.update_message_delay(pylark.UpdateMessageDelayReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+
+
+
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uMDO1YjLzgTN24yM4UjN](https://open.feishu.cn/document/ukTMukTMukTM/uMDO1YjLzgTN24yM4UjN)
+
+### URL
+
+`https://open.feishu.cn/open-apis/interactive/v1/card/update`
+
+### Method
+
+`POST`
 
 ## GetMessageReadUserList
 
@@ -2972,6 +3858,7 @@ def example(cli: pylark.Lark):
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
 - 只能查询机器人自己发送，且发送时间不超过7天的消息
 - 查询消息已读信息时机器人仍需要在会话内
+- 本接口不支持查询批量消息
 
 
 
@@ -3056,6 +3943,72 @@ def example(cli: pylark.Lark):
 
 `GET`
 
+## GetBatchSentMessageProgress
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Message.GetBatchSentMessageProgress(ctx, &lark.GetBatchSentMessageProgressReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.get_batch_sent_message_progress(pylark.GetBatchSentMessageProgressReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+查询批量消息整体进度
+
+注意事项:
+* 该接口是[查询批量消息推送和阅读人数](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/im-v1/batch_message/read_user)接口的加强版
+* 该接口返回的数据为查询时刻的快照数据
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/batch_message/get_progress](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/batch_message/get_progress)
+
+### URL
+
+`https://open.feishu.cn/open-apis/im/v1/batch_messages/:batch_message_id/get_progress`
+
+### Method
+
+`GET`
+
 ## GetMessageList
 
 ```go
@@ -3099,9 +4052,9 @@ def example(cli: pylark.Lark):
 
 ```
 
-获取会话（包括单聊、群组）的历史消息。
+获取会话（包括单聊、群组）的历史消息（聊天记录）。
 
-接口级别权限默认只能获取单聊消息，如果需要获取群组消息，应用还必须拥有 ***获取群组中所有的消息*** 权限
+接口级别权限默认只能获取单聊消息，如果需要获取群组消息，应用还必须拥有 ***获取群组中所有消息*** 权限
 
 
 
@@ -3303,7 +4256,7 @@ def example(cli: pylark.Lark):
 
 
 
-在群会话中删除指定用户的临时消息卡片<br>
+在群会话中删除指定用户可见的临时消息卡片<br>
 临时卡片消息可以通过该接口进行显式删除，临时卡片消息删除后将不会在该设备上留下任何痕迹。
 
 **权限说明** ：需要启用机器人能力；需要机器人在会话群里
@@ -3321,6 +4274,206 @@ def example(cli: pylark.Lark):
 ### Method
 
 `POST`
+
+## CreateMessageReaction
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Message.CreateMessageReaction(ctx, &lark.CreateMessageReactionReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.create_message_reaction(pylark.CreateMessageReactionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+给指定消息添加指定类型的表情回复（reaction即表情回复，本说明文档统一用“reaction”代称）。
+
+注意事项:
+- 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
+- 待添加reaction的消息要真实存在，不能被撤回
+- 给消息添加reaction，需要reaction的发送方（机器人或者用户）在消息所在的会话内
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message-reaction/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message-reaction/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/im/v1/messages/:message_id/reactions`
+
+### Method
+
+`POST`
+
+## GetMessageReactionList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Message.GetMessageReactionList(ctx, &lark.GetMessageReactionListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.get_message_reaction_list(pylark.GetMessageReactionListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取指定消息的特定类型表情回复列表（reaction即表情回复，本说明文档统一用“reaction”代称）。
+
+注意事项:
+- 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
+- 待获取reaction信息的消息要真实存在，不能被撤回
+- 获取消息的reaction，需要request的授权主体（机器人或者用户）在消息所在的会话内
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message-reaction/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message-reaction/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/im/v1/messages/:message_id/reactions`
+
+### Method
+
+`GET`
+
+## DeleteMessageReaction
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Message.DeleteMessageReaction(ctx, &lark.DeleteMessageReactionReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.message.delete_message_reaction(pylark.DeleteMessageReactionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+删除指定消息的表情回复（reaction即表情回复，本说明文档统一用“reaction”代称）。
+
+注意事项:
+- 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
+- 只能删除真实存在的reaction，并且删除reaction请求的操作者必须是reaction的原始添加者
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message-reaction/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message-reaction/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/im/v1/messages/:message_id/reactions/:reaction_id`
+
+### Method
+
+`DELETE`
 
 
 # Chat
@@ -3373,6 +4526,8 @@ def example(cli: pylark.Lark):
 注意事项：
  - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
 - 本接口只支持创建群，如果需要拉用户或者机器人入群参考 [将用户或机器人拉入群聊](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat-members/create)接口
+- 每次请求，最多拉 50 个用户或者 5 个机器人，并且群组最多容纳 15 个机器人
+ - 拉机器人入群请使用 ==app_id==
 
 
 
@@ -3390,6 +4545,72 @@ def example(cli: pylark.Lark):
 ### Method
 
 `POST`
+
+## GetChat
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Chat.GetChat(ctx, &lark.GetChatReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.get_chat(pylark.GetChatReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取群名称、群描述、群头像、群主 ID 等群基本信息。
+
+注意事项：
+ - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
+ - 机器人或授权用户必须在群里（否则只会返回群名称、群头像等基本信息）
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/im/v1/chats/:chat_id`
+
+### Method
+
+`GET`
 
 ## GetChatOld
 
@@ -3458,72 +4679,6 @@ def example(cli: pylark.Lark):
 
 `GET`
 
-## GetChat
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Chat.GetChat(ctx, &lark.GetChatReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.chat.get_chat(pylark.GetChatReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-获取群名称、群描述、群头像、群主 ID 等群基本信息。
-
-注意事项：
- - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
- - 机器人或授权用户必须在群里（否则只会返回群名称、群头像等基本信息）
-
-
-
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat/get)
-
-### URL
-
-`https://open.feishu.cn/open-apis/im/v1/chats/:chat_id`
-
-### Method
-
-`GET`
-
 ## UpdateChat
 
 ```go
@@ -3571,7 +4726,7 @@ def example(cli: pylark.Lark):
 
 注意事项：
 - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
-- 若群未开启==仅群主和群管理员可编辑群信息== 配置：
+- 若群未开启 ==仅群主和群管理员可编辑群信息== 配置：
  	- 群主/群管理员 或 创建群组且具备==更新应用所创建群的群信息==权限的机器人，可更新所有信息
  	- 不满足上述条件的群成员或机器人，仅可更新群头像、群名称、群描述、群国际化名称信息 
 - 若群开启了==仅群主和群管理员可编辑群信息==配置：
@@ -3707,7 +4862,10 @@ def example(cli: pylark.Lark):
 
 注意事项：
  - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
-- 查询参数**user_id_type**用于控制响应体中owner_id的类型
+- 查询参数  **user_id_type** 用于控制响应体中 owner_id 的类型，如果是获取机器人所在群列表该值可以不填
+- 请注意区分本接口和[获取群信息](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat/get)的请求 URL
+
+
 
 
 #
@@ -3841,6 +4999,8 @@ def example(cli: pylark.Lark):
  - 如果有同一时间加入群的群成员，会一次性返回，这会导致返回的群成员个数可能会大于指定的page_size
 
 
+
+
 #
 
 ### Doc
@@ -3914,6 +5074,144 @@ def example(cli: pylark.Lark):
 
 `GET`
 
+## CreateChatManager
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Chat.CreateChatManager(ctx, &lark.CreateChatManagerReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.create_chat_manager(pylark.CreateChatManagerReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+将用户或机器人指定为群管理员。
+
+注意事项：
+ - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
+- 仅有群主可以指定群管理员
+- 对于普通群，最多指定 10 个管理员
+- 对于超大群，最多指定 20 个管理员
+- 每次请求最多指定 50 个用户或者 5 个机器人
+- 指定机器人类型的管理员请使用 ==app_id==
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat-managers/add_managers](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat-managers/add_managers)
+
+### URL
+
+`https://open.feishu.cn/open-apis/im/v1/chats/:chat_id/managers/add_managers`
+
+### Method
+
+`POST`
+
+## DeleteChatManager
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Chat.DeleteChatManager(ctx, &lark.DeleteChatManagerReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.delete_chat_manager(pylark.DeleteChatManagerReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+删除指定的群管理员（用户或机器人）
+
+注意事项：
+ - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
+- 仅有群主可以删除群管理员
+- 每次请求最多指定 50 个用户或者 5 个机器人
+- 删除机器人类型的管理员请使用 ==app_id==
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat-managers/delete_managers](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat-managers/delete_managers)
+
+### URL
+
+`https://open.feishu.cn/open-apis/im/v1/chats/:chat_id/managers/delete_managers`
+
+### Method
+
+`POST`
+
 ## AddChatMember
 
 ```go
@@ -3962,9 +5260,12 @@ def example(cli: pylark.Lark):
 注意事项：
  - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
  - 如需拉用户进群，需要机器人对用户有可见性
- - 在开启==仅群主可添加群成员==的设置时，仅有群主 或 创建群组且具备==更新应用所创建群的群信息==权限的机器人，可以拉用户或者机器人进群
- - 在未开启==仅群主可添加群成员==的设置时，所有群成员都可以拉用户或机器人进群
+ - 在开启 ==仅群主和群管理员可添加群成员== 的设置时，仅有群主/管理员 或 创建群组且具备 ==更新应用所创建群的群信息== 权限的机器人，可以拉用户或者机器人进群
+ - 在未开启 ==仅群主和群管理员可添加群成员== 的设置时，所有群成员都可以拉用户或机器人进群
  - 每次请求，最多拉50个用户或者5个机器人，并且群组最多容纳15个机器人
+ - 拉机器人入群请使用 ==app_id==
+
+
 
 
 #
@@ -4028,8 +5329,12 @@ def example(cli: pylark.Lark):
 
 注意事项：
  - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
-- 用户或机器人在任何条件下均可移除自己出群（即主动退群）；但仅有群主 及 创建群组且具备==更新应用所创建群的群信息==权限的机器人，可以移除其他用户或者机器人
+- 用户或机器人在任何条件下均可移除自己出群（即主动退群）
+- 仅有群主/管理员 或 创建群组并且具备 ==更新应用所创建群的群信息== 权限的机器人，可以移除其他用户或者机器人
  - 每次请求，最多移除50个用户或者5个机器人
+- 移除机器人请使用 ==app_id==
+
+
 
 
 #
@@ -4224,9 +5529,8 @@ def example(cli: pylark.Lark):
 
 注意事项：
 - 应用需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
-- 当授权用户或机器人是群主时，可更新群公告信息
-- 当授权用户或机器人非群主，且群主未设置 ==仅群主可编辑群信息== 时，可更新群公告信息
-- 当授权用户或机器人非群主，且群主设置了 ==仅群主可编辑群信息== 时，无法更新公告信息
+- 若群开启了 ==仅群主和群管理员可编辑群信息== 配置，群主/群管理员 或 创建群组且具备 ==更新应用所创建群的群信息== 权限的机器人，可更新群公告
+- 若群未开启 ==仅群主和群管理员可编辑群信息== 配置，所有成员可以更新群公告
 
 
 
@@ -4244,6 +5548,135 @@ def example(cli: pylark.Lark):
 ### Method
 
 `PATCH`
+
+## GetChatModeration
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Chat.GetChatModeration(ctx, &lark.GetChatModerationReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.get_chat_moderation(pylark.GetChatModerationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取群发言模式、可发言用户名单等
+
+注意事项：
+ - 应用需要开启[机器人能力](https://open.feishu.cn/document/uQjL04CN/uYTMuYTMuYTM)
+ - 机器人 或 授权用户 必须在群里
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat-moderation/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat-moderation/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/im/v1/chats/:chat_id/moderation`
+
+### Method
+
+`GET`
+
+## UpdateChatModeration
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Chat.UpdateChatModeration(ctx, &lark.UpdateChatModerationReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.chat.update_chat_moderation(pylark.UpdateChatModerationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+更新群组的发言权限设置，可设置为全员可发言、仅管理员可发言  或 指定用户可发言。
+
+注意事项：
+ - 需要开启[机器人能力](https://open.feishu.cn/document/uQjL04CN/uYTMuYTMuYTM)
+- 若以用户授权调用接口，**当授权用户是群主**时，可更新群发言权限
+- 若以租户授权调用接口(即以机器人身份调用接口)，当**机器人是群主** 或者 **机器人是创建群组、具备==更新应用所创建群的群信息==权限且仍在群内**时，可更新群发言权限
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat-moderation/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat-moderation/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/im/v1/chats/:chat_id/moderation`
+
+### Method
+
+`PUT`
 
 
 # Bot
@@ -4361,6 +5794,9 @@ def example(cli: pylark.Lark):
 
 
 
+为了更好地提升该接口的安全性，我们对其进行了升级，请尽快迁移至[新版本>>](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/im-v1/chat-members/create)
+
+
 拉机器人进群<br>
 
 **权限说明** ：需要启用机器人能力；机器人的owner需要已经在群里
@@ -4441,6 +5877,8 @@ def example(cli: pylark.Lark):
 当前身份需要有日历的 owner 权限，并且日历的类型只能为 primary 或 shared。
 
 
+
+
 #
 
 ### Doc
@@ -4514,6 +5952,8 @@ def example(cli: pylark.Lark):
 
 
 当前身份需要有日历的 owner 权限，并且日历的类型只能为 primary 或 shared。
+
+
 
 
 #
@@ -4591,6 +6031,8 @@ def example(cli: pylark.Lark):
 当前身份需要有日历的 owner 权限，并且日历的类型只能为 primary 或 shared。
 
 
+
+
 #
 
 ### Doc
@@ -4653,6 +6095,8 @@ def example(cli: pylark.Lark):
 用户必须对日历有访问权限。
 
 
+
+
 #
 
 ### Doc
@@ -4662,6 +6106,65 @@ def example(cli: pylark.Lark):
 ### URL
 
 `https://open.feishu.cn/open-apis/calendar/v4/calendars/:calendar_id/acls/subscription`
+
+### Method
+
+`POST`
+
+## GetPrimaryCalendar
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Calendar.GetPrimaryCalendar(ctx, &lark.GetPrimaryCalendarReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.get_primary_calendar(pylark.GetPrimaryCalendarReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取当前身份的主日历信息。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar/primary](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar/primary)
+
+### URL
+
+`https://open.feishu.cn/open-apis/calendar/v4/calendars/primary`
 
 ### Method
 
@@ -4715,6 +6218,8 @@ def example(cli: pylark.Lark):
 该接口用于为当前身份（应用 / 用户）创建一个共享日历。
 
 身份由 Header Authorization 的 Token 类型决定。{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=calendar&version=v4&resource=calendar&method=create)
+
+
 
 
 
@@ -4803,6 +6308,8 @@ def example(cli: pylark.Lark):
 当前身份必须对日历具有 owner 权限。
 
 
+
+
 #
 
 ### Doc
@@ -4876,6 +6383,8 @@ def example(cli: pylark.Lark):
 
 
 当前身份必须对日历有访问权限。
+
+
 
 
 #
@@ -4953,6 +6462,8 @@ def example(cli: pylark.Lark):
 调用时首先使用 page_token 分页拉取存量数据，之后使用 sync_token 增量同步变更数据。
 
 
+
+
 #
 
 ### Doc
@@ -5028,6 +6539,8 @@ def example(cli: pylark.Lark):
 当前身份对日历有 owner 权限时，可修改全局字段：summary, description, permission。
 
 当前身份对日历不具有 owner 权限时，仅可修改对自己生效的字段：color, summary_alias。
+
+
 
 
 #
@@ -5164,6 +6677,8 @@ def example(cli: pylark.Lark):
 仅可订阅类型为 primary 或 shared 的公开日历。
 
 
+
+
 #
 
 ### Doc
@@ -5237,6 +6752,8 @@ def example(cli: pylark.Lark):
 
 
 仅可操作已经被当前身份订阅的日历。
+
+
 
 
 #
@@ -5579,6 +7096,8 @@ def example(cli: pylark.Lark):
 
 - 当前身份必须对日历有reader、writer或owner权限才会返回日程详细信息（调用[获取日历](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar/get)接口，role字段可查看权限）。
 
+- 仅支持primary、shared和resource类型的日历获取日程列表。
+
 - 调用时首先使用 page_token 分页拉取存量数据，之后使用 sync_token 增量同步变更数据。
 
 - 为了确保调用方日程同步数据的一致性，在使用sync_token时，不能同时使用start_time和end_time，否则可能造成日程数据缺失。
@@ -5806,6 +7325,8 @@ def example(cli: pylark.Lark):
 当前身份必须对日历有reader、writer或owner权限（调用[获取日历](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar/get)接口，role字段可查看权限）。
 
 
+
+
 #
 
 ### Doc
@@ -5874,6 +7395,8 @@ def example(cli: pylark.Lark):
 - 使用该接口添加会议室后，会议室会进入异步的预约流程，请求结束不代表会议室预约成功，需后续再查询预约状态。
 
 - 每个日程最多只能有 3000 名参与人。
+
+- 开启管理员能力后预约会议室可不受会议室预约范围的限制（当前不支持用管理员身份给其他人的日程预约会议室）
 
 
 
@@ -6084,6 +7607,8 @@ def example(cli: pylark.Lark):
 - 当前身份必须有权限查看日程的参与人列表。
 
 - 当前身份必须在群聊中，或有权限查看群成员列表。
+
+
 
 
 
@@ -6340,6 +7865,198 @@ def example(cli: pylark.Lark):
 
 `POST`
 
+## CreateCalendarExchangeBinding
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Calendar.CreateCalendarExchangeBinding(ctx, &lark.CreateCalendarExchangeBindingReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.create_calendar_exchange_binding(pylark.CreateCalendarExchangeBindingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+本接口将Exchange账户绑定到飞书账户，进而支持Exchange日历的导入
+
+操作用户需要是企业超级管理员
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/exchange_binding/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/exchange_binding/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/calendar/v4/exchange_bindings`
+
+### Method
+
+`POST`
+
+## GetCalendarExchangeBinding
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Calendar.GetCalendarExchangeBinding(ctx, &lark.GetCalendarExchangeBindingReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.get_calendar_exchange_binding(pylark.GetCalendarExchangeBindingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+本接口获取Exchange账户的绑定状态，包括exchange日历是否同步完成。
+
+操作用户需要是企业超级管理员
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/exchange_binding/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/exchange_binding/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/calendar/v4/exchange_bindings/:exchange_binding_id`
+
+### Method
+
+`GET`
+
+## DeleteCalendarExchangeBinding
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Calendar.DeleteCalendarExchangeBinding(ctx, &lark.DeleteCalendarExchangeBindingReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.calendar.delete_calendar_exchange_binding(pylark.DeleteCalendarExchangeBindingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+本接口解除Exchange账户和飞书账户的绑定关系，Exchange账户解除绑定后才能绑定其他飞书账户
+
+操作用户需要是企业超级管理员
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/exchange_binding/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/exchange_binding/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/calendar/v4/exchange_bindings/:exchange_binding_id`
+
+### Method
+
+`DELETE`
+
 
 # Drive
 
@@ -6574,8 +8291,9 @@ def example(cli: pylark.Lark):
 
 
 
-该接口用于根据文件 token 复制 Doc 或 Sheet  到目标文件夹中。
-若没有特定的文件夹用于承载创建的文档，可以先调用「获取文件夹元信息」文档中的「获取 root folder (我的空间) meta」接口，获得我的空间的 token，然后再使用此接口。复制的文档将会在「我的空间」的「归我所有」列表里。
+将文件复制到用户云空间的其他文件夹中。不支持复制文件夹。
+
+如果目标文件夹是我的空间，则复制的文件会在「我的空间」的「归我所有」列表里。
 
 
 该接口不支持并发创建，且调用频率上限为 5QPS 且 10000次/天
@@ -6626,6 +8344,74 @@ import pylark
 def example(cli: pylark.Lark):
     try:
         res, response = cli.drive.delete_drive_file(pylark.DeleteDriveFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+删除在云空间内的文件
+
+文档只能被文档所有者删除(使用tenant_access_token 前，请确保该应用是文档的所有者，否则会报无权限错误)，文档被删除后将会放到回收站里
+
+
+
+该接口不支持并发调用，且调用频率上限为5QPS
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/drive/v1/files/:file_token`
+
+### Method
+
+`DELETE`
+
+## DeleteDriveDocFile
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.DeleteDriveDocFile(ctx, &lark.DeleteDriveDocFileReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_drive_doc_file(pylark.DeleteDriveDocFileReq(
             ...
         ))
     except pylark.PyLarkError as e:
@@ -6957,7 +8743,7 @@ def example(cli: pylark.Lark):
 
 
 
-该接口用于根据 folderToken 获取该文件夹的文档清单，如 doc、sheet、folder。
+该接口用于根据 folderToken 获取该文件夹的文档清单，如 doc、sheet、file、bitable、docx、folder。
 
 #
 
@@ -7923,65 +9709,6 @@ def example(cli: pylark.Lark):
 
 `POST`
 
-## DeleteDriveMemberPermissionOld
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Drive.DeleteDriveMemberPermissionOld(ctx, &lark.DeleteDriveMemberPermissionOldReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.drive.delete_drive_member_permission_old(pylark.DeleteDriveMemberPermissionOldReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-该接口用于根据 filetoken 移除文档协作者的权限。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/ukTMukTMukTM/uYTN3UjL2UzN14iN1cTN](https://open.feishu.cn/document/ukTMukTMukTM/uYTN3UjL2UzN14iN1cTN)
-
-### URL
-
-`https://open.feishu.cn/open-apis/drive/permission/member/delete`
-
-### Method
-
-`POST`
-
 ## DeleteDriveMemberPermission
 
 ```go
@@ -8040,6 +9767,65 @@ def example(cli: pylark.Lark):
 ### Method
 
 `DELETE`
+
+## DeleteDriveMemberPermissionOld
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.DeleteDriveMemberPermissionOld(ctx, &lark.DeleteDriveMemberPermissionOldReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_drive_member_permission_old(pylark.DeleteDriveMemberPermissionOldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+该接口用于根据 filetoken 移除文档协作者的权限。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uYTN3UjL2UzN14iN1cTN](https://open.feishu.cn/document/ukTMukTMukTM/uYTN3UjL2UzN14iN1cTN)
+
+### URL
+
+`https://open.feishu.cn/open-apis/drive/permission/member/delete`
+
+### Method
+
+`POST`
 
 ## UpdateDriveMemberPermissionOld
 
@@ -8144,6 +9930,15 @@ def example(cli: pylark.Lark):
 ```
 
 该接口用于根据 filetoken 更新文档协作者的权限。
+
+该接口要求文档协作者已存在，如还未对文档协作者授权请先调用[「增加权限」 ](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/permission-member/create)接口进行授权。
+
+
+
+
+
+
+
 
 #
 
@@ -8881,6 +10676,183 @@ def example(cli: pylark.Lark):
 
 `PATCH`
 
+## CreateDriveFileSubscription
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.CreateDriveFileSubscription(ctx, &lark.CreateDriveFileSubscriptionReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_drive_file_subscription(pylark.CreateDriveFileSubscriptionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+订阅文档中的变更事件，当前支持文档评论订阅，订阅后文档评论更新会有“云文档助手”推送给订阅的用户
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file-subscription/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file-subscription/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/drive/v1/files/:file_token/subscriptions`
+
+### Method
+
+`POST`
+
+## GetDriveFileSubscription
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.GetDriveFileSubscription(ctx, &lark.GetDriveFileSubscriptionReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_drive_file_subscription(pylark.GetDriveFileSubscriptionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+根据订阅ID获取该订阅的状态
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file-subscription/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file-subscription/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/drive/v1/files/:file_token/subscriptions/:subscription_id`
+
+### Method
+
+`GET`
+
+## UpdateDriveFileSubscription
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.UpdateDriveFileSubscription(ctx, &lark.UpdateDriveFileSubscriptionReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.update_drive_file_subscription(pylark.UpdateDriveFileSubscriptionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+根据订阅ID更新订阅状态
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file-subscription/patch](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file-subscription/patch)
+
+### URL
+
+`https://open.feishu.cn/open-apis/drive/v1/files/:file_token/subscriptions/:subscription_id`
+
+### Method
+
+`PATCH`
+
 ## CreateDriveDoc
 
 ```go
@@ -8926,7 +10898,7 @@ def example(cli: pylark.Lark):
 
 
 
-在使用此接口前，请仔细阅读[概述](/ssl:ttdoc/ukTMukTMukTM/ukjM5YjL5ITO24SOykjN)和[准备接入文档 API](/ssl:ttdoc/ukTMukTMukTM/ugzNzUjL4czM14CO3MTN/guide/getting-start)了解文档调用的规则和约束，确保你的文档数据不会丢失或出错。  
+在使用此接口前，请仔细阅读[文档概述](/ssl:ttdoc/ukTMukTMukTM/uUDN04SN0QjL1QDN/docs-doc-overview)和[准备接入文档 API](/ssl:ttdoc/ukTMukTMukTM/ugzNzUjL4czM14CO3MTN/guide/getting-start)了解文档调用的规则和约束，确保你的文档数据不会丢失或出错。  
 文档数据结构定义可参考：[文档数据结构概述](/ssl:ttdoc/ukTMukTMukTM/uAzM5YjLwMTO24CMzkjN) 
 
 该接口用于创建并初始化文档。
@@ -8990,7 +10962,7 @@ def example(cli: pylark.Lark):
 
 
 
-在使用此接口前，请仔细阅读[概述](/ssl:ttdoc/ukTMukTMukTM/ukjM5YjL5ITO24SOykjN)和[准备接入文档 API](/ssl:ttdoc/ukTMukTMukTM/ugzNzUjL4czM14CO3MTN/guide/getting-start)了解文档调用的规则和约束，确保你的文档数据不会丢失或出错。  
+在使用此接口前，请仔细阅读[文档概述](/ssl:ttdoc/ukTMukTMukTM/uUDN04SN0QjL1QDN/docs-doc-overview)和[准备接入文档 API](/ssl:ttdoc/ukTMukTMukTM/ugzNzUjL4czM14CO3MTN/guide/getting-start)了解文档调用的规则和约束，确保你的文档数据不会丢失或出错。  
 文档数据结构定义可参考：[文档数据结构概述](/ssl:ttdoc/ukTMukTMukTM/uAzM5YjLwMTO24CMzkjN) 
 该接口用于获取结构化的文档内容。
 
@@ -9357,6 +11329,7 @@ def example(cli: pylark.Lark):
 
 
 该接口用于根据 spreadsheetToken 操作表格，如增加工作表，复制工作表、删除工作表。
+该接口和 [更新工作表属性](/ssl:ttdoc/ukTMukTMukTM/ugjMzUjL4IzM14COyMTN) 的请求地址相同，但参数不同，调用前请仔细阅读文档。
 
 #
 
@@ -9415,6 +11388,9 @@ def example(cli: pylark.Lark):
 
 ```
 
+
+
+>  为了更好地提升该接口的安全性，我们对其进行了升级，请尽快迁移至[新版本](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/import_task/import-user-guide)
 
 
 该接口用于将本地表格导入到云空间上。
@@ -11412,7 +13388,12 @@ def example(cli: pylark.Lark):
 
 ```
 
-参数值可参考[筛选指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter/filter-user-guide)
+在子表内创建筛选。
+
+参数值可参考[筛选指南](/ssl:ttdoc/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter/filter-user-guide)
+
+
+
 
 #
 
@@ -11530,7 +13511,12 @@ def example(cli: pylark.Lark):
 
 ```
 
-参数值可参考[筛选指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter/filter-user-guide)
+更新子表筛选范围中的列筛选条件。
+
+参数值可参考[筛选指南](/ssl:ttdoc/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter/filter-user-guide)
+
+
+
 
 #
 
@@ -11648,7 +13634,12 @@ def example(cli: pylark.Lark):
 
 ```
 
-筛选范围的设置参考：[筛选视图的筛选条件指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
+根据传入的参数创建一个筛选视图。Id 和 名字可选，不填的话会默认生成；range 必填。Id 长度为10，由 0-9、a-z、A-Z 组合生成。名字长度不超过100。单个子表内的筛选视图个数不超过 150。
+
+筛选范围的设置参考：[筛选视图的筛选条件指南](/ssl:ttdoc/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
+
+
+
 
 #
 
@@ -11766,7 +13757,12 @@ def example(cli: pylark.Lark):
 
 ```
 
-筛选范围的设置参考：[筛选视图的筛选条件指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
+更新筛选视图的名字或者筛选范围。名字长度不超过100，不能重复即子表内唯一；筛选范围不超过子表的最大范围。
+
+筛选范围的设置参考：[筛选视图的筛选条件指南](/ssl:ttdoc/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
+
+
+
 
 #
 
@@ -11943,7 +13939,12 @@ def example(cli: pylark.Lark):
 
 ```
 
-筛选条件参考 [筛选视图的筛选条件指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
+在筛选视图的筛选范围的某一列创建筛选条件。
+
+筛选条件参考 [筛选视图的筛选条件指南](/ssl:ttdoc/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
+
+
+
 
 #
 
@@ -12061,7 +14062,12 @@ def example(cli: pylark.Lark):
 
 ```
 
-筛选条件参数可参考 [筛选视图的筛选条件指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
+更新筛选视图范围的某列的筛选条件，condition id 即为列的字母号。
+
+筛选条件参数可参考 [筛选视图的筛选条件指南](/ssl:ttdoc/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
+
+
+
 
 #
 
@@ -12120,7 +14126,12 @@ def example(cli: pylark.Lark):
 
 ```
 
-筛选条件含义参考 [筛选视图的筛选条件指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
+获取筛选视图某列的筛选条件信息。
+
+筛选条件含义参考 [筛选视图的筛选条件指南](/ssl:ttdoc/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
+
+
+
 
 #
 
@@ -12179,7 +14190,12 @@ def example(cli: pylark.Lark):
 
 ```
 
-筛选条件含义可参考 [筛选视图的筛选条件指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
+查询一个筛选视图的所有筛选条件，返回筛选视图的筛选范围内的筛选条件。
+
+筛选条件含义可参考 [筛选视图的筛选条件指南](/ssl:ttdoc/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-filter_view-condition/filter-view-condition-user-guide)
+
+
+
 
 #
 
@@ -12238,7 +14254,12 @@ def example(cli: pylark.Lark):
 
 ```
 
-浮动图片的设置参考：[浮动图片指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-float_image/float-image-user-guide)
+根据传入的参数创建一张浮动图片。Float_image_token （[上传图片至表格后得到](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/media/upload_all)）和range（只支持一个单元格） 必填。Float_image_id 可选，不填的话会默认生成，长度为10，由 0-9、a-z、A-Z 组合生成。表格内不重复的图片（浮动图片+单元格图片）总数不超过4000。width 和 height 为图片展示的宽高，可选，不填的话会使用图片的真实宽高。offset_x 和 offset_y 为图片左上角距离所在单元格左上角的偏移，可选，默认为 0。
+
+浮动图片的设置参考：[浮动图片指南](/ssl:ttdoc/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-float_image/float-image-user-guide)
+
+
+
 
 #
 
@@ -12356,7 +14377,12 @@ def example(cli: pylark.Lark):
 
 ```
 
-浮动图片更新参考：[浮动图片指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-float_image/float-image-user-guide)
+更新已有的浮动图片位置和宽高，包括 range、width、height、offset_x 和 offset_y，不包括 float_image_id 和 float_image_token。
+
+浮动图片更新参考：[浮动图片指南](/ssl:ttdoc/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-float_image/float-image-user-guide)
+
+
+
 
 #
 
@@ -12415,7 +14441,12 @@ def example(cli: pylark.Lark):
 
 ```
 
-浮动图片参考：[浮动图片指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-float_image/float-image-user-guide)
+根据 float_image_id 获取对应浮动图片的信息。
+
+浮动图片参考：[浮动图片指南](/ssl:ttdoc/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-float_image/float-image-user-guide)
+
+
+
 
 #
 
@@ -12474,7 +14505,12 @@ def example(cli: pylark.Lark):
 
 ```
 
-浮动图片参考：[浮动图片指南](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-float_image/float-image-user-guide)
+返回子表内所有的浮动图片信息。
+
+浮动图片参考：[浮动图片指南](/ssl:ttdoc/ukTMukTMukTM/uUDN04SN0QjL1QDN/sheets-v3/spreadsheet-sheet-float_image/float-image-user-guide)
+
+
+
 
 #
 
@@ -12731,6 +14767,65 @@ def example(cli: pylark.Lark):
 
 `PUT`
 
+## DeleteWikiSpaceMember
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.DeleteWikiSpaceMember(ctx, &lark.DeleteWikiSpaceMemberReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.delete_wiki_space_member(pylark.DeleteWikiSpaceMemberReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+此接口用于删除知识空间成员
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space-member/delete](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space-member/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/wiki/v2/spaces/:space_id/members/:member_id`
+
+### Method
+
+`DELETE`
+
 ## AddWikiSpaceMember
 
 ```go
@@ -12908,6 +15003,65 @@ def example(cli: pylark.Lark):
 
 `GET`
 
+## MoveWikiNode
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.MoveWikiNode(ctx, &lark.MoveWikiNodeReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.move_wiki_node(pylark.MoveWikiNodeReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+此方法用于在Wiki内移动节点，支持跨知识空间移动
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space-node/move](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/space-node/move)
+
+### URL
+
+`https://open.feishu.cn/open-apis/wiki/v2/spaces/:space_id/nodes/:node_token/move`
+
+### Method
+
+`POST`
+
 ## GetWikiNode
 
 ```go
@@ -13027,7 +15181,7 @@ def example(cli: pylark.Lark):
 
 仅支持文档所有者发起请求
 
-仅支持移动未升级 **权限+** 的文档
+此接口为异步接口。若移动已完成（或节点已在Wiki中），则直接返回结果（Wiki token）。若尚未完成，则返回task id。请使用[获取任务结果](/ssl:ttdoc/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/task/get)接口进行查询。
 
 
 
@@ -13045,6 +15199,70 @@ def example(cli: pylark.Lark):
 ### Method
 
 `POST`
+
+## GetWikiTask
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.GetWikiTask(ctx, &lark.GetWikiTaskReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_wiki_task(pylark.GetWikiTaskReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+该方法用于获取wiki异步任务的结果
+
+仅发起任务的用户（或应用）可以查询任务结果。否则会返回权限报错。
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/task/get](https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/wiki-v2/task/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/wiki/v2/tasks/:task_id`
+
+### Method
+
+`GET`
 
 
 # Bitable
@@ -13269,7 +15487,29 @@ def example(cli: pylark.Lark):
 
 ```
 
+
+
 该接口用于列出数据表中的现有记录，单次最多列出 100 行记录，支持分页获取。
+
+注意：
+
+1.目前暂不支持字段类型为“查找引用”的返回。
+
+2.对于“查找引用”字段可以转换为“公式”字段，查找引用本质上是 lookup 公式。{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=bitable&version=v1&resource=app.table.record&method=list)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #
 
@@ -14229,6 +16469,65 @@ def example(cli: pylark.Lark):
 
 `POST`
 
+## UpdateBitableMeta
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Bitable.UpdateBitableMeta(ctx, &lark.UpdateBitableMetaReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.bitable.update_bitable_meta(pylark.UpdateBitableMetaReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过 app_token 更新多维表格名称
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/bitable-v1/app/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/bitable-v1/app/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/bitable/v1/apps/:app_token`
+
+### Method
+
+`PUT`
+
 ## GetBitableMeta
 
 ```go
@@ -14290,6 +16589,67 @@ def example(cli: pylark.Lark):
 
 
 # MeetingRoom
+
+## GetMeetingRoomCustomization
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MeetingRoom.GetMeetingRoomCustomization(ctx, &lark.GetMeetingRoomCustomizationReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.meeting_room.get_meeting_room_customization(pylark.GetMeetingRoomCustomizationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+
+
+该接口用于获取会议室个性化配置。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uIjM5UjLyITO14iMykTN/query-meeting-room-customization-setting](https://open.feishu.cn/document/ukTMukTMukTM/uIjM5UjLyITO14iMykTN/query-meeting-room-customization-setting)
+
+### URL
+
+`https://open.feishu.cn/open-apis/meeting_room/room/customization`
+
+### Method
+
+`POST`
 
 ## BatchGetMeetingRoomSummary
 
@@ -15351,7 +17711,7 @@ def example(cli: pylark.Lark):
 
 - 引入组件库。在网页 html 中引入如下代码：
 ```html
-<script src="https://lf1-cdn-tos.bytescm.com/goofy/locl/lark/external_js_sdk/h5-js-sdk-1.0.8.js"></script>
+<script src="https://lf1-cdn-tos.bytegoofy.com/goofy/locl/lark/external_js_sdk/h5-js-sdk-1.1.1.js"></script>
 ```
 
 若要使用成员卡片组件，SDK需要在`<body>`加载后引入。
@@ -15361,11 +17721,11 @@ def example(cli: pylark.Lark):
 ### 1. 获取 access_token
 - 不同的 token 代表了组件使用者的身份。user_access_token代表以用户身份鉴权，app_access_token代表以应用身份授权。
 - 成员名片组件仅支持以用户身份(user_access_token)鉴权
-- 云文档组件可以同时支持以用户身份(user_access_token)和应用身份(app_access_token)授权。但是以应用身份授权云文档时，访问量受 80 次/分钟限制，且组件不支持 “编辑”、“评论”、“点赞” 等功能。
+- 云文档组件可以同时支持以用户身份(user_access_token)和应用身份(app_access_token)授权。但是以应用身份授权云文档时，访问量受 80 次/分钟限制，且组件不支持 “编辑”、“评论”、“点赞” 等功能
 - 开发者需要通过以下两种方式之一获取 token，再通过接口生成 ticket。
 
 	-  方法一：获取用户身份。通过 [第三方网站免登](/ssl:ttdoc/ukTMukTMukTM/uETOwYjLxkDM24SM5AjN)获得 `user_access_token` 
-	- 方法二：获取应用身份。通过[服务端API](/ssl:ttdoc/ukTMukTMukTM/ukDNz4SO0MjL5QzM/auth-v3/auth/app_access_token_internal)获得 `app_access_token`。
+	- 方法二：获取应用身份。通过[服务端API](/ssl:ttdoc/ukTMukTMukTM/ukDNz4SO0MjL5QzM/auth-v3/auth/app_access_token_internal)获得 `app_access_token`
 
 
 ### 2. 获取 jsapi_ticket
@@ -15790,6 +18150,65 @@ def example(cli: pylark.Lark):
 ### URL
 
 `https://open.feishu.cn/open-apis/vc/v1/meetings/:meeting_id`
+
+### Method
+
+`GET`
+
+## ListVCMeetingByNo
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.VC.ListVCMeetingByNo(ctx, &lark.ListVCMeetingByNoReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.vc.list_vc_meeting_by_no(pylark.ListVCMeetingByNoReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取指定时间范围（90天内)会议号关联的会议简要信息列表
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/vc-v1/meeting/list_by_no](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/vc-v1/meeting/list_by_no)
+
+### URL
+
+`https://open.feishu.cn/open-apis/vc/v1/meetings/list_by_no`
 
 ### Method
 
@@ -16645,6 +19064,7 @@ def example(cli: pylark.Lark):
 
 
 该接口用于查询用户是否为应用管理员。
+> 此处应用管理员是指可以进入企业管理后台对应用进行审核和管理的企业管理员，并不是应用的开发者。
 
 #
 
@@ -17010,7 +19430,7 @@ def example(cli: pylark.Lark):
 
 
 
-查询应用管理员列表，返回应用的最新10个管理员账户id列表。
+查询审核应用的管理员列表，返回最新10个管理员账户id列表。
 
 #
 
@@ -17209,6 +19629,301 @@ def example(cli: pylark.Lark):
 
 `GET`
 
+## GetApplicationUnderAuditList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Application.GetApplicationUnderAuditList(ctx, &lark.GetApplicationUnderAuditListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_under_audit_list(pylark.GetApplicationUnderAuditListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+查看本企业下所有待审核的自建应用列表
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application/underauditlist](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application/underauditlist)
+
+### URL
+
+`https://open.feishu.cn/open-apis/application/v6/applications/underauditlist`
+
+### Method
+
+`GET`
+
+## GetApplication
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Application.GetApplication(ctx, &lark.GetApplicationReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application(pylark.GetApplicationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+根据app_id获取应用的基础信息
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/application/v6/applications/:app_id`
+
+### Method
+
+`GET`
+
+## GetApplicationVersion
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Application.GetApplicationVersion(ctx, &lark.GetApplicationVersionReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_version(pylark.GetApplicationVersionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+根据 app_id，version_id 获取对应应用版本的信息
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application-app_version/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application-app_version/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/application/v6/applications/:app_id/app_versions/:version_id`
+
+### Method
+
+`GET`
+
+## UpdateApplicationVersion
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Application.UpdateApplicationVersion(ctx, &lark.UpdateApplicationVersionReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.update_application_version(pylark.UpdateApplicationVersionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过接口来更新应用版本的审核结果：通过后应用可以直接上架；拒绝后则开发者可以看到拒绝理由，并在修改后再次申请发布。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application-app_version/patch](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application-app_version/patch)
+
+### URL
+
+`https://open.feishu.cn/open-apis/application/v6/applications/:app_id/app_versions/:version_id`
+
+### Method
+
+`PATCH`
+
+## UpdateApplication
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Application.UpdateApplication(ctx, &lark.UpdateApplicationReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.update_application(pylark.UpdateApplicationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+更新应用的分组信息（分组会影响应用在工作台中的分类情况，请谨慎更新）
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application/patch](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application/patch)
+
+### URL
+
+`https://open.feishu.cn/open-apis/application/v6/applications/:app_id`
+
+### Method
+
+`PATCH`
+
 ## GetApplicationUsageOverview
 
 ```go
@@ -17341,244 +20056,67 @@ def example(cli: pylark.Lark):
 
 `POST`
 
-## GetApplicationUsageDetail
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Application.GetApplicationUsageDetail(ctx, &lark.GetApplicationUsageDetailReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.application.get_application_usage_detail(pylark.GetApplicationUsageDetailReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-
-
-### Doc
-
-[https://open.feishu.cn/document/ukTMukTMukTM/uMTN0YjLzUDN24yM1QjN](https://open.feishu.cn/document/ukTMukTMukTM/uMTN0YjLzUDN24yM1QjN)
-
-### URL
-
-`https://open.feishu.cn/open-apis/application/v1/app_usage_detail`
-
-### Method
-
-`POST`
-
-## GetApplicationMessageOverview
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Application.GetApplicationMessageOverview(ctx, &lark.GetApplicationMessageOverviewReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.application.get_application_message_overview(pylark.GetApplicationMessageOverviewReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-
-
-### Doc
-
-[https://open.feishu.cn/document/ukTMukTMukTM/uQTN0YjL0UDN24CN1QjN](https://open.feishu.cn/document/ukTMukTMukTM/uQTN0YjL0UDN24CN1QjN)
-
-### URL
-
-`https://open.feishu.cn/open-apis/application/v1/app_message_overview`
-
-### Method
-
-`POST`
-
-## GetApplicationMessageTrend
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Application.GetApplicationMessageTrend(ctx, &lark.GetApplicationMessageTrendReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.application.get_application_message_trend(pylark.GetApplicationMessageTrendReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-
-
-### Doc
-
-[https://open.feishu.cn/document/ukTMukTMukTM/uUTN0YjL1UDN24SN1QjN](https://open.feishu.cn/document/ukTMukTMukTM/uUTN0YjL1UDN24SN1QjN)
-
-### URL
-
-`https://open.feishu.cn/open-apis/application/v1/app_message_trend`
-
-### Method
-
-`POST`
-
-## GetApplicationMessageDetail
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Application.GetApplicationMessageDetail(ctx, &lark.GetApplicationMessageDetailReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.application.get_application_message_detail(pylark.GetApplicationMessageDetailReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-
-
-### Doc
-
-[https://open.feishu.cn/document/ukTMukTMukTM/uYTN0YjL2UDN24iN1QjN](https://open.feishu.cn/document/ukTMukTMukTM/uYTN0YjL2UDN24iN1QjN)
-
-### URL
-
-`https://open.feishu.cn/open-apis/application/v1/app_message_detail`
-
-### Method
-
-`POST`
-
 
 # Mail
+
+## GetMailUser
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Mail.GetMailUser(ctx, &lark.GetMailUserReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.get_mail_user(pylark.GetMailUserReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+使用邮箱状态查询接口，可以输入邮箱地址，查询出该邮箱地址对应的类型以及状态
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user/query](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user/query)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mail/v1/users/query`
+
+### Method
+
+`POST`
 
 ## CreateMailGroup
 
@@ -18406,6 +20944,183 @@ def example(cli: pylark.Lark):
 
 `DELETE`
 
+## CreateMailGroupAlias
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Mail.CreateMailGroupAlias(ctx, &lark.CreateMailGroupAliasReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.create_mail_group_alias(pylark.CreateMailGroupAliasReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+创建邮件组别名
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-alias/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-alias/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id/aliases`
+
+### Method
+
+`POST`
+
+## GetMailGroupAliasList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Mail.GetMailGroupAliasList(ctx, &lark.GetMailGroupAliasListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.get_mail_group_alias_list(pylark.GetMailGroupAliasListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取邮件组所有别名
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-alias/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-alias/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id/aliases`
+
+### Method
+
+`GET`
+
+## DeleteMailGroupAlias
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Mail.DeleteMailGroupAlias(ctx, &lark.DeleteMailGroupAliasReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.delete_mail_group_alias(pylark.DeleteMailGroupAliasReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+删除邮件组别名
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-alias/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-alias/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id/aliases/:alias_id`
+
+### Method
+
+`DELETE`
+
 ## CreatePublicMailbox
 
 ```go
@@ -19055,6 +21770,419 @@ def example(cli: pylark.Lark):
 
 `POST`
 
+## CreateMailPublicMailboxAlias
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Mail.CreateMailPublicMailboxAlias(ctx, &lark.CreateMailPublicMailboxAliasReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.create_mail_public_mailbox_alias(pylark.CreateMailPublicMailboxAliasReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+创建公共邮箱别名
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-alias/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-alias/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id/aliases`
+
+### Method
+
+`POST`
+
+## GetMailPublicMailboxAliasList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Mail.GetMailPublicMailboxAliasList(ctx, &lark.GetMailPublicMailboxAliasListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.get_mail_public_mailbox_alias_list(pylark.GetMailPublicMailboxAliasListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取所有公共邮箱别名
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-alias/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-alias/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id/aliases`
+
+### Method
+
+`GET`
+
+## DeleteMailPublicMailboxAlias
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Mail.DeleteMailPublicMailboxAlias(ctx, &lark.DeleteMailPublicMailboxAliasReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.delete_mail_public_mailbox_alias(pylark.DeleteMailPublicMailboxAliasReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+删除公共邮箱别名
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-alias/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-alias/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id/aliases/:alias_id`
+
+### Method
+
+`DELETE`
+
+## CreateMailUserMailboxAlias
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Mail.CreateMailUserMailboxAlias(ctx, &lark.CreateMailUserMailboxAliasReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.create_mail_user_mailbox_alias(pylark.CreateMailUserMailboxAliasReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+创建用户邮箱别名
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox-alias/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox-alias/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mail/v1/user_mailboxes/:user_mailbox_id/aliases`
+
+### Method
+
+`POST`
+
+## DeleteMailUserMailboxAlias
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Mail.DeleteMailUserMailboxAlias(ctx, &lark.DeleteMailUserMailboxAliasReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.delete_mail_user_mailbox_alias(pylark.DeleteMailUserMailboxAliasReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+删除用户邮箱别名
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox-alias/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox-alias/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mail/v1/user_mailboxes/:user_mailbox_id/aliases/:alias_id`
+
+### Method
+
+`DELETE`
+
+## GetMailUserMailboxAliasList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Mail.GetMailUserMailboxAliasList(ctx, &lark.GetMailUserMailboxAliasListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.get_mail_user_mailbox_alias_list(pylark.GetMailUserMailboxAliasListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取用户邮箱所有别名
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox-alias/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox-alias/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mail/v1/user_mailboxes/:user_mailbox_id/aliases`
+
+### Method
+
+`GET`
+
+## DeleteMailUserMailbox
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Mail.DeleteMailUserMailbox(ctx, &lark.DeleteMailUserMailboxReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mail.delete_mail_user_mailbox(pylark.DeleteMailUserMailboxReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+该接口会永久删除用户邮箱地址。可用于删除位于邮箱回收站中的用户邮箱地址，一旦删除，将无法恢复。该接口支持邮件的转移，可以将被释放邮箱的邮件转移到另外一个可以使用的邮箱中。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mail/v1/user_mailboxes/:user_mailbox_id`
+
+### Method
+
+`DELETE`
+
 
 # Approval
 
@@ -19487,6 +22615,67 @@ def example(cli: pylark.Lark):
 
 `POST`
 
+## RollbackApprovalInstance
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Approval.RollbackApprovalInstance(ctx, &lark.RollbackApprovalInstanceReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.rollback_approval_instance(pylark.RollbackApprovalInstanceReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+
+
+从当前审批任务，退回到已审批的一个或多个任务节点。退回后，已审批节点重新生成审批任务
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-task-return](https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-task-return)
+
+### URL
+
+`https://open.feishu.cn/open-apis/approval/v4/instances/specified_rollback`
+
+### Method
+
+`POST`
+
 ## CancelApprovalInstance
 
 ```go
@@ -19532,8 +22721,7 @@ def example(cli: pylark.Lark):
 
 
 
-对于单个审批实例进行撤销操作，撤销后审批流程结束。
-
+对于状态为“审批中”的单个审批实例进行撤销操作，撤销后审批流程结束
 #
 
 ### Doc
@@ -19715,7 +22903,7 @@ def example(cli: pylark.Lark):
 
 
 
-当审批表单中有图片或附件控件时，开发者需在创建审批实例前通过审批上传文件接口将文件上传到审批系统。
+当审批表单中有图片或附件控件时，开发者需在创建审批实例前通过审批上传文件接口将文件上传到审批系统，且附件上传大小限制为50M，图片上传大小为10M。
 
 #
 
@@ -20095,8 +23283,606 @@ def example(cli: pylark.Lark):
 
 `POST`
 
+## SubscribeApprovalSubscription
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Approval.SubscribeApprovalSubscription(ctx, &lark.SubscribeApprovalSubscriptionReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.subscribe_approval_subscription(pylark.SubscribeApprovalSubscriptionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+
+
+应用订阅 approval_code 后，该应用就可以收到该审批定义对应实例的事件通知。同一应用只需要订阅一次，无需重复订阅。
+
+当应用不希望再收到审批事件时，可以使用取消订阅接口进行取消，取消后将不再给应用推送消息。
+
+订阅和取消订阅都是应用维度的，多个应用可以同时订阅同一个 approval_code，每个应用都能收到审批事件。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/ucDOyUjL3gjM14yN4ITN](https://open.feishu.cn/document/ukTMukTMukTM/ucDOyUjL3gjM14yN4ITN)
+
+### URL
+
+`https://www.feishu.cn/approval/openapi/v2/subscription/subscribe`
+
+### Method
+
+`POST`
+
+## UnsubscribeApprovalSubscription
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Approval.UnsubscribeApprovalSubscription(ctx, &lark.UnsubscribeApprovalSubscriptionReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.approval.unsubscribe_approval_subscription(pylark.UnsubscribeApprovalSubscriptionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+
+
+取消订阅 approval_code 后，无法再收到该审批定义对应实例的事件通知。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/ugDOyUjL4gjM14CO4ITN](https://open.feishu.cn/document/ukTMukTMukTM/ugDOyUjL4gjM14CO4ITN)
+
+### URL
+
+`https://www.feishu.cn/approval/openapi/v2/subscription/unsubscribe`
+
+### Method
+
+`POST`
+
 
 # Helpdesk
+
+## CreateHelpdeskNotification
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.CreateHelpdeskNotification(ctx, &lark.CreateHelpdeskNotificationReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.create_helpdesk_notification(pylark.CreateHelpdeskNotificationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+调用接口创建推送，创建成功后为草稿状态
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/notifications`
+
+### Method
+
+`POST`
+
+## UpdateHelpdeskNotification
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.UpdateHelpdeskNotification(ctx, &lark.UpdateHelpdeskNotificationReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.update_helpdesk_notification(pylark.UpdateHelpdeskNotificationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+更新推送信息，只有在草稿状态下才可以调用此接口进行更新
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/patch](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/patch)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/notifications/:notification_id`
+
+### Method
+
+`PATCH`
+
+## GetHelpdeskNotification
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.GetHelpdeskNotification(ctx, &lark.GetHelpdeskNotificationReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_notification(pylark.GetHelpdeskNotificationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+查询推送详情
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/notifications/:notification_id`
+
+### Method
+
+`GET`
+
+## PreviewHelpdeskNotification
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.PreviewHelpdeskNotification(ctx, &lark.PreviewHelpdeskNotificationReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.preview_helpdesk_notification(pylark.PreviewHelpdeskNotificationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+在正式执行推送之前是可以调用此接口预览设置的推送内容
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/preview](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/preview)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/notifications/:notification_id/preview`
+
+### Method
+
+`POST`
+
+## SubmitApproveHelpdeskNotification
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.SubmitApproveHelpdeskNotification(ctx, &lark.SubmitApproveHelpdeskNotificationReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.submit_approve_helpdesk_notification(pylark.SubmitApproveHelpdeskNotificationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+正常情况下调用创建推送接口后，就可以调用提交审核接口，如果创建人是服务台owner则会自动审核通过，否则会通知服务台owner审核此推送信息
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/submit_approve](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/submit_approve)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/notifications/:notification_id/submit_approve`
+
+### Method
+
+`POST`
+
+## CancelApproveHelpdeskNotification
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.CancelApproveHelpdeskNotification(ctx, &lark.CancelApproveHelpdeskNotificationReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.cancel_approve_helpdesk_notification(pylark.CancelApproveHelpdeskNotificationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+提交审核后，如果需要取消审核，则调用此接口
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/cancel_approve](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/cancel_approve)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/notifications/:notification_id/cancel_approve`
+
+### Method
+
+`POST`
+
+## ExecuteSendHelpdeskNotification
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.ExecuteSendHelpdeskNotification(ctx, &lark.ExecuteSendHelpdeskNotificationReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.execute_send_helpdesk_notification(pylark.ExecuteSendHelpdeskNotificationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+审核通过后调用此接口设置推送时间，等待调度系统调度，发送消息
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/execute_send](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/execute_send)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/notifications/:notification_id/execute_send`
+
+### Method
+
+`POST`
+
+## CancelSendHelpdeskNotification
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.CancelSendHelpdeskNotification(ctx, &lark.CancelSendHelpdeskNotificationReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.cancel_send_helpdesk_notification(pylark.CancelSendHelpdeskNotificationReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+取消推送接口，审核通过后待调度可以调用，发送过程中可以调用（会撤回已发送的消息），发送完成后可以需要推送（会撤回所有已发送的消息）
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/cancel_send](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/cancel_send)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/notifications/:notification_id/cancel_send`
+
+### Method
+
+`POST`
 
 ## StartHelpdeskService
 
@@ -20259,7 +24045,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于更新服务台工单详情。只会更新数据，不会触发相关操作。如修改工单状态到关单，不会关闭聊天页面。仅支持自建应用。
+该接口用于更新服务台工单详情。只会更新数据，不会触发相关操作。如修改工单状态到关单，不会关闭聊天页面。仅支持自建应用。要更新的工单字段必须至少输入一项。
 
 #
 
@@ -20452,6 +24238,65 @@ def example(cli: pylark.Lark):
 
 `POST`
 
+## GetHelpdeskTicketCustomizedFields
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.GetHelpdeskTicketCustomizedFields(ctx, &lark.GetHelpdeskTicketCustomizedFieldsReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.get_helpdesk_ticket_customized_fields(pylark.GetHelpdeskTicketCustomizedFieldsReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+该接口用于获取服务台自定义字段详情。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/customized_fields](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/customized_fields)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/customized_fields`
+
+### Method
+
+`GET`
+
 ## GetHelpdeskTicketMessageList
 
 ```go
@@ -20565,6 +24410,65 @@ def example(cli: pylark.Lark):
 ### URL
 
 `https://open.feishu.cn/open-apis/helpdesk/v1/tickets/:ticket_id/messages`
+
+### Method
+
+`POST`
+
+## SendHelpdeskMessage
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Helpdesk.SendHelpdeskMessage(ctx, &lark.SendHelpdeskMessageReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.helpdesk.send_helpdesk_message(pylark.SendHelpdeskMessageReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过服务台机器人给指定用户的服务台专属群或私聊发送消息，支持文本、富文本、卡片、图片。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/bot-message/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/bot-message/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/helpdesk/v1/message`
 
 ### Method
 
@@ -21631,7 +25535,7 @@ def example(cli: pylark.Lark):
 
 更新客服状态等信息
 
-
+#
 
 ### Doc
 
@@ -21690,7 +25594,7 @@ def example(cli: pylark.Lark):
 
 该接口用于获取客服邮箱地址
 
-
+#
 
 ### Doc
 
@@ -21749,7 +25653,7 @@ def example(cli: pylark.Lark):
 
 该接口用于创建客服
 
-
+#
 
 ### Doc
 
@@ -21808,7 +25712,7 @@ def example(cli: pylark.Lark):
 
 该接口用于删除客服
 
-
+#
 
 ### Doc
 
@@ -21865,9 +25769,9 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于更新客服
+该接口用于更新客服的日程
 
-
+#
 
 ### Doc
 
@@ -21926,7 +25830,7 @@ def example(cli: pylark.Lark):
 
 该接口用于获取客服信息
 
-
+#
 
 ### Doc
 
@@ -21985,7 +25889,7 @@ def example(cli: pylark.Lark):
 
 该接口用于获取所有客服信息
 
-
+#
 
 ### Doc
 
@@ -22044,7 +25948,7 @@ def example(cli: pylark.Lark):
 
 该接口用于创建客服技能
 
-
+#
 
 ### Doc
 
@@ -22103,7 +26007,7 @@ def example(cli: pylark.Lark):
 
 该接口用于获取客服技能
 
-
+#
 
 ### Doc
 
@@ -22162,7 +26066,7 @@ def example(cli: pylark.Lark):
 
 该接口用于更新客服技能
 
-
+#
 
 ### Doc
 
@@ -22221,7 +26125,7 @@ def example(cli: pylark.Lark):
 
 该接口用于删除客服技能
 
-
+#
 
 ### Doc
 
@@ -22280,7 +26184,7 @@ def example(cli: pylark.Lark):
 
 获取全部客服技能
 
-
+#
 
 ### Doc
 
@@ -22339,7 +26243,7 @@ def example(cli: pylark.Lark):
 
 该接口用于获取全部客服技能。仅支持自建应用。
 
-
+#
 
 ### Doc
 
@@ -22521,7 +26425,7 @@ def example(cli: pylark.Lark):
 
 - 只有企业自建应用才有权限调用此接口
 
-- 当天的数据会在第二天的凌晨五点产出（UTC+8）
+- 当天的数据会在第二天的早上九点半产出（UTC+8）
 
 - 部门维度的数据最多查询最近366天（包含366天）的数据
 
@@ -22593,10 +26497,9 @@ def example(cli: pylark.Lark):
 
 - 只有企业自建应用才有权限调用此接口
 
-- 当天的数据会在第二天的凌晨五点产出（UTC+8）
+- 当天的数据会在第二天的早上九点半产出（UTC+8）
 
 - 用户维度的数据最多查询最近31天的数据（包含31天）的数据
-
 
 
 
@@ -22856,6 +26759,8 @@ def example(cli: pylark.Lark):
 
 实名认证接口会有计费管理，接入前请联系飞书开放平台工作人员，邮箱：openplatform@bytedance.com。
 
+仅通过计费申请的应用，才能在[开发者后台](https://open.feishu.cn/app)查找并申请该接口的权限。
+
 
 #
 
@@ -22917,7 +26822,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-可识别图片中的文字，按区域划分返回文本列表
+可识别图片中的文字，按图片中的区域划分，分段返回文本列表
 
 单租户限流：20QPS，同租户下的应用没有限流，共享本租户的 20QPS 限流
 
@@ -23114,6 +27019,8 @@ def example(cli: pylark.Lark):
 单租户限流：20QPS，同租户下的应用没有限流，共享本租户的 20QPS 限流
 
 
+
+
 #
 
 ### Doc
@@ -23171,9 +27078,11 @@ def example(cli: pylark.Lark):
 
 ```
 
-机器翻译 (MT)，支持 100 多种语言识别，返回符合 ISO 693-1 标准
+机器翻译 (MT)，支持 100 多种语言识别，返回符合 ISO 639-1 标准
 
 单租户限流：20QPS，同租户下的应用没有限流，共享本租户的 20QPS 限流
+
+
 
 
 #
@@ -23252,6 +27161,1442 @@ def example(cli: pylark.Lark):
 
 # Attendance
 
+## CreateAttendanceGroup
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.CreateAttendanceGroup(ctx, &lark.CreateAttendanceGroupReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.create_attendance_group(pylark.CreateAttendanceGroupReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+
+
+考勤组，是对部门或者员工在某个特定场所及特定时间段内的出勤情况（包括上下班、迟到、早退、病假、婚假、丧假、公休、工作时间、加班情况等）的一种规则设定。
+
+通过设置考勤组，可以从部门、员工两个维度，来设定考勤方式、考勤时间、考勤地点等考勤规则。{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=attendance&version=v1&resource=group&method=create)
+
+
+
+
+
+
+
+
+
+
+出于安全考虑，目前通过该接口只允许修改自己创建的考勤组。
+
+
+## 考勤组负责人
+考勤组负责人可修改该考勤组的排班，并查看该考勤组的考勤数据。
+
+如果考勤组负责人同时被企业管理员赋予了考勤管理员的角色，则该考勤组负责人还拥有考勤管理员的权限，可以编辑及删除考勤规则。
+
+## 考勤组人员
+可按部门、员工两个维度，设置需要参加考勤或无需参加考勤的人员。
+
+- 若是按部门维度添加的考勤人员，当有新员工加入该部门时，其会自动加入该考勤组。
+- 若是按员工维度添加的考勤人员，当其上级部门被添加到其他考勤组时，该员工不会更换考勤组。
+
+## 考勤组类型
+提供 3 种不同的考勤类型：固定班制、排班制、自由班制。
+
+- 固定班制：指考勤组内每位人员的上下班时间一致，适用于上下班时间固定或无需安排多个班次的考勤组。
+- 排班制：指考勤组人员的上下班时间不完全一致，可自定义安排每位人员的上下班时间，适用于存在多个班次如早晚班的考勤组。
+- 自由班制：指没有具体的班次，考勤组人员可以在打卡时段内自由打卡，按照打卡时段统计上班时长。
+
+## 考勤班次
+- 固定班制下，需设置周一到周日每天安排哪个班次，以及可针对特殊日期进行打卡设置。
+- 排班制下，需对考勤组内每一位人员的每一天进行班次指定。
+- 自由班制下，需设置一天中最早打卡时间和最晚打卡时间，以及一周中哪几天需要打卡。
+
+## 考勤方式
+支持 3 种考勤方式：GPS 打卡、Wi-Fi 打卡、考勤机打卡。
+
+- GPS 打卡：需设置经纬度信息及考勤地点名称。
+- Wi-Fi 打卡：需设置 Wi-Fi 名称及 Wi-Fi 的 MAC 地址。
+- 考勤机打卡：需设置考勤机名称及考勤机序号。
+
+## 考勤其他设置
+- 规则设置：支持设置是否允许外勤打卡，是否允许补卡以及一个月补卡的次数，是否允许 PC 端打卡。
+- 安全设置：支持设置是否开启人脸识别打卡，以及什么情况下开启人脸识别。
+- 统计设置：支持设置考勤组人员是否可以查看到某些维度的统计数据。
+- 加班设置：支持配置加班时间的计算规则。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/groups`
+
+### Method
+
+`POST`
+
+## SearchAttendanceGroup
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.SearchAttendanceGroup(ctx, &lark.SearchAttendanceGroupReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.search_attendance_group(pylark.SearchAttendanceGroupReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+按考勤组名称查询考勤组摘要信息。查询条件支持名称精确匹配和模糊匹配两种方式。查询结果按考勤组修改时间 desc 排序，且最大记录数为 10 条。
+
+该接口依赖的数据和考勤组主数据间存在数据同步延时（正常数据同步 2 秒以内），因此在使用该接口时需注意评估数据延迟潜在风险。
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/search](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/search)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/groups/search`
+
+### Method
+
+`POST`
+
+## GetAttendanceGroup
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.GetAttendanceGroup(ctx, &lark.GetAttendanceGroupReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_group(pylark.GetAttendanceGroupReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过考勤组 ID 获取考勤组详情。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/groups/:group_id`
+
+### Method
+
+`GET`
+
+## DeleteAttendanceGroup
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.DeleteAttendanceGroup(ctx, &lark.DeleteAttendanceGroupReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.delete_attendance_group(pylark.DeleteAttendanceGroupReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过班次 ID 删除班次。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/groups/:group_id`
+
+### Method
+
+`DELETE`
+
+## GetAttendanceShift
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.GetAttendanceShift(ctx, &lark.GetAttendanceShiftReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_shift(pylark.GetAttendanceShiftReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过班次的名称查询班次信息。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/query](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/query)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/shifts/query`
+
+### Method
+
+`POST`
+
+## GetAttendanceShiftDetail
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.GetAttendanceShiftDetail(ctx, &lark.GetAttendanceShiftDetailReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_shift_detail(pylark.GetAttendanceShiftDetailReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过班次 ID 获取班次详情。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/shifts/:shift_id`
+
+### Method
+
+`GET`
+
+## DeleteAttendanceShift
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.DeleteAttendanceShift(ctx, &lark.DeleteAttendanceShiftReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.delete_attendance_shift(pylark.DeleteAttendanceShiftReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过班次 ID 删除班次。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/shifts/:shift_id`
+
+### Method
+
+`DELETE`
+
+## CreateAttendanceShift
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.CreateAttendanceShift(ctx, &lark.CreateAttendanceShiftReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.create_attendance_shift(pylark.CreateAttendanceShiftReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+班次是描述一次考勤任务时间规则的统称，比如一天打多少次卡，每次卡的上下班时间，晚到多长时间算迟到，晚到多长时间算缺卡等。
+
+- 创建一个考勤组前，必须先创建一个或者多个班次。
+- 一个公司内的班次是共享的，你可以直接引用他人创建的班次，但是需要注意的是，若他人修改了班次，会影响到你的考勤组及其考勤结果。
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/shifts`
+
+### Method
+
+`POST`
+
+## GetAttendanceUserDailyShift
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.GetAttendanceUserDailyShift(ctx, &lark.GetAttendanceUserDailyShiftReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_daily_shift(pylark.GetAttendanceUserDailyShiftReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+支持查询多个用户的排班情况，查询的时间跨度不能超过 30 天。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_daily_shift/query](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_daily_shift/query)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/user_daily_shifts/query`
+
+### Method
+
+`POST`
+
+## BatchCreateAttendanceUserDailyShift
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.BatchCreateAttendanceUserDailyShift(ctx, &lark.BatchCreateAttendanceUserDailyShiftReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.batch_create_attendance_user_daily_shift(pylark.BatchCreateAttendanceUserDailyShiftReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+班表是用来描述考勤组内人员每天按哪个班次进行上班。目前班表支持按一个整月对一位或多位人员进行排班。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_daily_shift/batch_create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_daily_shift/batch_create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/user_daily_shifts/batch_create`
+
+### Method
+
+`POST`
+
+## GetAttendanceUserStatsField
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.GetAttendanceUserStatsField(ctx, &lark.GetAttendanceUserStatsFieldReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_stats_field(pylark.GetAttendanceUserStatsFieldReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+查询考勤统计支持的日度统计或月度统计的统计表头。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_field/query](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_field/query)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/user_stats_fields/query`
+
+### Method
+
+`POST`
+
+## GetAttendanceUserStatsView
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.GetAttendanceUserStatsView(ctx, &lark.GetAttendanceUserStatsViewReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_stats_view(pylark.GetAttendanceUserStatsViewReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+查询开发者定制的日度统计或月度统计的统计报表表头设置信息。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_view/query](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_view/query)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/user_stats_views/query`
+
+### Method
+
+`POST`
+
+## UpdateAttendanceUserStatsView
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.UpdateAttendanceUserStatsView(ctx, &lark.UpdateAttendanceUserStatsViewReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.update_attendance_user_stats_view(pylark.UpdateAttendanceUserStatsViewReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+更新开发者定制的日度统计或月度统计的统计报表表头设置信息。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_view/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_view/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/user_stats_views/:user_stats_view_id`
+
+### Method
+
+`PUT`
+
+## GetAttendanceUserStatsData
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.GetAttendanceUserStatsData(ctx, &lark.GetAttendanceUserStatsDataReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_stats_data(pylark.GetAttendanceUserStatsDataReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+查询日度统计或月度统计的统计数据。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_data/query](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_data/query)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/user_stats_datas/query`
+
+### Method
+
+`POST`
+
+## BatchGetAttendanceUserFlow
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.BatchGetAttendanceUserFlow(ctx, &lark.BatchGetAttendanceUserFlowReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.batch_get_attendance_user_flow(pylark.BatchGetAttendanceUserFlowReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+批量查询授权内员工的实际打卡流水记录。例如，企业给一个员工设定的班次是上午 9 点和下午 6 点各打一次上下班卡，但是该员工在这期间打了多次卡，该接口会把所有的打卡记录都返回。
+
+如果只需获取打卡结果，而不需要详细的打卡数据，可使用“获取打卡结果”的接口。
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_flow/query](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_flow/query)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/user_flows/query`
+
+### Method
+
+`POST`
+
+## GetAttendanceUserFlow
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.GetAttendanceUserFlow(ctx, &lark.GetAttendanceUserFlowReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_flow(pylark.GetAttendanceUserFlowReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过打卡记录 ID 获取用户的打卡流水记录。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_flow/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_flow/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/user_flows/:user_flow_id`
+
+### Method
+
+`GET`
+
+## GetAttendanceUserTask
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.GetAttendanceUserTask(ctx, &lark.GetAttendanceUserTaskReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_task(pylark.GetAttendanceUserTaskReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取企业内员工的实际打卡结果，包括上班打卡结果和下班打卡结果。
+
+- 如果企业给一个员工设定的班次是上午 9 点和下午 6 点各打一次上下班卡，即使员工在这期间打了多次卡，该接口也只会返回 1 条记录。
+- 如果要获取打卡的详细数据，如打卡位置等信息，可使用“获取打卡流水记录”或“批量查询打卡流水记录”的接口。
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task/query](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task/query)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/user_tasks/query`
+
+### Method
+
+`POST`
+
+## BatchCreateAttendanceUserFlow
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.BatchCreateAttendanceUserFlow(ctx, &lark.BatchCreateAttendanceUserFlowReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.batch_create_attendance_user_flow(pylark.BatchCreateAttendanceUserFlowReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+导入授权内员工的打卡流水记录。导入后，会根据员工所在的考勤组班次规则，计算最终的打卡状态与结果。
+
+适用于考勤机数据导入等场景。
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_flow/batch_create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_flow/batch_create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/user_flows/batch_create`
+
+### Method
+
+`POST`
+
+## GetAttendanceUserTaskRemedyAllowedRemedyList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.GetAttendanceUserTaskRemedyAllowedRemedyList(ctx, &lark.GetAttendanceUserTaskRemedyAllowedRemedyListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_task_remedy_allowed_remedy_list(pylark.GetAttendanceUserTaskRemedyAllowedRemedyListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取用户某天可以补的第几次上 / 下班卡的时间。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task_remedy/query_user_allowed_remedys](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task_remedy/query_user_allowed_remedys)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/user_task_remedys/query_user_allowed_remedys`
+
+### Method
+
+`POST`
+
+## GetAttendanceUserTaskRemedy
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.GetAttendanceUserTaskRemedy(ctx, &lark.GetAttendanceUserTaskRemedyReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_task_remedy(pylark.GetAttendanceUserTaskRemedyReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取授权内员工的补卡记录。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task_remedy/query](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task_remedy/query)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/user_task_remedys/query`
+
+### Method
+
+`POST`
+
+## CreateAttendanceUserTaskRemedy
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.CreateAttendanceUserTaskRemedy(ctx, &lark.CreateAttendanceUserTaskRemedyReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.create_attendance_user_task_remedy(pylark.CreateAttendanceUserTaskRemedyReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+对于只使用飞书考勤系统而未使用飞书审批系统的企业，可以通过该接口，将在三方审批系统中发起的补卡审批数据，写入到飞书考勤系统中。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task_remedy/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task_remedy/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/user_task_remedys`
+
+### Method
+
+`POST`
+
+## GetAttendanceUserSettingList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.GetAttendanceUserSettingList(ctx, &lark.GetAttendanceUserSettingListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.get_attendance_user_setting_list(pylark.GetAttendanceUserSettingListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+批量查询授权内员工的用户设置信息，包括人脸照片文件 ID、人脸照片更新时间。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_setting/query](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_setting/query)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/user_settings/query`
+
+### Method
+
+`GET`
+
+## UpdateAttendanceUserSetting
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Attendance.UpdateAttendanceUserSetting(ctx, &lark.UpdateAttendanceUserSettingReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.attendance.update_attendance_user_setting(pylark.UpdateAttendanceUserSettingReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+修改授权内员工的用户设置信息，包括人脸照片文件 ID。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_setting/modify](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_setting/modify)
+
+### URL
+
+`https://open.feishu.cn/open-apis/attendance/v1/user_settings/modify`
+
+### Method
+
+`POST`
+
 ## DownloadAttendanceFile
 
 ```go
@@ -23295,14 +28640,13 @@ def example(cli: pylark.Lark):
 
 ```
 
-
-
 通过文件 ID 下载指定的文件。
+
 #
 
 ### Doc
 
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//rule/download-file](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//rule/download-file)
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/file/download](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/file/download)
 
 ### URL
 
@@ -23355,1281 +28699,17 @@ def example(cli: pylark.Lark):
 
 ```
 
-
-
-上传文件并获取文件 ID，可用于“修改用户设置”接口的 face_key 参数。
+上传文件并获取文件 ID，可用于“修改用户设置”接口中的 face_key 参数。
 
 #
 
 ### Doc
 
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//rule/file_upload](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//rule/file_upload)
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/file/upload](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/file/upload)
 
 ### URL
 
 `https://open.feishu.cn/open-apis/attendance/v1/files/upload`
-
-### Method
-
-`POST`
-
-## QueryAttendanceUserSettings
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.QueryAttendanceUserSettings(ctx, &lark.QueryAttendanceUserSettingsReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.query_attendance_user_settings(pylark.QueryAttendanceUserSettingsReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-批量查询授权内员工的用户设置信息，包括人脸照片文件 ID、人脸照片更新时间。
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//rule/batch-query-user-settings](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//rule/batch-query-user-settings)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/user_settings/query`
-
-### Method
-
-`GET`
-
-## UpdateAttendanceUserSettings
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.UpdateAttendanceUserSettings(ctx, &lark.UpdateAttendanceUserSettingsReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.update_attendance_user_settings(pylark.UpdateAttendanceUserSettingsReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-修改授权内员工的用户设置信息，包括人脸照片文件 ID。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//rule/user-setting-modify](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//rule/user-setting-modify)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/user_settings/modify`
-
-### Method
-
-`POST`
-
-## CreateUpdateAttendanceGroup
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.CreateUpdateAttendanceGroup(ctx, &lark.CreateUpdateAttendanceGroupReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.create_update_attendance_group(pylark.CreateUpdateAttendanceGroupReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-考勤组，是对部门或者员工在某个特定场所及特定时间段内的出勤情况（包括上下班、迟到、早退、病假、婚假、丧假、公休、工作时间、加班情况等）的一种规则设定。
-
-通过设置考勤组，可以从部门、员工两个维度，来设定考勤方式、考勤时间、考勤地点等考勤规则。
-出于安全考虑，目前通过该接口只允许修改自己创建的考勤组。
-### 考勤组负责人
-考勤组负责人可修改该考勤组的排班，并查看该考勤组的考勤数据。
-
-如果考勤组负责人同时被企业管理员赋予了考勤管理员的角色，则该考勤组负责人还拥有考勤管理员的权限，可以编辑及删除考勤规则。
-
-### 考勤组人员
-可按部门、员工两个维度，设置需要参加考勤或无需参加考勤的人员。
-- 若是按部门维度添加的考勤人员，当有新员工加入该部门时，其会自动加入该考勤组。
-- 若是按员工维度添加的考勤人员，当其上级部门被添加到其他考勤组时，该员工不会更换考勤组。
-
-### 考勤组类型
-提供 3 种不同的考勤类型：固定班制、排班制、自由班制。
-- 固定班制：指考勤组内每位人员的上下班时间一致，适用于上下班时间固定或无需安排多个班次的考勤组。
-- 排班制：指考勤组人员的上下班时间不完全一致，可自定义安排每位人员的上下班时间，适用于存在多个班次如早晚班的考勤组。
-- 自由班制：指没有具体的班次，考勤组人员可以在打卡时段内自由打卡，按照打卡时段统计上班时长。
-
-### 考勤班次
-- 固定班制下，需设置周一到周日每天安排哪个班次，以及可针对特殊日期进行打卡设置。
-- 排班制下，需对考勤组内每一位人员的每一天进行班次指定。
-- 自由班制下，需设置一天中最早打卡时间和最晚打卡时间，以及一周中哪几天需要打卡。
-
-### 考勤方式
-支持 3 种考勤方式：GPS 打卡、Wi-Fi 打卡、考勤机打卡。
-- GPS 打卡：需设置经纬度信息及考勤地点名称。
-- Wi-Fi 打卡：需设置 Wi-Fi 名称及 Wi-Fi 的 MAC 地址。
-- 考勤机打卡：需设置考勤机名称及考勤机序号。
-
-### 考勤其他设置
-- 规则设置：支持设置是否允许外勤打卡，是否允许补卡以及一个月补卡的次数，是否允许 PC 端打卡。
-- 安全设置：支持设置是否开启人脸识别打卡，以及什么情况下开启人脸识别。
-- 统计设置：支持设置考勤组人员是否可以查看到某些维度的统计数据。
-- 加班设置：支持配置加班时间的计算规则。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//group_create_update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//group_create_update)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/groups`
-
-### Method
-
-`POST`
-
-## DeleteAttendanceGroup
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.DeleteAttendanceGroup(ctx, &lark.DeleteAttendanceGroupReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.delete_attendance_group(pylark.DeleteAttendanceGroupReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-通过考勤组 ID 删除考勤组。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//group_delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//group_delete)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/groups/:group_id`
-
-### Method
-
-`DELETE`
-
-## GetAttendanceGroup
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.GetAttendanceGroup(ctx, &lark.GetAttendanceGroupReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.get_attendance_group(pylark.GetAttendanceGroupReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-通过考勤组 ID 获取考勤组详情。
-
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//group](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//group)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/groups/:group_id`
-
-### Method
-
-`GET`
-
-## CreateAttendanceShift
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.CreateAttendanceShift(ctx, &lark.CreateAttendanceShiftReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.create_attendance_shift(pylark.CreateAttendanceShiftReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-班次是描述一次考勤任务时间规则的统称，比如一天打多少次卡，每次卡的上下班时间，晚到多长时间算迟到，晚到多长时间算缺卡等。
-
-- 创建一个考勤组前，必须先创建一个或者多个班次。
-- 一个公司内的班次是共享的，你可以直接引用他人创建的班次，但是需要注意的是，若他人修改了班次，会影响到你的考勤组及其考勤结果。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//shift_create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//shift_create)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/shifts`
-
-### Method
-
-`POST`
-
-## DeleteAttendanceShift
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.DeleteAttendanceShift(ctx, &lark.DeleteAttendanceShiftReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.delete_attendance_shift(pylark.DeleteAttendanceShiftReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-通过班次 ID 删除班次。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//shift_delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//shift_delete)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/shifts/:shift_id`
-
-### Method
-
-`DELETE`
-
-## GetAttendanceShiftByID
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.GetAttendanceShiftByID(ctx, &lark.GetAttendanceShiftByIDReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.get_attendance_shift_by_id(pylark.GetAttendanceShiftByIDReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-通过班次 ID 获取班次详情。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//shift_by_id](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//shift_by_id)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/shifts/:shift_id`
-
-### Method
-
-`GET`
-
-## GetAttendanceShiftByName
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.GetAttendanceShiftByName(ctx, &lark.GetAttendanceShiftByNameReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.get_attendance_shift_by_name(pylark.GetAttendanceShiftByNameReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-通过班次的名称获取班次信息。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//shift_by_name](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//shift_by_name)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/shifts/query`
-
-### Method
-
-`POST`
-
-## GetAttendanceStatisticsData
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.GetAttendanceStatisticsData(ctx, &lark.GetAttendanceStatisticsDataReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.get_attendance_statistics_data(pylark.GetAttendanceStatisticsDataReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-查询日度统计或月度统计的统计数据。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/query-statistics-data](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/query-statistics-data)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/user_stats_datas/query`
-
-### Method
-
-`POST`
-
-## GetAttendanceStatisticsHeader
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.GetAttendanceStatisticsHeader(ctx, &lark.GetAttendanceStatisticsHeaderReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.get_attendance_statistics_header(pylark.GetAttendanceStatisticsHeaderReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-查询日度统计或月度统计的统计表头。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/query-statistics-header](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/query-statistics-header)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/user_stats_fields/query`
-
-### Method
-
-`POST`
-
-## UpdateAttendanceUserStatisticsSettings
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.UpdateAttendanceUserStatisticsSettings(ctx, &lark.UpdateAttendanceUserStatisticsSettingsReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.update_attendance_user_statistics_settings(pylark.UpdateAttendanceUserStatisticsSettingsReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-更新日度统计或月度统计的统计设置信息。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/update-user-stats-settings](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/update-user-stats-settings)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/user_stats_views/:user_stats_view_id`
-
-### Method
-
-`PUT`
-
-## GetAttendanceUserStatisticsSettings
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.GetAttendanceUserStatisticsSettings(ctx, &lark.GetAttendanceUserStatisticsSettingsReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.get_attendance_user_statistics_settings(pylark.GetAttendanceUserStatisticsSettingsReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-查询日度统计或月度统计的统计设置信息。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/query-user-statistics-settings](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/query-user-statistics-settings)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/user_stats_views/query`
-
-### Method
-
-`POST`
-
-## GetAttendanceUserDailyShift
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.GetAttendanceUserDailyShift(ctx, &lark.GetAttendanceUserDailyShiftReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.get_attendance_user_daily_shift(pylark.GetAttendanceUserDailyShiftReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-支持查询多个用户的排班情况，查询的时间跨度不能超过 30 天。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/GetScheduledShifts](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/GetScheduledShifts)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/user_daily_shifts/query`
-
-### Method
-
-`POST`
-
-## GetAttendanceUserTask
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.GetAttendanceUserTask(ctx, &lark.GetAttendanceUserTaskReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.get_attendance_user_task(pylark.GetAttendanceUserTaskReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-获取企业内员工的实际打卡结果，包括上班打卡结果和下班打卡结果。
-
-* 如果企业给一个员工设定的班次是上午 9 点和下午 6 点各打一次上下班卡，即使员工在这期间打了多次卡，该接口也只会返回 1 条记录。
-* 如果要获取打卡的详细数据，如打卡位置等信息，可使用“获取打卡流水记录”或“批量查询打卡流水记录”的接口。
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//GetCheckinResults](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//GetCheckinResults)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/user_tasks/query`
-
-### Method
-
-`POST`
-
-## GetAttendanceUserFlow
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.GetAttendanceUserFlow(ctx, &lark.GetAttendanceUserFlowReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.get_attendance_user_flow(pylark.GetAttendanceUserFlowReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-通过打卡记录 ID 获取用户的打卡流水记录。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//GetCardSwipeHistory](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//GetCardSwipeHistory)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/user_flows/:user_flow_id`
-
-### Method
-
-`GET`
-
-## BatchGetAttendanceUserFlow
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.BatchGetAttendanceUserFlow(ctx, &lark.BatchGetAttendanceUserFlowReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.batch_get_attendance_user_flow(pylark.BatchGetAttendanceUserFlowReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-批量查询授权内员工的实际打卡记录。例如，企业给一个员工设定的班次是上午 9 点和下午 6 点各打一次上下班卡，但是员工在这期间打了多次卡，该接口会把所有的打卡记录都返回。
-
-如果只需获取打卡结果，而不需要打卡的详细数据，可使用“获取打卡结果”的接口。
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//BatchQueryCheckinFlowHistory](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//BatchQueryCheckinFlowHistory)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/user_flows/query`
-
-### Method
-
-`POST`
-
-## BatchCreateAttendanceUserFlow
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.BatchCreateAttendanceUserFlow(ctx, &lark.BatchCreateAttendanceUserFlowReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.batch_create_attendance_user_flow(pylark.BatchCreateAttendanceUserFlowReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-导入授权内员工的打卡流水记录。导入后，会根据员工所在的考勤组班次规则，计算最终的打卡状态与结果。
-
-适用于考勤机数据导入等场景。
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//ImportAttendanceFlowRecords](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//ImportAttendanceFlowRecords)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/user_flows/batch_create`
-
-### Method
-
-`POST`
-
-## GetAttendanceUserTaskRemedy
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.GetAttendanceUserTaskRemedy(ctx, &lark.GetAttendanceUserTaskRemedyReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.get_attendance_user_task_remedy(pylark.GetAttendanceUserTaskRemedyReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-获取授权内员工的补卡记录。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//GetUsersRemedyRecords](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//GetUsersRemedyRecords)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/user_task_remedys/query`
-
-### Method
-
-`POST`
-
-## CreateUpdateAttendanceUserDailyShift
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.CreateUpdateAttendanceUserDailyShift(ctx, &lark.CreateUpdateAttendanceUserDailyShiftReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.create_update_attendance_user_daily_shift(pylark.CreateUpdateAttendanceUserDailyShiftReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-班表是用来描述考勤组内人员每天按哪个班次进行上班。目前班表支持按一个整月对一位或多位人员进行排班。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//CreateandEditShifts](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//CreateandEditShifts)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/user_daily_shifts/batch_create`
 
 ### Method
 
@@ -24682,11 +28762,16 @@ def example(cli: pylark.Lark):
 
 获取员工在某段时间内的请假、加班、外出和出差四种审批的通过数据。
 
+
+
+请假的假期时长字段(interval)，暂未开放提供，待后续提供。
+
+
 #
 
 ### Doc
 
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//RetrieveUserApprovals](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//RetrieveUserApprovals)
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/get-user-attendance-data2](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/get-user-attendance-data2)
 
 ### URL
 
@@ -24750,132 +28835,11 @@ def example(cli: pylark.Lark):
 
 ### Doc
 
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//AddApprovalsInLarkAttendance](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//AddApprovalsInLarkAttendance)
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_approval/add-approved-data-in-feishu-attendance2](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_approval/add-approved-data-in-feishu-attendance2)
 
 ### URL
 
 `https://open.feishu.cn/open-apis/attendance/v1/user_approvals`
-
-### Method
-
-`POST`
-
-## GetAttendanceUserAllowedRemedy
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.GetAttendanceUserAllowedRemedy(ctx, &lark.GetAttendanceUserAllowedRemedyReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.get_attendance_user_allowed_remedy(pylark.GetAttendanceUserAllowedRemedyReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-获取用户某天可以补第几次上/下班卡的时间。
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/query-user-allowed-remedys](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/query-user-allowed-remedys)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/user_task_remedys/query_user_allowed_remedys`
-
-### Method
-
-`POST`
-
-## InitAttendanceRemedyApproval
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Attendance.InitAttendanceRemedyApproval(ctx, &lark.InitAttendanceRemedyApprovalReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.attendance.init_attendance_remedy_approval(pylark.InitAttendanceRemedyApprovalReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-对于只使用飞书考勤系统而未使用飞书审批系统的企业，可以通过该接口，将在三方审批系统中发起的补卡审批数据，写入到飞书的考勤系统中。
-#
-
-### Doc
-
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/notify-remedy-approval-initiation](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/notify-remedy-approval-initiation)
-
-### URL
-
-`https://open.feishu.cn/open-apis/attendance/v1/user_task_remedys`
 
 ### Method
 
@@ -24933,7 +28897,7 @@ def example(cli: pylark.Lark):
 
 ### Doc
 
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/notify-approval-status-update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/notify-approval-status-update)
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/notify-approval-status-update2](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/notify-approval-status-update2)
 
 ### URL
 
@@ -24993,6 +28957,7 @@ def example(cli: pylark.Lark):
 
 注意事项:
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
+- 上传的图片大小不能超过10MB
 
 
 
@@ -25059,6 +29024,7 @@ def example(cli: pylark.Lark):
 注意事项:
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
 - 只能下载机器人自己上传且图片类型为message的图片，avatar类型暂不支持下载；
+- 下载用户发送的资源，请使用[获取消息中的资源文件](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message-resource/get)接口
 
 
 
@@ -25124,6 +29090,8 @@ def example(cli: pylark.Lark):
 
 注意事项:
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
+- 不允许上传空文件
+- 示例代码中需要自行替换文件路径和鉴权Token
 
 
 
@@ -25190,6 +29158,7 @@ def example(cli: pylark.Lark):
 注意事项:
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)
 - 只能下载机器人自己上传的文件
+- 下载用户发送的资源，请使用[获取消息中的资源文件](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message-resource/get)接口
 
 
 #
@@ -25510,9 +29479,7 @@ def example(cli: pylark.Lark):
 
 根据文件 token 下载文件。
 
-调用「[批量获取员工花名册信息](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/ehr/employees)」接口的返回值中，「文件」类型的字段 id，即是文件 token
-
-![image.png](//sf1-ttcdn-tos.pstatp.com/obj/open-platform-opendoc/bed391d2a8ce6ed2d5985ea69bf92850_9GY1mnuDXP.png){尝试一下}(url=/api/tools/api_explore/api_explore_config?project=ehr&version=v1&resource=attachment&method=get)
+调用 「批量获取员工花名册信息」接口的返回值中，「文件」类型的字段 id，即是文件 token{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=ehr&version=v1&resource=attachment&method=get)
 
 
 
@@ -25523,7 +29490,7 @@ def example(cli: pylark.Lark):
 
 
 
-
+![image.png](//sf1-ttcdn-tos.pstatp.com/obj/open-platform-opendoc/bed391d2a8ce6ed2d5985ea69bf92850_9GY1mnuDXP.png)
 
 
 
@@ -25590,7 +29557,7 @@ def example(cli: pylark.Lark):
 
 获取企业名称、企业编号等企业信息
 
-如果ISV应用是预装的并且180天内企业未使用过此应用，则无法通过此接口获取到企业信息
+如果ISV应用是企业创建时默认安装，并且180天内企业未打开或使用过此应用，则无法通过此接口获取到企业信息。
 
 
 
@@ -27494,7 +31461,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于新增任务执行者
+该接口用于新增任务执行者，一个任务最多添加50个执行者
 
 #
 
@@ -27671,7 +31638,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于创建任务关注者
+该接口用于创建任务关注者，一个任务最多添加50个关注者
 
 #
 
@@ -27848,7 +31815,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于创建任务的提醒时间
+该接口用于创建任务的提醒时间。提醒时间在截止时间基础上做偏移，但是偏移后的结果不能早于当前时间。
 
 #
 
@@ -28025,7 +31992,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口可以创建一个任务（基本信息），如果需要绑定协作者等需要调用别的资源管理接口。
+该接口可以创建一个任务（基本信息），如果需要绑定协作者等需要调用别的资源管理接口。其中查询字段 user_id_type 是用于控制返回体中 creator_id 的类型，不传时默认返回 open_id。当使用 tenant_access_token 调用接口时不支持 user_id_type 为 user_id。
 
 #
 
@@ -28095,6 +32062,65 @@ def example(cli: pylark.Lark):
 ### URL
 
 `https://open.feishu.cn/open-apis/task/v1/tasks/:task_id`
+
+### Method
+
+`GET`
+
+## GetTaskList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Task.GetTaskList(ctx, &lark.GetTaskListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.task.get_task_list(pylark.GetTaskListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+该接口通过解析 header 中的  user_access_token 获取与该用户相关的所有任务
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/task/v1/tasks`
 
 ### Method
 
@@ -29102,9 +33128,9 @@ def example(cli: pylark.Lark):
 `GET`
 
 
-# Ecosystem
+# Baike
 
-## GetEcosystemBindAwemeUser
+## CreateBaikeDraft
 
 ```go
 package example
@@ -29117,7 +33143,7 @@ import (
 )
 
 func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Ecosystem.GetEcosystemBindAwemeUser(ctx, &lark.GetEcosystemBindAwemeUserReq{
+	res, response, err := cli.Baike.CreateBaikeDraft(ctx, &lark.CreateBaikeDraftReq{
 		...
 	})
 	if err != nil {
@@ -29135,7 +33161,7 @@ import pylark
 
 def example(cli: pylark.Lark):
     try:
-        res, response = cli.ecosystem.get_ecosystem_bind_aweme_user(pylark.GetEcosystemBindAwemeUserReq(
+        res, response = cli.baike.create_baike_draft(pylark.CreateBaikeDraftReq(
             ...
         ))
     except pylark.PyLarkError as e:
@@ -29147,22 +33173,15 @@ def example(cli: pylark.Lark):
 
 ```
 
+草稿是单独的定义，并不和实体词进行绑定，创建草稿不等于创建实体词。创建草稿可能是创建实体词或更新实体词
 
-
-获取绑定信息
-
-适用于获取飞书账号是否为“抖音员工号”运营者。{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=aweme_ecosystem&version=v1&resource=aweme_user&method=get_bind_info)
-
+需百科管理员审批通过后生效。当使用 user_access_token 访问时，会有 bot 通知对应用户审批结果。tenant_access_token 则不会触发通知
 
 
 
-
-
-
-
-
-
-
+· 当 entity_id 字段不为空时表示更新该实体词<br>
+· 当 entity_id 字段为空时表示创建新的实体词<br>
+· 当 entity_id 字段为空且 outer_info 字段不为空时，会根据已有数据判断是创建还是更新实体词。原则为：当 outer_info 字段已经和已有实体词绑定，则会触发更新，若无绑定的实体词，则会创建一个新的和 outer_info 绑定的实体词
 
 
 
@@ -29171,11 +33190,370 @@ def example(cli: pylark.Lark):
 
 ### Doc
 
-[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/bytedance-open-ecosystem/aweme_ecosystem-v1/aweme_user/get_bind_info](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/bytedance-open-ecosystem/aweme_ecosystem-v1/aweme_user/get_bind_info)
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/draft/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/draft/create)
 
 ### URL
 
-`https://open.feishu.cn/open-apis/aweme_ecosystem/v1/aweme_users/get_bind_info`
+`https://open.feishu.cn/open-apis/baike/v1/drafts`
+
+### Method
+
+`POST`
+
+## CreateBaikeUpdate
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Baike.CreateBaikeUpdate(ctx, &lark.CreateBaikeUpdateReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.baike.create_baike_update(pylark.CreateBaikeUpdateReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+根据 draft_id 更新草稿内容，已审批的草稿无法编辑
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/draft/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/draft/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/baike/v1/drafts/:draft_id`
+
+### Method
+
+`PUT`
+
+## GetBaikeEntity
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Baike.GetBaikeEntity(ctx, &lark.GetBaikeEntityReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.baike.get_baike_entity(pylark.GetBaikeEntityReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过词条 id 拉取对应的实体词详情信息
+
+也支持通过 provider 和 outer_id 返回对应实体的详情数据。此时路径中的 entity_id 为固定的 enterprise_0
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/baike/v1/entities/:entity_id`
+
+### Method
+
+`GET`
+
+## GetBaikeEntityList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Baike.GetBaikeEntityList(ctx, &lark.GetBaikeEntityListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.baike.get_baike_entity_list(pylark.GetBaikeEntityListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过分页拉取词条数据，支持租户内的全部词条拉取
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/baike/v1/entities`
+
+### Method
+
+`GET`
+
+## MatchBaikeEntity
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Baike.MatchBaikeEntity(ctx, &lark.MatchBaikeEntityReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.baike.match_baike_entity(pylark.MatchBaikeEntityReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+准确匹配词条的关键词、全名、别名属性，并召回对应的 ID
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/match](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/match)
+
+### URL
+
+`https://open.feishu.cn/open-apis/baike/v1/entities/match`
+
+### Method
+
+`POST`
+
+## SearchBaikeEntity
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Baike.SearchBaikeEntity(ctx, &lark.SearchBaikeEntityReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.baike.search_baike_entity(pylark.SearchBaikeEntityReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+传入关键词，进行模糊匹配搜索相应的词条
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/search](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/search)
+
+### URL
+
+`https://open.feishu.cn/open-apis/baike/v1/entities/search`
+
+### Method
+
+`POST`
+
+## HighlightBaikeEntity
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Baike.HighlightBaikeEntity(ctx, &lark.HighlightBaikeEntityReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.baike.highlight_baike_entity(pylark.HighlightBaikeEntityReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+用户传入一个句子，返回词条的位置和对应的 Id，通过 Get 接口可以获取词条的详情信息
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/highlight](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/highlight)
+
+### URL
+
+`https://open.feishu.cn/open-apis/baike/v1/entities/highlight`
 
 ### Method
 
