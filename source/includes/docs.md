@@ -7030,7 +7030,8 @@ def example(cli: pylark.Lark):
 
 该接口用于以当前身份（应用 / 用户）获取日历上的一个日程。
 
-当前身份必须对日历有reader、writer或owner权限才会返回日程详细信息（调用[获取日历](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar/get)接口，role字段可查看权限）。
+- 当前身份必须对日历有reader、writer或owner权限才会返回日程详细信息（调用[获取日历](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar/get)接口，role字段可查看权限）。
+- [例外日程](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar-event/introduction#71c5ec78)可通过event_id的非0时间戳后缀，来获取修改的重复性日程的哪一天日程的时间信息。
 
 
 
@@ -20055,6 +20056,124 @@ def example(cli: pylark.Lark):
 ### Method
 
 `POST`
+
+## UpdateApplicationFeedback
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Application.UpdateApplicationFeedback(ctx, &lark.UpdateApplicationFeedbackReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.update_application_feedback(pylark.UpdateApplicationFeedbackReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+更新应用的反馈数据
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application-feedback/patch](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application-feedback/patch)
+
+### URL
+
+`https://open.feishu.cn/open-apis/application/v6/applications/:app_id/feedbacks/:feedback_id`
+
+### Method
+
+`PATCH`
+
+## GetApplicationFeedbackList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Application.GetApplicationFeedbackList(ctx, &lark.GetApplicationFeedbackListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.application.get_application_feedback_list(pylark.GetApplicationFeedbackListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+查询应用的反馈数据
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application-feedback/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application-feedback/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/application/v6/applications/:app_id/feedbacks`
+
+### Method
+
+`GET`
 
 
 # Mail
