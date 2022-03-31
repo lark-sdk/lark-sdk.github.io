@@ -1344,6 +1344,12 @@
                   <li>
                     <a href="#getapplicationusagetrend" class="toc-h2 toc-link" data-title="GetApplicationUsageTrend">GetApplicationUsageTrend</a>
                   </li>
+                  <li>
+                    <a href="#updateapplicationfeedback" class="toc-h2 toc-link" data-title="UpdateApplicationFeedback">UpdateApplicationFeedback</a>
+                  </li>
+                  <li>
+                    <a href="#getapplicationfeedbacklist" class="toc-h2 toc-link" data-title="GetApplicationFeedbackList">GetApplicationFeedbackList</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -7155,7 +7161,10 @@ fetch_child 决定是否递归)。</p></li>
 </code></pre></div>
 <p>该接口用于以当前身份（应用 / 用户）获取日历上的一个日程。</p>
 
-<p>当前身份必须对日历有reader、writer或owner权限才会返回日程详细信息（调用<a href="/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar/get">获取日历</a>接口，role字段可查看权限）。</p>
+<ul>
+<li>当前身份必须对日历有reader、writer或owner权限才会返回日程详细信息（调用<a href="/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar/get">获取日历</a>接口，role字段可查看权限）。</li>
+<li><a href="/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar-event/introduction#71c5ec78">例外日程</a>可通过event_id的非0时间戳后缀，来获取修改的重复性日程的哪一天日程的时间信息。</li>
+</ul>
 <h3 id='doc-106'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar-event/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/calendar-v4/calendar-event/get</a></p>
 <h3 id='url-106'>URL</h3>
@@ -16390,6 +16399,92 @@ fetch_child 决定是否递归)。</p></li>
 <p><code>https://open.feishu.cn/open-apis/application/v1/app_usage_trend</code></p>
 <h3 id='method-315'>Method</h3>
 <p><code>POST</code></p>
+<h2 id='updateapplicationfeedback'>UpdateApplicationFeedback</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"fmt"</span>
+
+    <span class="s">"github.com/chyroc/lark"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">example</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">cli</span> <span class="o">*</span><span class="n">lark</span><span class="o">.</span><span class="n">Lark</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">res</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">cli</span><span class="o">.</span><span class="n">Application</span><span class="o">.</span><span class="n">UpdateApplicationFeedback</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">lark</span><span class="o">.</span><span class="n">UpdateApplicationFeedbackReq</span><span class="p">{</span>
+        <span class="o">...</span>
+    <span class="p">})</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"req-id:"</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">RequestID</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"res:"</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+<span class="p">}</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">pylark</span>
+
+
+<span class="k">def</span> <span class="nf">example</span><span class="p">(</span><span class="n">cli</span><span class="p">:</span> <span class="n">pylark</span><span class="p">.</span><span class="n">Lark</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">res</span><span class="p">,</span> <span class="n">response</span> <span class="o">=</span> <span class="n">cli</span><span class="p">.</span><span class="n">application</span><span class="p">.</span><span class="n">update_application_feedback</span><span class="p">(</span><span class="n">pylark</span><span class="p">.</span><span class="n">UpdateApplicationFeedbackReq</span><span class="p">(</span>
+            <span class="p">...</span>
+        <span class="p">))</span>
+    <span class="k">except</span> <span class="n">pylark</span><span class="p">.</span><span class="n">PyLarkError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="c1"># handle exception: e
+</span>        <span class="k">raise</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">'req-id: %s'</span><span class="p">,</span> <span class="n">response</span><span class="p">.</span><span class="n">request_id</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'res: %s'</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+
+</code></pre></div>
+<p>更新应用的反馈数据</p>
+<h3 id='doc-316'>Doc</h3>
+<p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application-feedback/patch">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application-feedback/patch</a></p>
+<h3 id='url-316'>URL</h3>
+<p><code>https://open.feishu.cn/open-apis/application/v6/applications/:app_id/feedbacks/:feedback_id</code></p>
+<h3 id='method-316'>Method</h3>
+<p><code>PATCH</code></p>
+<h2 id='getapplicationfeedbacklist'>GetApplicationFeedbackList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"context"</span>
+    <span class="s">"fmt"</span>
+
+    <span class="s">"github.com/chyroc/lark"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">example</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">cli</span> <span class="o">*</span><span class="n">lark</span><span class="o">.</span><span class="n">Lark</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">res</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">cli</span><span class="o">.</span><span class="n">Application</span><span class="o">.</span><span class="n">GetApplicationFeedbackList</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">lark</span><span class="o">.</span><span class="n">GetApplicationFeedbackListReq</span><span class="p">{</span>
+        <span class="o">...</span>
+    <span class="p">})</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"req-id:"</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">RequestID</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"res:"</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+<span class="p">}</span>
+
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">pylark</span>
+
+
+<span class="k">def</span> <span class="nf">example</span><span class="p">(</span><span class="n">cli</span><span class="p">:</span> <span class="n">pylark</span><span class="p">.</span><span class="n">Lark</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">res</span><span class="p">,</span> <span class="n">response</span> <span class="o">=</span> <span class="n">cli</span><span class="p">.</span><span class="n">application</span><span class="p">.</span><span class="n">get_application_feedback_list</span><span class="p">(</span><span class="n">pylark</span><span class="p">.</span><span class="n">GetApplicationFeedbackListReq</span><span class="p">(</span>
+            <span class="p">...</span>
+        <span class="p">))</span>
+    <span class="k">except</span> <span class="n">pylark</span><span class="p">.</span><span class="n">PyLarkError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="c1"># handle exception: e
+</span>        <span class="k">raise</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">'req-id: %s'</span><span class="p">,</span> <span class="n">response</span><span class="p">.</span><span class="n">request_id</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'res: %s'</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+
+</code></pre></div>
+<p>查询应用的反馈数据</p>
+<h3 id='doc-317'>Doc</h3>
+<p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application-feedback/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/application-v6/application-feedback/list</a></p>
+<h3 id='url-317'>URL</h3>
+<p><code>https://open.feishu.cn/open-apis/application/v6/applications/:app_id/feedbacks</code></p>
+<h3 id='method-317'>Method</h3>
+<p><code>GET</code></p>
 <h1 id='mail'>Mail</h1><h2 id='getmailuser'>GetMailUser</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
 <span class="k">import</span> <span class="p">(</span>
@@ -16427,11 +16522,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>使用邮箱状态查询接口，可以输入邮箱地址，查询出该邮箱地址对应的类型以及状态</p>
-<h3 id='doc-316'>Doc</h3>
+<h3 id='doc-318'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user/query">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user/query</a></p>
-<h3 id='url-316'>URL</h3>
+<h3 id='url-318'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/users/query</code></p>
-<h3 id='method-316'>Method</h3>
+<h3 id='method-318'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='createmailgroup'>CreateMailGroup</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -16470,11 +16565,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>创建一个邮件组</p>
-<h3 id='doc-317'>Doc</h3>
+<h3 id='doc-319'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup/create</a></p>
-<h3 id='url-317'>URL</h3>
+<h3 id='url-319'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups</code></p>
-<h3 id='method-317'>Method</h3>
+<h3 id='method-319'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getmailgroup'>GetMailGroup</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -16513,11 +16608,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取特定邮件组信息</p>
-<h3 id='doc-318'>Doc</h3>
+<h3 id='doc-320'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup/get</a></p>
-<h3 id='url-318'>URL</h3>
+<h3 id='url-320'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id</code></p>
-<h3 id='method-318'>Method</h3>
+<h3 id='method-320'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='getmailgrouplist'>GetMailGroupList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -16556,11 +16651,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>分页批量获取邮件组</p>
-<h3 id='doc-319'>Doc</h3>
+<h3 id='doc-321'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup/list</a></p>
-<h3 id='url-319'>URL</h3>
+<h3 id='url-321'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups</code></p>
-<h3 id='method-319'>Method</h3>
+<h3 id='method-321'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='updatemailgrouppatch'>UpdateMailGroupPatch</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -16599,11 +16694,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>更新邮件组部分字段，没有填写的字段不会被更新</p>
-<h3 id='doc-320'>Doc</h3>
+<h3 id='doc-322'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup/patch">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup/patch</a></p>
-<h3 id='url-320'>URL</h3>
+<h3 id='url-322'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id</code></p>
-<h3 id='method-320'>Method</h3>
+<h3 id='method-322'>Method</h3>
 <p><code>PATCH</code></p>
 <h2 id='updatemailgroup'>UpdateMailGroup</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -16642,11 +16737,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>更新邮件组所有信息</p>
-<h3 id='doc-321'>Doc</h3>
+<h3 id='doc-323'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup/update">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup/update</a></p>
-<h3 id='url-321'>URL</h3>
+<h3 id='url-323'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id</code></p>
-<h3 id='method-321'>Method</h3>
+<h3 id='method-323'>Method</h3>
 <p><code>PUT</code></p>
 <h2 id='deletemailgroup'>DeleteMailGroup</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -16685,11 +16780,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>删除一个邮件组</p>
-<h3 id='doc-322'>Doc</h3>
+<h3 id='doc-324'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup/delete</a></p>
-<h3 id='url-322'>URL</h3>
+<h3 id='url-324'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id</code></p>
-<h3 id='method-322'>Method</h3>
+<h3 id='method-324'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='createmailgroupmember'>CreateMailGroupMember</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -16728,11 +16823,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>向邮件组添加单个成员</p>
-<h3 id='doc-323'>Doc</h3>
+<h3 id='doc-325'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-member/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-member/create</a></p>
-<h3 id='url-323'>URL</h3>
+<h3 id='url-325'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id/members</code></p>
-<h3 id='method-323'>Method</h3>
+<h3 id='method-325'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getmailgroupmember'>GetMailGroupMember</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -16771,11 +16866,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取邮件组单个成员信息</p>
-<h3 id='doc-324'>Doc</h3>
+<h3 id='doc-326'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-member/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-member/get</a></p>
-<h3 id='url-324'>URL</h3>
+<h3 id='url-326'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id/members/:member_id</code></p>
-<h3 id='method-324'>Method</h3>
+<h3 id='method-326'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='getmailgroupmemberlist'>GetMailGroupMemberList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -16814,11 +16909,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>分页批量获取邮件组成员列表</p>
-<h3 id='doc-325'>Doc</h3>
+<h3 id='doc-327'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-member/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-member/list</a></p>
-<h3 id='url-325'>URL</h3>
+<h3 id='url-327'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id/members</code></p>
-<h3 id='method-325'>Method</h3>
+<h3 id='method-327'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deletemailgroupmember'>DeleteMailGroupMember</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -16857,11 +16952,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>删除邮件组单个成员</p>
-<h3 id='doc-326'>Doc</h3>
+<h3 id='doc-328'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-member/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-member/delete</a></p>
-<h3 id='url-326'>URL</h3>
+<h3 id='url-328'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id/members/:member_id</code></p>
-<h3 id='method-326'>Method</h3>
+<h3 id='method-328'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='createmailgrouppermissionmember'>CreateMailGroupPermissionMember</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -16900,11 +16995,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>向邮件组添加单个自定义权限成员，添加后该成员可发送邮件到该邮件组</p>
-<h3 id='doc-327'>Doc</h3>
+<h3 id='doc-329'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-permission_member/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-permission_member/create</a></p>
-<h3 id='url-327'>URL</h3>
+<h3 id='url-329'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id/permission_members</code></p>
-<h3 id='method-327'>Method</h3>
+<h3 id='method-329'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getmailgrouppermissionmember'>GetMailGroupPermissionMember</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -16943,11 +17038,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取邮件组单个权限成员信息</p>
-<h3 id='doc-328'>Doc</h3>
+<h3 id='doc-330'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-permission_member/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-permission_member/get</a></p>
-<h3 id='url-328'>URL</h3>
+<h3 id='url-330'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id/permission_members/:permission_member_id</code></p>
-<h3 id='method-328'>Method</h3>
+<h3 id='method-330'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='getmailgrouppermissionmemberlist'>GetMailGroupPermissionMemberList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -16986,11 +17081,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>分页批量获取邮件组权限成员列表</p>
-<h3 id='doc-329'>Doc</h3>
+<h3 id='doc-331'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-permission_member/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-permission_member/list</a></p>
-<h3 id='url-329'>URL</h3>
+<h3 id='url-331'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id/permission_members</code></p>
-<h3 id='method-329'>Method</h3>
+<h3 id='method-331'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deletemailgrouppermissionmember'>DeleteMailGroupPermissionMember</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17029,11 +17124,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>从自定义成员中删除单个成员，删除后该成员无法发送邮件到该邮件组</p>
-<h3 id='doc-330'>Doc</h3>
+<h3 id='doc-332'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-permission_member/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-permission_member/delete</a></p>
-<h3 id='url-330'>URL</h3>
+<h3 id='url-332'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id/permission_members/:permission_member_id</code></p>
-<h3 id='method-330'>Method</h3>
+<h3 id='method-332'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='createmailgroupalias'>CreateMailGroupAlias</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17072,11 +17167,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>创建邮件组别名</p>
-<h3 id='doc-331'>Doc</h3>
+<h3 id='doc-333'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-alias/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-alias/create</a></p>
-<h3 id='url-331'>URL</h3>
+<h3 id='url-333'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id/aliases</code></p>
-<h3 id='method-331'>Method</h3>
+<h3 id='method-333'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getmailgroupaliaslist'>GetMailGroupAliasList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17115,11 +17210,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取邮件组所有别名</p>
-<h3 id='doc-332'>Doc</h3>
+<h3 id='doc-334'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-alias/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-alias/list</a></p>
-<h3 id='url-332'>URL</h3>
+<h3 id='url-334'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id/aliases</code></p>
-<h3 id='method-332'>Method</h3>
+<h3 id='method-334'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deletemailgroupalias'>DeleteMailGroupAlias</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17158,11 +17253,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>删除邮件组别名</p>
-<h3 id='doc-333'>Doc</h3>
+<h3 id='doc-335'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-alias/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/mailgroup-alias/delete</a></p>
-<h3 id='url-333'>URL</h3>
+<h3 id='url-335'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/mailgroups/:mailgroup_id/aliases/:alias_id</code></p>
-<h3 id='method-333'>Method</h3>
+<h3 id='method-335'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='createpublicmailbox'>CreatePublicMailbox</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17201,11 +17296,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>创建一个公共邮箱</p>
-<h3 id='doc-334'>Doc</h3>
+<h3 id='doc-336'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox/create</a></p>
-<h3 id='url-334'>URL</h3>
+<h3 id='url-336'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/public_mailboxes</code></p>
-<h3 id='method-334'>Method</h3>
+<h3 id='method-336'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getpublicmailbox'>GetPublicMailbox</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17244,11 +17339,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取公共邮箱信息</p>
-<h3 id='doc-335'>Doc</h3>
+<h3 id='doc-337'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox/get</a></p>
-<h3 id='url-335'>URL</h3>
+<h3 id='url-337'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id</code></p>
-<h3 id='method-335'>Method</h3>
+<h3 id='method-337'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='getpublicmailboxlist'>GetPublicMailboxList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17287,11 +17382,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>分页批量获取公共邮箱列表</p>
-<h3 id='doc-336'>Doc</h3>
+<h3 id='doc-338'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox/list</a></p>
-<h3 id='url-336'>URL</h3>
+<h3 id='url-338'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/public_mailboxes</code></p>
-<h3 id='method-336'>Method</h3>
+<h3 id='method-338'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='updatepublicmailboxpatch'>UpdatePublicMailboxPatch</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17330,11 +17425,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>更新公共邮箱部分字段，没有填写的字段不会被更新</p>
-<h3 id='doc-337'>Doc</h3>
+<h3 id='doc-339'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox/patch">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox/patch</a></p>
-<h3 id='url-337'>URL</h3>
+<h3 id='url-339'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id</code></p>
-<h3 id='method-337'>Method</h3>
+<h3 id='method-339'>Method</h3>
 <p><code>PATCH</code></p>
 <h2 id='updatepublicmailbox'>UpdatePublicMailbox</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17373,11 +17468,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>更新公共邮箱所有信息</p>
-<h3 id='doc-338'>Doc</h3>
+<h3 id='doc-340'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox/update">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox/update</a></p>
-<h3 id='url-338'>URL</h3>
+<h3 id='url-340'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id</code></p>
-<h3 id='method-338'>Method</h3>
+<h3 id='method-340'>Method</h3>
 <p><code>PUT</code></p>
 <h2 id='deletepublicmailbox'>DeletePublicMailbox</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17416,11 +17511,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口会永久删除公共邮箱地址。可用于释放邮箱回收站的公共邮箱地址，一旦删除，该邮箱地址将无法恢复。</p>
-<h3 id='doc-339'>Doc</h3>
+<h3 id='doc-341'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox/delete</a></p>
-<h3 id='url-339'>URL</h3>
+<h3 id='url-341'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id</code></p>
-<h3 id='method-339'>Method</h3>
+<h3 id='method-341'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='createpublicmailboxmember'>CreatePublicMailboxMember</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17459,11 +17554,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>向公共邮箱添加单个成员</p>
-<h3 id='doc-340'>Doc</h3>
+<h3 id='doc-342'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-member/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-member/create</a></p>
-<h3 id='url-340'>URL</h3>
+<h3 id='url-342'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id/members</code></p>
-<h3 id='method-340'>Method</h3>
+<h3 id='method-342'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getpublicmailboxmember'>GetPublicMailboxMember</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17502,11 +17597,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取公共邮箱单个成员信息</p>
-<h3 id='doc-341'>Doc</h3>
+<h3 id='doc-343'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-member/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-member/get</a></p>
-<h3 id='url-341'>URL</h3>
+<h3 id='url-343'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id/members/:member_id</code></p>
-<h3 id='method-341'>Method</h3>
+<h3 id='method-343'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='getpublicmailboxmemberlist'>GetPublicMailboxMemberList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17545,11 +17640,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>分页批量获取公共邮箱成员列表</p>
-<h3 id='doc-342'>Doc</h3>
+<h3 id='doc-344'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-member/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-member/list</a></p>
-<h3 id='url-342'>URL</h3>
+<h3 id='url-344'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id/members</code></p>
-<h3 id='method-342'>Method</h3>
+<h3 id='method-344'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deletepublicmailboxmember'>DeletePublicMailboxMember</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17588,11 +17683,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>删除公共邮箱单个成员</p>
-<h3 id='doc-343'>Doc</h3>
+<h3 id='doc-345'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-member/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-member/delete</a></p>
-<h3 id='url-343'>URL</h3>
+<h3 id='url-345'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id/members/:member_id</code></p>
-<h3 id='method-343'>Method</h3>
+<h3 id='method-345'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='clearpublicmailboxmember'>ClearPublicMailboxMember</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17631,11 +17726,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>删除公共邮箱所有成员</p>
-<h3 id='doc-344'>Doc</h3>
+<h3 id='doc-346'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-member/clear">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-member/clear</a></p>
-<h3 id='url-344'>URL</h3>
+<h3 id='url-346'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id/members/clear</code></p>
-<h3 id='method-344'>Method</h3>
+<h3 id='method-346'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='createmailpublicmailboxalias'>CreateMailPublicMailboxAlias</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17674,11 +17769,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>创建公共邮箱别名</p>
-<h3 id='doc-345'>Doc</h3>
+<h3 id='doc-347'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-alias/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-alias/create</a></p>
-<h3 id='url-345'>URL</h3>
+<h3 id='url-347'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id/aliases</code></p>
-<h3 id='method-345'>Method</h3>
+<h3 id='method-347'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getmailpublicmailboxaliaslist'>GetMailPublicMailboxAliasList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17717,11 +17812,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取所有公共邮箱别名</p>
-<h3 id='doc-346'>Doc</h3>
+<h3 id='doc-348'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-alias/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-alias/list</a></p>
-<h3 id='url-346'>URL</h3>
+<h3 id='url-348'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id/aliases</code></p>
-<h3 id='method-346'>Method</h3>
+<h3 id='method-348'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deletemailpublicmailboxalias'>DeleteMailPublicMailboxAlias</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17760,11 +17855,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>删除公共邮箱别名</p>
-<h3 id='doc-347'>Doc</h3>
+<h3 id='doc-349'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-alias/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/public_mailbox-alias/delete</a></p>
-<h3 id='url-347'>URL</h3>
+<h3 id='url-349'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/public_mailboxes/:public_mailbox_id/aliases/:alias_id</code></p>
-<h3 id='method-347'>Method</h3>
+<h3 id='method-349'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='createmailusermailboxalias'>CreateMailUserMailboxAlias</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17803,11 +17898,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>创建用户邮箱别名</p>
-<h3 id='doc-348'>Doc</h3>
+<h3 id='doc-350'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox-alias/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox-alias/create</a></p>
-<h3 id='url-348'>URL</h3>
+<h3 id='url-350'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/user_mailboxes/:user_mailbox_id/aliases</code></p>
-<h3 id='method-348'>Method</h3>
+<h3 id='method-350'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='deletemailusermailboxalias'>DeleteMailUserMailboxAlias</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17846,11 +17941,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>删除用户邮箱别名</p>
-<h3 id='doc-349'>Doc</h3>
+<h3 id='doc-351'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox-alias/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox-alias/delete</a></p>
-<h3 id='url-349'>URL</h3>
+<h3 id='url-351'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/user_mailboxes/:user_mailbox_id/aliases/:alias_id</code></p>
-<h3 id='method-349'>Method</h3>
+<h3 id='method-351'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='getmailusermailboxaliaslist'>GetMailUserMailboxAliasList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17889,11 +17984,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取用户邮箱所有别名</p>
-<h3 id='doc-350'>Doc</h3>
+<h3 id='doc-352'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox-alias/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox-alias/list</a></p>
-<h3 id='url-350'>URL</h3>
+<h3 id='url-352'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/user_mailboxes/:user_mailbox_id/aliases</code></p>
-<h3 id='method-350'>Method</h3>
+<h3 id='method-352'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deletemailusermailbox'>DeleteMailUserMailbox</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17932,11 +18027,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口会永久删除用户邮箱地址。可用于删除位于邮箱回收站中的用户邮箱地址，一旦删除，将无法恢复。该接口支持邮件的转移，可以将被释放邮箱的邮件转移到另外一个可以使用的邮箱中。</p>
-<h3 id='doc-351'>Doc</h3>
+<h3 id='doc-353'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/mail-v1/user_mailbox/delete</a></p>
-<h3 id='url-351'>URL</h3>
+<h3 id='url-353'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/mail/v1/user_mailboxes/:user_mailbox_id</code></p>
-<h3 id='method-351'>Method</h3>
+<h3 id='method-353'>Method</h3>
 <p><code>DELETE</code></p>
 <h1 id='approval'>Approval</h1><h2 id='getapproval'>GetApproval</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -17975,11 +18070,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据 Approval Code 获取某个审批定义的详情，用于构造创建审批实例的请求。</p>
-<h3 id='doc-352'>Doc</h3>
+<h3 id='doc-354'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uADNyUjLwQjM14CM0ITN">https://open.feishu.cn/document/ukTMukTMukTM/uADNyUjLwQjM14CM0ITN</a></p>
-<h3 id='url-352'>URL</h3>
+<h3 id='url-354'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v2/approval/get</code></p>
-<h3 id='method-352'>Method</h3>
+<h3 id='method-354'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getapprovalinstancelist'>GetApprovalInstanceList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18019,11 +18114,11 @@ fetch_child 决定是否递归)。</p></li>
 </code></pre></div>
 <p>根据 approval_code 批量获取审批实例的 instance_code，用于拉取租户下某个审批定义的全部审批实例。
 默认以审批创建时间排序。</p>
-<h3 id='doc-353'>Doc</h3>
+<h3 id='doc-355'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uQDOyUjL0gjM14CN4ITN">https://open.feishu.cn/document/ukTMukTMukTM/uQDOyUjL0gjM14CN4ITN</a></p>
-<h3 id='url-353'>URL</h3>
+<h3 id='url-355'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v2/instance/list</code></p>
-<h3 id='method-353'>Method</h3>
+<h3 id='method-355'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getapprovalinstance'>GetApprovalInstance</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18062,11 +18157,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>通过审批实例 Instance Code  获取审批实例详情。Instance Code 由 <a href="/ssl:ttdoc/ukTMukTMukTM/uQDOyUjL0gjM14CN4ITN">批量获取审批实例</a> 接口获取。</p>
-<h3 id='doc-354'>Doc</h3>
+<h3 id='doc-356'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uEDNyUjLxQjM14SM0ITN">https://open.feishu.cn/document/ukTMukTMukTM/uEDNyUjLxQjM14SM0ITN</a></p>
-<h3 id='url-354'>URL</h3>
+<h3 id='url-356'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v2/instance/get</code></p>
-<h3 id='method-354'>Method</h3>
+<h3 id='method-356'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='createapprovalinstance'>CreateApprovalInstance</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18105,11 +18200,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>创建一个审批实例，调用方需对审批定义的表单有详细了解，将按照定义的表单结构，将表单 Value 通过接口传入。</p>
-<h3 id='doc-355'>Doc</h3>
+<h3 id='doc-357'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uIDNyUjLyQjM14iM0ITN">https://open.feishu.cn/document/ukTMukTMukTM/uIDNyUjLyQjM14iM0ITN</a></p>
-<h3 id='url-355'>URL</h3>
+<h3 id='url-357'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v2/instance/create</code></p>
-<h3 id='method-355'>Method</h3>
+<h3 id='method-357'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='approveapprovalinstance'>ApproveApprovalInstance</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18148,11 +18243,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>对于单个审批任务进行同意操作。同意后审批流程会流转到下一个审批人。</p>
-<h3 id='doc-356'>Doc</h3>
+<h3 id='doc-358'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMDNyUjLzQjM14yM0ITN">https://open.feishu.cn/document/ukTMukTMukTM/uMDNyUjLzQjM14yM0ITN</a></p>
-<h3 id='url-356'>URL</h3>
+<h3 id='url-358'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v2/instance/approve</code></p>
-<h3 id='method-356'>Method</h3>
+<h3 id='method-358'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='rejectapprovalinstance'>RejectApprovalInstance</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18191,11 +18286,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>对于单个审批任务进行拒绝操作。拒绝后审批流程结束。</p>
-<h3 id='doc-357'>Doc</h3>
+<h3 id='doc-359'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uQDNyUjL0QjM14CN0ITN">https://open.feishu.cn/document/ukTMukTMukTM/uQDNyUjL0QjM14CN0ITN</a></p>
-<h3 id='url-357'>URL</h3>
+<h3 id='url-359'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v2/instance/reject</code></p>
-<h3 id='method-357'>Method</h3>
+<h3 id='method-359'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='transferapprovalinstance'>TransferApprovalInstance</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18234,11 +18329,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>对于单个审批任务进行转交操作。转交后审批流程流转给被转交人。</p>
-<h3 id='doc-358'>Doc</h3>
+<h3 id='doc-360'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uUDNyUjL1QjM14SN0ITN">https://open.feishu.cn/document/ukTMukTMukTM/uUDNyUjL1QjM14SN0ITN</a></p>
-<h3 id='url-358'>URL</h3>
+<h3 id='url-360'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v2/instance/transfer</code></p>
-<h3 id='method-358'>Method</h3>
+<h3 id='method-360'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='rollbackapprovalinstance'>RollbackApprovalInstance</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18277,11 +18372,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>从当前审批任务，退回到已审批的一个或多个任务节点。退回后，已审批节点重新生成审批任务</p>
-<h3 id='doc-359'>Doc</h3>
+<h3 id='doc-361'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-task-return">https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-task-return</a></p>
-<h3 id='url-359'>URL</h3>
+<h3 id='url-361'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/approval/v4/instances/specified_rollback</code></p>
-<h3 id='method-359'>Method</h3>
+<h3 id='method-361'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='cancelapprovalinstance'>CancelApprovalInstance</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18320,11 +18415,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>对于状态为“审批中”的单个审批实例进行撤销操作，撤销后审批流程结束</p>
-<h3 id='doc-360'>Doc</h3>
+<h3 id='doc-362'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uYDNyUjL2QjM14iN0ITN">https://open.feishu.cn/document/ukTMukTMukTM/uYDNyUjL2QjM14iN0ITN</a></p>
-<h3 id='url-360'>URL</h3>
+<h3 id='url-362'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v2/instance/cancel</code></p>
-<h3 id='method-360'>Method</h3>
+<h3 id='method-362'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='searchapprovalinstance'>SearchApprovalInstance</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18363,11 +18458,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口通过不同条件查询审批系统中符合条件的审批实例列表。</p>
-<h3 id='doc-361'>Doc</h3>
+<h3 id='doc-363'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uQjMxYjL0ITM24CNyEjN">https://open.feishu.cn/document/ukTMukTMukTM/uQjMxYjL0ITM24CNyEjN</a></p>
-<h3 id='url-361'>URL</h3>
+<h3 id='url-363'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v2/instance/search</code></p>
-<h3 id='method-361'>Method</h3>
+<h3 id='method-363'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='addapprovalinstancesign'>AddApprovalInstanceSign</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18406,11 +18501,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>对于单个审批任务进行加签操作。</p>
-<h3 id='doc-362'>Doc</h3>
+<h3 id='doc-364'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-task-addsign">https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-task-addsign</a></p>
-<h3 id='url-362'>URL</h3>
+<h3 id='url-364'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/approval/v4/instances/add_sign</code></p>
-<h3 id='method-362'>Method</h3>
+<h3 id='method-364'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='uploadapprovalfile'>UploadApprovalFile</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18449,11 +18544,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>当审批表单中有图片或附件控件时，开发者需在创建审批实例前通过审批上传文件接口将文件上传到审批系统，且附件上传大小限制为50M，图片上传大小为10M。</p>
-<h3 id='doc-363'>Doc</h3>
+<h3 id='doc-365'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uUDOyUjL1gjM14SN4ITN">https://open.feishu.cn/document/ukTMukTMukTM/uUDOyUjL1gjM14SN4ITN</a></p>
-<h3 id='url-363'>URL</h3>
+<h3 id='url-365'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v2/file/upload</code></p>
-<h3 id='method-363'>Method</h3>
+<h3 id='method-365'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='searchapprovaltask'>SearchApprovalTask</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18492,11 +18587,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口通过不同条件查询审批系统中符合条件的审批任务列表</p>
-<h3 id='doc-364'>Doc</h3>
+<h3 id='doc-366'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uYjMxYjL2ITM24iNyEjN">https://open.feishu.cn/document/ukTMukTMukTM/uYjMxYjL2ITM24iNyEjN</a></p>
-<h3 id='url-364'>URL</h3>
+<h3 id='url-366'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v2/task/search</code></p>
-<h3 id='method-364'>Method</h3>
+<h3 id='method-366'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getapprovalusertasklist'>GetApprovalUserTaskList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18535,11 +18630,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据用户和任务分组查询任务列表</p>
-<h3 id='doc-365'>Doc</h3>
+<h3 id='doc-367'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/approval-v4/task/query">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/approval-v4/task/query</a></p>
-<h3 id='url-365'>URL</h3>
+<h3 id='url-367'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/approval/v4/tasks/query</code></p>
-<h3 id='method-365'>Method</h3>
+<h3 id='method-367'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='searchapprovalcarboncopy'>SearchApprovalCarbonCopy</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18578,11 +18673,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口通过不同条件查询审批系统中符合条件的审批抄送列表。</p>
-<h3 id='doc-366'>Doc</h3>
+<h3 id='doc-368'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uUjMxYjL1ITM24SNyEjN">https://open.feishu.cn/document/ukTMukTMukTM/uUjMxYjL1ITM24SNyEjN</a></p>
-<h3 id='url-366'>URL</h3>
+<h3 id='url-368'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v2/cc/search</code></p>
-<h3 id='method-366'>Method</h3>
+<h3 id='method-368'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='createapprovalcarboncopy'>CreateApprovalCarbonCopy</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18621,11 +18716,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>通过接口可以将当前审批实例抄送给其他人。</p>
-<h3 id='doc-367'>Doc</h3>
+<h3 id='doc-369'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uADOzYjLwgzM24CM4MjN">https://open.feishu.cn/document/ukTMukTMukTM/uADOzYjLwgzM24CM4MjN</a></p>
-<h3 id='url-367'>URL</h3>
+<h3 id='url-369'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v2/instance/cc</code></p>
-<h3 id='method-367'>Method</h3>
+<h3 id='method-369'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='previewapprovalinstance'>PreviewApprovalInstance</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18664,11 +18759,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>提交审批前，预览审批流程。或者发起审批后，在某一审批节点预览后续流程</p>
-<h3 id='doc-368'>Doc</h3>
+<h3 id='doc-370'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-preview">https://open.feishu.cn/document/ukTMukTMukTM/ukTM5UjL5ETO14SOxkTN/approval-preview</a></p>
-<h3 id='url-368'>URL</h3>
+<h3 id='url-370'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/approval/v4/instances/preview</code></p>
-<h3 id='method-368'>Method</h3>
+<h3 id='method-370'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='updateapprovalmessage'>UpdateApprovalMessage</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18707,11 +18802,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>此接口可以根据审批bot消息id及相应状态，更新相应的审批bot消息，只可用于更新待审批模板的bot消息。例如，给用户推送了审批待办消息，当用户处理该消息后，可以将之前推送的Bot消息更新为已审批。</p>
-<h3 id='doc-369'>Doc</h3>
+<h3 id='doc-371'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uAjNyYjLwYjM24CM2IjN">https://open.feishu.cn/document/ukTMukTMukTM/uAjNyYjLwYjM24CM2IjN</a></p>
-<h3 id='url-369'>URL</h3>
+<h3 id='url-371'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v1/message/update</code></p>
-<h3 id='method-369'>Method</h3>
+<h3 id='method-371'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='subscribeapprovalsubscription'>SubscribeApprovalSubscription</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18754,11 +18849,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>当应用不希望再收到审批事件时，可以使用取消订阅接口进行取消，取消后将不再给应用推送消息。</p>
 
 <p>订阅和取消订阅都是应用维度的，多个应用可以同时订阅同一个 approval_code，每个应用都能收到审批事件。</p>
-<h3 id='doc-370'>Doc</h3>
+<h3 id='doc-372'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/ucDOyUjL3gjM14yN4ITN">https://open.feishu.cn/document/ukTMukTMukTM/ucDOyUjL3gjM14yN4ITN</a></p>
-<h3 id='url-370'>URL</h3>
+<h3 id='url-372'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v2/subscription/subscribe</code></p>
-<h3 id='method-370'>Method</h3>
+<h3 id='method-372'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='unsubscribeapprovalsubscription'>UnsubscribeApprovalSubscription</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18797,11 +18892,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>取消订阅 approval_code 后，无法再收到该审批定义对应实例的事件通知。</p>
-<h3 id='doc-371'>Doc</h3>
+<h3 id='doc-373'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/ugDOyUjL4gjM14CO4ITN">https://open.feishu.cn/document/ukTMukTMukTM/ugDOyUjL4gjM14CO4ITN</a></p>
-<h3 id='url-371'>URL</h3>
+<h3 id='url-373'>URL</h3>
 <p><code>https://www.feishu.cn/approval/openapi/v2/subscription/unsubscribe</code></p>
-<h3 id='method-371'>Method</h3>
+<h3 id='method-373'>Method</h3>
 <p><code>POST</code></p>
 <h1 id='helpdesk'>Helpdesk</h1><h2 id='createhelpdesknotification'>CreateHelpdeskNotification</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18840,11 +18935,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>调用接口创建推送，创建成功后为草稿状态</p>
-<h3 id='doc-372'>Doc</h3>
+<h3 id='doc-374'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/create</a></p>
-<h3 id='url-372'>URL</h3>
+<h3 id='url-374'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/notifications</code></p>
-<h3 id='method-372'>Method</h3>
+<h3 id='method-374'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='updatehelpdesknotification'>UpdateHelpdeskNotification</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18883,11 +18978,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>更新推送信息，只有在草稿状态下才可以调用此接口进行更新</p>
-<h3 id='doc-373'>Doc</h3>
+<h3 id='doc-375'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/patch">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/patch</a></p>
-<h3 id='url-373'>URL</h3>
+<h3 id='url-375'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/notifications/:notification_id</code></p>
-<h3 id='method-373'>Method</h3>
+<h3 id='method-375'>Method</h3>
 <p><code>PATCH</code></p>
 <h2 id='gethelpdesknotification'>GetHelpdeskNotification</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18926,11 +19021,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>查询推送详情</p>
-<h3 id='doc-374'>Doc</h3>
+<h3 id='doc-376'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/get</a></p>
-<h3 id='url-374'>URL</h3>
+<h3 id='url-376'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/notifications/:notification_id</code></p>
-<h3 id='method-374'>Method</h3>
+<h3 id='method-376'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='previewhelpdesknotification'>PreviewHelpdeskNotification</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -18969,11 +19064,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>在正式执行推送之前是可以调用此接口预览设置的推送内容</p>
-<h3 id='doc-375'>Doc</h3>
+<h3 id='doc-377'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/preview">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/preview</a></p>
-<h3 id='url-375'>URL</h3>
+<h3 id='url-377'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/notifications/:notification_id/preview</code></p>
-<h3 id='method-375'>Method</h3>
+<h3 id='method-377'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='submitapprovehelpdesknotification'>SubmitApproveHelpdeskNotification</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19012,11 +19107,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>正常情况下调用创建推送接口后，就可以调用提交审核接口，如果创建人是服务台owner则会自动审核通过，否则会通知服务台owner审核此推送信息</p>
-<h3 id='doc-376'>Doc</h3>
+<h3 id='doc-378'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/submit_approve">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/submit_approve</a></p>
-<h3 id='url-376'>URL</h3>
+<h3 id='url-378'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/notifications/:notification_id/submit_approve</code></p>
-<h3 id='method-376'>Method</h3>
+<h3 id='method-378'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='cancelapprovehelpdesknotification'>CancelApproveHelpdeskNotification</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19055,11 +19150,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>提交审核后，如果需要取消审核，则调用此接口</p>
-<h3 id='doc-377'>Doc</h3>
+<h3 id='doc-379'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/cancel_approve">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/cancel_approve</a></p>
-<h3 id='url-377'>URL</h3>
+<h3 id='url-379'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/notifications/:notification_id/cancel_approve</code></p>
-<h3 id='method-377'>Method</h3>
+<h3 id='method-379'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='executesendhelpdesknotification'>ExecuteSendHelpdeskNotification</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19098,11 +19193,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>审核通过后调用此接口设置推送时间，等待调度系统调度，发送消息</p>
-<h3 id='doc-378'>Doc</h3>
+<h3 id='doc-380'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/execute_send">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/execute_send</a></p>
-<h3 id='url-378'>URL</h3>
+<h3 id='url-380'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/notifications/:notification_id/execute_send</code></p>
-<h3 id='method-378'>Method</h3>
+<h3 id='method-380'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='cancelsendhelpdesknotification'>CancelSendHelpdeskNotification</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19141,11 +19236,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>取消推送接口，审核通过后待调度可以调用，发送过程中可以调用（会撤回已发送的消息），发送完成后可以需要推送（会撤回所有已发送的消息）</p>
-<h3 id='doc-379'>Doc</h3>
+<h3 id='doc-381'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/cancel_send">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/notification/cancel_send</a></p>
-<h3 id='url-379'>URL</h3>
+<h3 id='url-381'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/notifications/:notification_id/cancel_send</code></p>
-<h3 id='method-379'>Method</h3>
+<h3 id='method-381'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='starthelpdeskservice'>StartHelpdeskService</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19184,11 +19279,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于创建服务台对话。</p>
-<h3 id='doc-380'>Doc</h3>
+<h3 id='doc-382'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/start_service">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/start_service</a></p>
-<h3 id='url-380'>URL</h3>
+<h3 id='url-382'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/start_service</code></p>
-<h3 id='method-380'>Method</h3>
+<h3 id='method-382'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='gethelpdeskticket'>GetHelpdeskTicket</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19227,11 +19322,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取单个服务台工单详情。仅支持自建应用。</p>
-<h3 id='doc-381'>Doc</h3>
+<h3 id='doc-383'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/get</a></p>
-<h3 id='url-381'>URL</h3>
+<h3 id='url-383'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/tickets/:ticket_id</code></p>
-<h3 id='method-381'>Method</h3>
+<h3 id='method-383'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='updatehelpdeskticket'>UpdateHelpdeskTicket</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19270,11 +19365,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于更新服务台工单详情。只会更新数据，不会触发相关操作。如修改工单状态到关单，不会关闭聊天页面。仅支持自建应用。要更新的工单字段必须至少输入一项。</p>
-<h3 id='doc-382'>Doc</h3>
+<h3 id='doc-384'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/update">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/update</a></p>
-<h3 id='url-382'>URL</h3>
+<h3 id='url-384'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/tickets/:ticket_id</code></p>
-<h3 id='method-382'>Method</h3>
+<h3 id='method-384'>Method</h3>
 <p><code>PUT</code></p>
 <h2 id='gethelpdeskticketlist'>GetHelpdeskTicketList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19313,11 +19408,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取全部工单详情。仅支持自建应用。</p>
-<h3 id='doc-383'>Doc</h3>
+<h3 id='doc-385'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/list</a></p>
-<h3 id='url-383'>URL</h3>
+<h3 id='url-385'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/tickets</code></p>
-<h3 id='method-383'>Method</h3>
+<h3 id='method-385'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='downloadhelpdeskticketimage'>DownloadHelpdeskTicketImage</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19356,11 +19451,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取服务台工单消息图象。仅支持自建应用。</p>
-<h3 id='doc-384'>Doc</h3>
+<h3 id='doc-386'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/ticket_image">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/ticket_image</a></p>
-<h3 id='url-384'>URL</h3>
+<h3 id='url-386'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/ticket_images</code></p>
-<h3 id='method-384'>Method</h3>
+<h3 id='method-386'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='answerhelpdeskticketuserquery'>AnswerHelpdeskTicketUserQuery</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19399,11 +19494,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于回复用户提问结果至工单，需要工单仍处于进行中且未接入人工状态。仅支持自建应用。</p>
-<h3 id='doc-385'>Doc</h3>
+<h3 id='doc-387'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/answer_user_query">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/answer_user_query</a></p>
-<h3 id='url-385'>URL</h3>
+<h3 id='url-387'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/tickets/:ticket_id/answer_user_query</code></p>
-<h3 id='method-385'>Method</h3>
+<h3 id='method-387'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='gethelpdeskticketcustomizedfields'>GetHelpdeskTicketCustomizedFields</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19442,11 +19537,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取服务台自定义字段详情。</p>
-<h3 id='doc-386'>Doc</h3>
+<h3 id='doc-388'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/customized_fields">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket/customized_fields</a></p>
-<h3 id='url-386'>URL</h3>
+<h3 id='url-388'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/customized_fields</code></p>
-<h3 id='method-386'>Method</h3>
+<h3 id='method-388'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethelpdeskticketmessagelist'>GetHelpdeskTicketMessageList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19485,11 +19580,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取服务台工单消息详情。</p>
-<h3 id='doc-387'>Doc</h3>
+<h3 id='doc-389'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket-message/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket-message/list</a></p>
-<h3 id='url-387'>URL</h3>
+<h3 id='url-389'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/tickets/:ticket_id/messages</code></p>
-<h3 id='method-387'>Method</h3>
+<h3 id='method-389'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='sendhelpdeskticketmessage'>SendHelpdeskTicketMessage</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19528,11 +19623,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于工单发送消息。</p>
-<h3 id='doc-388'>Doc</h3>
+<h3 id='doc-390'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket-message/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket-message/create</a></p>
-<h3 id='url-388'>URL</h3>
+<h3 id='url-390'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/tickets/:ticket_id/messages</code></p>
-<h3 id='method-388'>Method</h3>
+<h3 id='method-390'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='sendhelpdeskmessage'>SendHelpdeskMessage</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19571,11 +19666,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>通过服务台机器人给指定用户的服务台专属群或私聊发送消息，支持文本、富文本、卡片、图片。</p>
-<h3 id='doc-389'>Doc</h3>
+<h3 id='doc-391'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/bot-message/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/bot-message/create</a></p>
-<h3 id='url-389'>URL</h3>
+<h3 id='url-391'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/message</code></p>
-<h3 id='method-389'>Method</h3>
+<h3 id='method-391'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='gethelpdeskticketcustomizedfieldlist'>GetHelpdeskTicketCustomizedFieldList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19614,11 +19709,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取全部工单自定义字段。</p>
-<h3 id='doc-390'>Doc</h3>
+<h3 id='doc-392'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket_customized_field/list-ticket-customized-fields">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket_customized_field/list-ticket-customized-fields</a></p>
-<h3 id='url-390'>URL</h3>
+<h3 id='url-392'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/ticket_customized_fields</code></p>
-<h3 id='method-390'>Method</h3>
+<h3 id='method-392'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deletehelpdeskticketcustomizedfield'>DeleteHelpdeskTicketCustomizedField</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19657,11 +19752,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于删除工单自定义字段。</p>
-<h3 id='doc-391'>Doc</h3>
+<h3 id='doc-393'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket_customized_field/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket_customized_field/delete</a></p>
-<h3 id='url-391'>URL</h3>
+<h3 id='url-393'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/ticket_customized_fields/:ticket_customized_field_id</code></p>
-<h3 id='method-391'>Method</h3>
+<h3 id='method-393'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='updatehelpdeskticketcustomizedfield'>UpdateHelpdeskTicketCustomizedField</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19700,11 +19795,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于更新自定义字段。</p>
-<h3 id='doc-392'>Doc</h3>
+<h3 id='doc-394'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket_customized_field/update-ticket-customized-field">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket_customized_field/update-ticket-customized-field</a></p>
-<h3 id='url-392'>URL</h3>
+<h3 id='url-394'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/ticket_customized_fields/:ticket_customized_field_id</code></p>
-<h3 id='method-392'>Method</h3>
+<h3 id='method-394'>Method</h3>
 <p><code>PATCH</code></p>
 <h2 id='createhelpdeskticketcustomizedfield'>CreateHelpdeskTicketCustomizedField</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19743,11 +19838,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于创建自定义字段</p>
-<h3 id='doc-393'>Doc</h3>
+<h3 id='doc-395'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket_customized_field/create-ticket-customized-field">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket_customized_field/create-ticket-customized-field</a></p>
-<h3 id='url-393'>URL</h3>
+<h3 id='url-395'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/ticket_customized_fields</code></p>
-<h3 id='method-393'>Method</h3>
+<h3 id='method-395'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='gethelpdeskticketcustomizedfield'>GetHelpdeskTicketCustomizedField</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19786,11 +19881,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取工单自定义字段详情。</p>
-<h3 id='doc-394'>Doc</h3>
+<h3 id='doc-396'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket_customized_field/get-ticket-customized-field">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/ticket_customized_field/get-ticket-customized-field</a></p>
-<h3 id='url-394'>URL</h3>
+<h3 id='url-396'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/ticket_customized_fields/:ticket_customized_field_id</code></p>
-<h3 id='method-394'>Method</h3>
+<h3 id='method-396'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='createhelpdeskcategory'>CreateHelpdeskCategory</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19829,11 +19924,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于创建知识库分类。</p>
-<h3 id='doc-395'>Doc</h3>
+<h3 id='doc-397'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/category/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/category/create</a></p>
-<h3 id='url-395'>URL</h3>
+<h3 id='url-397'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/categories</code></p>
-<h3 id='method-395'>Method</h3>
+<h3 id='method-397'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='gethelpdeskcategory'>GetHelpdeskCategory</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19872,11 +19967,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取知识库分类。</p>
-<h3 id='doc-396'>Doc</h3>
+<h3 id='doc-398'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/category/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/category/get</a></p>
-<h3 id='url-396'>URL</h3>
+<h3 id='url-398'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/categories/:id</code></p>
-<h3 id='method-396'>Method</h3>
+<h3 id='method-398'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='updatehelpdeskcategory'>UpdateHelpdeskCategory</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19915,11 +20010,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于更新知识库分类详情。</p>
-<h3 id='doc-397'>Doc</h3>
+<h3 id='doc-399'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/category/patch">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/category/patch</a></p>
-<h3 id='url-397'>URL</h3>
+<h3 id='url-399'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/categories/:id</code></p>
-<h3 id='method-397'>Method</h3>
+<h3 id='method-399'>Method</h3>
 <p><code>PATCH</code></p>
 <h2 id='deletehelpdeskcategory'>DeleteHelpdeskCategory</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -19958,11 +20053,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于删除知识库分类详情。</p>
-<h3 id='doc-398'>Doc</h3>
+<h3 id='doc-400'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/category/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/category/delete</a></p>
-<h3 id='url-398'>URL</h3>
+<h3 id='url-400'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/categories/:id</code></p>
-<h3 id='method-398'>Method</h3>
+<h3 id='method-400'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='gethelpdeskcategorylist'>GetHelpdeskCategoryList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20001,11 +20096,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取服务台知识库所有分类。</p>
-<h3 id='doc-399'>Doc</h3>
+<h3 id='doc-401'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/category/list-categories">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/category/list-categories</a></p>
-<h3 id='url-399'>URL</h3>
+<h3 id='url-401'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/categories</code></p>
-<h3 id='method-399'>Method</h3>
+<h3 id='method-401'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='createhelpdeskfaq'>CreateHelpdeskFAQ</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20044,11 +20139,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于创建知识库。</p>
-<h3 id='doc-400'>Doc</h3>
+<h3 id='doc-402'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/faq/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/faq/create</a></p>
-<h3 id='url-400'>URL</h3>
+<h3 id='url-402'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/faqs</code></p>
-<h3 id='method-400'>Method</h3>
+<h3 id='method-402'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='gethelpdeskfaq'>GetHelpdeskFAQ</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20087,11 +20182,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取服务台知识库详情。</p>
-<h3 id='doc-401'>Doc</h3>
+<h3 id='doc-403'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/faq/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/faq/get</a></p>
-<h3 id='url-401'>URL</h3>
+<h3 id='url-403'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/faqs/:id</code></p>
-<h3 id='method-401'>Method</h3>
+<h3 id='method-403'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='updatehelpdeskfaq'>UpdateHelpdeskFAQ</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20130,11 +20225,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于修改知识库。</p>
-<h3 id='doc-402'>Doc</h3>
+<h3 id='doc-404'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/faq/patch">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/faq/patch</a></p>
-<h3 id='url-402'>URL</h3>
+<h3 id='url-404'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/faqs/:id</code></p>
-<h3 id='method-402'>Method</h3>
+<h3 id='method-404'>Method</h3>
 <p><code>PATCH</code></p>
 <h2 id='deletehelpdeskfaq'>DeleteHelpdeskFAQ</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20173,11 +20268,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于删除知识库。</p>
-<h3 id='doc-403'>Doc</h3>
+<h3 id='doc-405'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/faq/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/faq/delete</a></p>
-<h3 id='url-403'>URL</h3>
+<h3 id='url-405'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/faqs/:id</code></p>
-<h3 id='method-403'>Method</h3>
+<h3 id='method-405'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='gethelpdeskfaqlist'>GetHelpdeskFAQList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20216,11 +20311,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取服务台知识库详情。</p>
-<h3 id='doc-404'>Doc</h3>
+<h3 id='doc-406'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/faq/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/faq/list</a></p>
-<h3 id='url-404'>URL</h3>
+<h3 id='url-406'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/faqs</code></p>
-<h3 id='method-404'>Method</h3>
+<h3 id='method-406'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethelpdeskfaqimage'>GetHelpdeskFAQImage</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20259,11 +20354,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取知识库图像。</p>
-<h3 id='doc-405'>Doc</h3>
+<h3 id='doc-407'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/faq/faq_image">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/faq/faq_image</a></p>
-<h3 id='url-405'>URL</h3>
+<h3 id='url-407'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/faqs/:id/image/:image_key</code></p>
-<h3 id='method-405'>Method</h3>
+<h3 id='method-407'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='searchhelpdeskfaq'>SearchHelpdeskFAQ</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20302,11 +20397,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于搜索服务台知识库。</p>
-<h3 id='doc-406'>Doc</h3>
+<h3 id='doc-408'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/faq/search">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/faq/search</a></p>
-<h3 id='url-406'>URL</h3>
+<h3 id='url-408'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/faqs/search</code></p>
-<h3 id='method-406'>Method</h3>
+<h3 id='method-408'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='updatehelpdeskagent'>UpdateHelpdeskAgent</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20345,11 +20440,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>更新客服状态等信息</p>
-<h3 id='doc-407'>Doc</h3>
+<h3 id='doc-409'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent/patch">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent/patch</a></p>
-<h3 id='url-407'>URL</h3>
+<h3 id='url-409'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/agents/:agent_id</code></p>
-<h3 id='method-407'>Method</h3>
+<h3 id='method-409'>Method</h3>
 <p><code>PATCH</code></p>
 <h2 id='gethelpdeskagentemail'>GetHelpdeskAgentEmail</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20388,11 +20483,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取客服邮箱地址</p>
-<h3 id='doc-408'>Doc</h3>
+<h3 id='doc-410'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent/agent_email">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent/agent_email</a></p>
-<h3 id='url-408'>URL</h3>
+<h3 id='url-410'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/agent_emails</code></p>
-<h3 id='method-408'>Method</h3>
+<h3 id='method-410'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='createhelpdeskagentschedule'>CreateHelpdeskAgentSchedule</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20431,11 +20526,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于创建客服</p>
-<h3 id='doc-409'>Doc</h3>
+<h3 id='doc-411'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_schedule/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_schedule/create</a></p>
-<h3 id='url-409'>URL</h3>
+<h3 id='url-411'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/agent_schedules</code></p>
-<h3 id='method-409'>Method</h3>
+<h3 id='method-411'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='deletehelpdeskagentschedule'>DeleteHelpdeskAgentSchedule</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20474,11 +20569,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于删除客服</p>
-<h3 id='doc-410'>Doc</h3>
+<h3 id='doc-412'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent-schedules/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent-schedules/delete</a></p>
-<h3 id='url-410'>URL</h3>
+<h3 id='url-412'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/agents/:agent_id/schedules</code></p>
-<h3 id='method-410'>Method</h3>
+<h3 id='method-412'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='updatehelpdeskagentschedule'>UpdateHelpdeskAgentSchedule</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20517,11 +20612,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于更新客服的日程</p>
-<h3 id='doc-411'>Doc</h3>
+<h3 id='doc-413'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent-schedules/patch">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent-schedules/patch</a></p>
-<h3 id='url-411'>URL</h3>
+<h3 id='url-413'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/agents/:agent_id/schedules</code></p>
-<h3 id='method-411'>Method</h3>
+<h3 id='method-413'>Method</h3>
 <p><code>PATCH</code></p>
 <h2 id='gethelpdeskagentschedule'>GetHelpdeskAgentSchedule</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20560,11 +20655,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取客服信息</p>
-<h3 id='doc-412'>Doc</h3>
+<h3 id='doc-414'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent-schedules/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent-schedules/get</a></p>
-<h3 id='url-412'>URL</h3>
+<h3 id='url-414'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/agents/:agent_id/schedules</code></p>
-<h3 id='method-412'>Method</h3>
+<h3 id='method-414'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethelpdeskagentschedulelist'>GetHelpdeskAgentScheduleList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20603,11 +20698,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取所有客服信息</p>
-<h3 id='doc-413'>Doc</h3>
+<h3 id='doc-415'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_schedule/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_schedule/list</a></p>
-<h3 id='url-413'>URL</h3>
+<h3 id='url-415'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/agent_schedules</code></p>
-<h3 id='method-413'>Method</h3>
+<h3 id='method-415'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='createhelpdeskagentskill'>CreateHelpdeskAgentSkill</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20646,11 +20741,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于创建客服技能</p>
-<h3 id='doc-414'>Doc</h3>
+<h3 id='doc-416'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/create</a></p>
-<h3 id='url-414'>URL</h3>
+<h3 id='url-416'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/agent_skills</code></p>
-<h3 id='method-414'>Method</h3>
+<h3 id='method-416'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='gethelpdeskagentskill'>GetHelpdeskAgentSkill</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20689,11 +20784,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取客服技能</p>
-<h3 id='doc-415'>Doc</h3>
+<h3 id='doc-417'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/get</a></p>
-<h3 id='url-415'>URL</h3>
+<h3 id='url-417'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/agent_skills/:agent_skill_id</code></p>
-<h3 id='method-415'>Method</h3>
+<h3 id='method-417'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='updatehelpdeskagentskill'>UpdateHelpdeskAgentSkill</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20732,11 +20827,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于更新客服技能</p>
-<h3 id='doc-416'>Doc</h3>
+<h3 id='doc-418'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/patch">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/patch</a></p>
-<h3 id='url-416'>URL</h3>
+<h3 id='url-418'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/agent_skills/:agent_skill_id</code></p>
-<h3 id='method-416'>Method</h3>
+<h3 id='method-418'>Method</h3>
 <p><code>PATCH</code></p>
 <h2 id='deletehelpdeskagentskill'>DeleteHelpdeskAgentSkill</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20775,11 +20870,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于删除客服技能</p>
-<h3 id='doc-417'>Doc</h3>
+<h3 id='doc-419'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/delete</a></p>
-<h3 id='url-417'>URL</h3>
+<h3 id='url-419'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/agent_skills/:agent_skill_id</code></p>
-<h3 id='method-417'>Method</h3>
+<h3 id='method-419'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='gethelpdeskagentskilllist'>GetHelpdeskAgentSkillList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20818,11 +20913,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取全部客服技能</p>
-<h3 id='doc-418'>Doc</h3>
+<h3 id='doc-420'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill/list</a></p>
-<h3 id='url-418'>URL</h3>
+<h3 id='url-420'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/agent_skills</code></p>
-<h3 id='method-418'>Method</h3>
+<h3 id='method-420'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethelpdeskagentskillrulelist'>GetHelpdeskAgentSkillRuleList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20861,11 +20956,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取全部客服技能。仅支持自建应用。</p>
-<h3 id='doc-419'>Doc</h3>
+<h3 id='doc-421'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill_rule/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/agent_skill_rule/list</a></p>
-<h3 id='url-419'>URL</h3>
+<h3 id='url-421'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/agent_skill_rules</code></p>
-<h3 id='method-419'>Method</h3>
+<h3 id='method-421'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='subscribehelpdeskevent'>SubscribeHelpdeskEvent</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20904,11 +20999,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>用于订阅服务台事件</p>
-<h3 id='doc-420'>Doc</h3>
+<h3 id='doc-422'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/event/subscribe">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/event/subscribe</a></p>
-<h3 id='url-420'>URL</h3>
+<h3 id='url-422'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/events/subscribe</code></p>
-<h3 id='method-420'>Method</h3>
+<h3 id='method-422'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='unsubscribehelpdeskevent'>UnsubscribeHelpdeskEvent</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20947,11 +21042,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>用于取消订阅服务台事件</p>
-<h3 id='doc-421'>Doc</h3>
+<h3 id='doc-423'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/event/unsubscribe">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/helpdesk-v1/event/unsubscribe</a></p>
-<h3 id='url-421'>URL</h3>
+<h3 id='url-423'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/helpdesk/v1/events/unsubscribe</code></p>
-<h3 id='method-421'>Method</h3>
+<h3 id='method-423'>Method</h3>
 <p><code>POST</code></p>
 <h1 id='admin'>Admin</h1><h2 id='getadmindeptstats'>GetAdminDeptStats</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -20996,11 +21091,11 @@ fetch_child 决定是否递归)。</p></li>
 <li><p>当天的数据会在第二天的早上九点半产出（UTC+8）</p></li>
 <li><p>部门维度的数据最多查询最近366天（包含366天）的数据</p></li>
 </ul>
-<h3 id='doc-422'>Doc</h3>
+<h3 id='doc-424'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/admin-v1/admin_dept_stat/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/admin-v1/admin_dept_stat/list</a></p>
-<h3 id='url-422'>URL</h3>
+<h3 id='url-424'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/admin/v1/admin_dept_stats</code></p>
-<h3 id='method-422'>Method</h3>
+<h3 id='method-424'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='getadminuserstats'>GetAdminUserStats</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21045,11 +21140,11 @@ fetch_child 决定是否递归)。</p></li>
 <li><p>当天的数据会在第二天的早上九点半产出（UTC+8）</p></li>
 <li><p>用户维度的数据最多查询最近31天的数据（包含31天）的数据</p></li>
 </ul>
-<h3 id='doc-423'>Doc</h3>
+<h3 id='doc-425'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/admin-v1/admin_user_stat/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/admin-v1/admin_user_stat/list</a></p>
-<h3 id='url-423'>URL</h3>
+<h3 id='url-425'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/admin/v1/admin_user_stats</code></p>
-<h3 id='method-423'>Method</h3>
+<h3 id='method-425'>Method</h3>
 <p><code>GET</code></p>
 <h1 id='humanauth'>HumanAuth</h1><h2 id='getfaceverifyauthresult'>GetFaceVerifyAuthResult</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21089,11 +21184,11 @@ fetch_child 决定是否递归)。</p></li>
 </code></pre></div>
 <p>无源人脸比对接入需申请白名单，接入前请联系飞书开放平台工作人员，邮箱：openplatform@bytedance.com。
 无源人脸比对流程，开发者后台通过调用此接口请求飞书后台，对本次活体比对结果做校验。</p>
-<h3 id='doc-424'>Doc</h3>
+<h3 id='doc-426'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/human_authentication-v1/face/query-recognition-result">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/human_authentication-v1/face/query-recognition-result</a></p>
-<h3 id='url-424'>URL</h3>
+<h3 id='url-426'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/face_verify/v1/query_auth_result</code></p>
-<h3 id='method-424'>Method</h3>
+<h3 id='method-426'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='uploadfaceverifyimage'>UploadFaceVerifyImage</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21133,11 +21228,11 @@ fetch_child 决定是否递归)。</p></li>
 </code></pre></div>
 <p>无源人脸比对接入需申请白名单，接入前请联系飞书开放平台工作人员，邮箱：openplatform@bytedance.com。
 无源人脸比对流程，开发者后台通过调用此接口将基准图片上传到飞书后台，做检测时的对比使用。</p>
-<h3 id='doc-425'>Doc</h3>
+<h3 id='doc-427'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/human_authentication-v1/face/upload-facial-reference-image">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/human_authentication-v1/face/upload-facial-reference-image</a></p>
-<h3 id='url-425'>URL</h3>
+<h3 id='url-427'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/face_verify/v1/upload_face_image</code></p>
-<h3 id='method-425'>Method</h3>
+<h3 id='method-427'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='cropfaceverifyimage'>CropFaceVerifyImage</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21178,11 +21273,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>无源人脸比对接入需申请白名单，接入前请联系飞书开放平台工作人员，邮箱：openplatform@bytedance.com。</p>
 
 <p>无源人脸比对流程，开发者后台通过调用此接口对基准图片做规范校验及处理。</p>
-<h3 id='doc-426'>Doc</h3>
+<h3 id='doc-428'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/human_authentication-v1/face/facial-image-cropping">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/human_authentication-v1/face/facial-image-cropping</a></p>
-<h3 id='url-426'>URL</h3>
+<h3 id='url-428'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/face_verify/v1/crop_face_image</code></p>
-<h3 id='method-426'>Method</h3>
+<h3 id='method-428'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='createidentity'>CreateIdentity</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21225,11 +21320,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>实名认证接口会有计费管理，接入前请联系飞书开放平台工作人员，邮箱：openplatform@bytedance.com。</p>
 
 <p>仅通过计费申请的应用，才能在<a href="https://open.feishu.cn/app">开发者后台</a>查找并申请该接口的权限。</p>
-<h3 id='doc-427'>Doc</h3>
+<h3 id='doc-429'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/human_authentication-v1/identity/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/human_authentication-v1/identity/create</a></p>
-<h3 id='url-427'>URL</h3>
+<h3 id='url-429'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/human_authentication/v1/identities</code></p>
-<h3 id='method-427'>Method</h3>
+<h3 id='method-429'>Method</h3>
 <p><code>POST</code></p>
 <h1 id='ai'>AI</h1><h2 id='recognizebasicimage'>RecognizeBasicImage</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21270,11 +21365,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>可识别图片中的文字，按图片中的区域划分，分段返回文本列表</p>
 
 <p>单租户限流：20QPS，同租户下的应用没有限流，共享本租户的 20QPS 限流</p>
-<h3 id='doc-428'>Doc</h3>
+<h3 id='doc-430'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/ai/optical_char_recognition-v1/image/basic_recognize">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/ai/optical_char_recognition-v1/image/basic_recognize</a></p>
-<h3 id='url-428'>URL</h3>
+<h3 id='url-430'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/optical_char_recognition/v1/image/basic_recognize</code></p>
-<h3 id='method-428'>Method</h3>
+<h3 id='method-430'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='recognizespeechstream'>RecognizeSpeechStream</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21315,11 +21410,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>语音流式接口，将整个音频文件分片进行传入模型。能够实时返回数据。建议每个音频分片的大小为 100-200ms</p>
 
 <p>单租户限流：20 路（一个 stream_id 称为一路会话），同租户下的应用没有限流，共享本租户的 20路限流</p>
-<h3 id='doc-429'>Doc</h3>
+<h3 id='doc-431'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/ai/speech_to_text-v1/speech/stream_recognize">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/ai/speech_to_text-v1/speech/stream_recognize</a></p>
-<h3 id='url-429'>URL</h3>
+<h3 id='url-431'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/speech_to_text/v1/speech/stream_recognize</code></p>
-<h3 id='method-429'>Method</h3>
+<h3 id='method-431'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='recognizespeechfile'>RecognizeSpeechFile</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21360,11 +21455,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>语音文件识别接口，上传整段语音文件进行一次性识别。接口适合 60 秒以内音频识别</p>
 
 <p>单租户限流：20QPS，同租户下的应用没有限流，共享本租户的 20QPS 限流</p>
-<h3 id='doc-430'>Doc</h3>
+<h3 id='doc-432'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/ai/speech_to_text-v1/speech/file_recognize">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/ai/speech_to_text-v1/speech/file_recognize</a></p>
-<h3 id='url-430'>URL</h3>
+<h3 id='url-432'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/speech_to_text/v1/speech/file_recognize</code></p>
-<h3 id='method-430'>Method</h3>
+<h3 id='method-432'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='translatetext'>TranslateText</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21405,11 +21500,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>机器翻译 (MT)，支持中日英（zh、ja、en）三语互译</p>
 
 <p>单租户限流：20QPS，同租户下的应用没有限流，共享本租户的 20QPS 限流</p>
-<h3 id='doc-431'>Doc</h3>
+<h3 id='doc-433'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/ai/translation-v1/text/translate">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/ai/translation-v1/text/translate</a></p>
-<h3 id='url-431'>URL</h3>
+<h3 id='url-433'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/translation/v1/text/translate</code></p>
-<h3 id='method-431'>Method</h3>
+<h3 id='method-433'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='detecttextlanguage'>DetectTextLanguage</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21450,11 +21545,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>机器翻译 (MT)，支持 100 多种语言识别，返回符合 ISO 639-1 标准</p>
 
 <p>单租户限流：20QPS，同租户下的应用没有限流，共享本租户的 20QPS 限流</p>
-<h3 id='doc-432'>Doc</h3>
+<h3 id='doc-434'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/ai/translation-v1/text/detect">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/ai/translation-v1/text/detect</a></p>
-<h3 id='url-432'>URL</h3>
+<h3 id='url-434'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/translation/v1/text/detect</code></p>
-<h3 id='method-432'>Method</h3>
+<h3 id='method-434'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='detectfaceattributes'>DetectFaceAttributes</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21493,11 +21588,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>检测图片中的人脸属性和质量等信息</p>
-<h3 id='doc-433'>Doc</h3>
+<h3 id='doc-435'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/ai/face_detection-v1/image/detect_face_attributes">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/ai/face_detection-v1/image/detect_face_attributes</a></p>
-<h3 id='url-433'>URL</h3>
+<h3 id='url-435'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/face_detection/v1/image/detect_face_attributes</code></p>
-<h3 id='method-433'>Method</h3>
+<h3 id='method-435'>Method</h3>
 <p><code>POST</code></p>
 <h1 id='attendance'>Attendance</h1><h2 id='createattendancegroup'>CreateAttendanceGroup</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21580,11 +21675,11 @@ fetch_child 决定是否递归)。</p></li>
 <li>统计设置：支持设置考勤组人员是否可以查看到某些维度的统计数据。</li>
 <li>加班设置：支持配置加班时间的计算规则。</li>
 </ul>
-<h3 id='doc-434'>Doc</h3>
+<h3 id='doc-436'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/create</a></p>
-<h3 id='url-434'>URL</h3>
+<h3 id='url-436'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/groups</code></p>
-<h3 id='method-434'>Method</h3>
+<h3 id='method-436'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='searchattendancegroup'>SearchAttendanceGroup</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21625,11 +21720,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>按考勤组名称查询考勤组摘要信息。查询条件支持名称精确匹配和模糊匹配两种方式。查询结果按考勤组修改时间 desc 排序，且最大记录数为 10 条。</p>
 
 <p>该接口依赖的数据和考勤组主数据间存在数据同步延时（正常数据同步 2 秒以内），因此在使用该接口时需注意评估数据延迟潜在风险。</p>
-<h3 id='doc-435'>Doc</h3>
+<h3 id='doc-437'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/search">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/search</a></p>
-<h3 id='url-435'>URL</h3>
+<h3 id='url-437'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/groups/search</code></p>
-<h3 id='method-435'>Method</h3>
+<h3 id='method-437'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getattendancegroup'>GetAttendanceGroup</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21668,11 +21763,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>通过考勤组 ID 获取考勤组详情。</p>
-<h3 id='doc-436'>Doc</h3>
+<h3 id='doc-438'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/get</a></p>
-<h3 id='url-436'>URL</h3>
+<h3 id='url-438'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/groups/:group_id</code></p>
-<h3 id='method-436'>Method</h3>
+<h3 id='method-438'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deleteattendancegroup'>DeleteAttendanceGroup</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21711,11 +21806,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>通过班次 ID 删除班次。</p>
-<h3 id='doc-437'>Doc</h3>
+<h3 id='doc-439'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/group/delete</a></p>
-<h3 id='url-437'>URL</h3>
+<h3 id='url-439'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/groups/:group_id</code></p>
-<h3 id='method-437'>Method</h3>
+<h3 id='method-439'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='getattendanceshift'>GetAttendanceShift</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21754,11 +21849,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>通过班次的名称查询班次信息。</p>
-<h3 id='doc-438'>Doc</h3>
+<h3 id='doc-440'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/query">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/query</a></p>
-<h3 id='url-438'>URL</h3>
+<h3 id='url-440'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/shifts/query</code></p>
-<h3 id='method-438'>Method</h3>
+<h3 id='method-440'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getattendanceshiftdetail'>GetAttendanceShiftDetail</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21797,11 +21892,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>通过班次 ID 获取班次详情。</p>
-<h3 id='doc-439'>Doc</h3>
+<h3 id='doc-441'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/get</a></p>
-<h3 id='url-439'>URL</h3>
+<h3 id='url-441'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/shifts/:shift_id</code></p>
-<h3 id='method-439'>Method</h3>
+<h3 id='method-441'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deleteattendanceshift'>DeleteAttendanceShift</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21840,11 +21935,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>通过班次 ID 删除班次。</p>
-<h3 id='doc-440'>Doc</h3>
+<h3 id='doc-442'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/delete</a></p>
-<h3 id='url-440'>URL</h3>
+<h3 id='url-442'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/shifts/:shift_id</code></p>
-<h3 id='method-440'>Method</h3>
+<h3 id='method-442'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='createattendanceshift'>CreateAttendanceShift</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21888,11 +21983,11 @@ fetch_child 决定是否递归)。</p></li>
 <li>创建一个考勤组前，必须先创建一个或者多个班次。</li>
 <li>一个公司内的班次是共享的，你可以直接引用他人创建的班次，但是需要注意的是，若他人修改了班次，会影响到你的考勤组及其考勤结果。</li>
 </ul>
-<h3 id='doc-441'>Doc</h3>
+<h3 id='doc-443'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/shift/create</a></p>
-<h3 id='url-441'>URL</h3>
+<h3 id='url-443'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/shifts</code></p>
-<h3 id='method-441'>Method</h3>
+<h3 id='method-443'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getattendanceuserdailyshift'>GetAttendanceUserDailyShift</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21931,11 +22026,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>支持查询多个用户的排班情况，查询的时间跨度不能超过 30 天。</p>
-<h3 id='doc-442'>Doc</h3>
+<h3 id='doc-444'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_daily_shift/query">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_daily_shift/query</a></p>
-<h3 id='url-442'>URL</h3>
+<h3 id='url-444'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_daily_shifts/query</code></p>
-<h3 id='method-442'>Method</h3>
+<h3 id='method-444'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='batchcreateattendanceuserdailyshift'>BatchCreateAttendanceUserDailyShift</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -21974,11 +22069,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>班表是用来描述考勤组内人员每天按哪个班次进行上班。目前班表支持按一个整月对一位或多位人员进行排班。</p>
-<h3 id='doc-443'>Doc</h3>
+<h3 id='doc-445'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_daily_shift/batch_create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_daily_shift/batch_create</a></p>
-<h3 id='url-443'>URL</h3>
+<h3 id='url-445'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_daily_shifts/batch_create</code></p>
-<h3 id='method-443'>Method</h3>
+<h3 id='method-445'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getattendanceuserstatsfield'>GetAttendanceUserStatsField</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22017,11 +22112,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>查询考勤统计支持的日度统计或月度统计的统计表头。</p>
-<h3 id='doc-444'>Doc</h3>
+<h3 id='doc-446'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_field/query">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_field/query</a></p>
-<h3 id='url-444'>URL</h3>
+<h3 id='url-446'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_stats_fields/query</code></p>
-<h3 id='method-444'>Method</h3>
+<h3 id='method-446'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getattendanceuserstatsview'>GetAttendanceUserStatsView</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22060,11 +22155,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>查询开发者定制的日度统计或月度统计的统计报表表头设置信息。</p>
-<h3 id='doc-445'>Doc</h3>
+<h3 id='doc-447'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_view/query">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_view/query</a></p>
-<h3 id='url-445'>URL</h3>
+<h3 id='url-447'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_stats_views/query</code></p>
-<h3 id='method-445'>Method</h3>
+<h3 id='method-447'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='updateattendanceuserstatsview'>UpdateAttendanceUserStatsView</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22103,11 +22198,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>更新开发者定制的日度统计或月度统计的统计报表表头设置信息。</p>
-<h3 id='doc-446'>Doc</h3>
+<h3 id='doc-448'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_view/update">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_view/update</a></p>
-<h3 id='url-446'>URL</h3>
+<h3 id='url-448'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_stats_views/:user_stats_view_id</code></p>
-<h3 id='method-446'>Method</h3>
+<h3 id='method-448'>Method</h3>
 <p><code>PUT</code></p>
 <h2 id='getattendanceuserstatsdata'>GetAttendanceUserStatsData</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22146,11 +22241,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>查询日度统计或月度统计的统计数据。</p>
-<h3 id='doc-447'>Doc</h3>
+<h3 id='doc-449'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_data/query">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_stats_data/query</a></p>
-<h3 id='url-447'>URL</h3>
+<h3 id='url-449'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_stats_datas/query</code></p>
-<h3 id='method-447'>Method</h3>
+<h3 id='method-449'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='batchgetattendanceuserflow'>BatchGetAttendanceUserFlow</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22191,11 +22286,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>批量查询授权内员工的实际打卡流水记录。例如，企业给一个员工设定的班次是上午 9 点和下午 6 点各打一次上下班卡，但是该员工在这期间打了多次卡，该接口会把所有的打卡记录都返回。</p>
 
 <p>如果只需获取打卡结果，而不需要详细的打卡数据，可使用“获取打卡结果”的接口。</p>
-<h3 id='doc-448'>Doc</h3>
+<h3 id='doc-450'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_flow/query">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_flow/query</a></p>
-<h3 id='url-448'>URL</h3>
+<h3 id='url-450'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_flows/query</code></p>
-<h3 id='method-448'>Method</h3>
+<h3 id='method-450'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getattendanceuserflow'>GetAttendanceUserFlow</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22234,11 +22329,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>通过打卡记录 ID 获取用户的打卡流水记录。</p>
-<h3 id='doc-449'>Doc</h3>
+<h3 id='doc-451'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_flow/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_flow/get</a></p>
-<h3 id='url-449'>URL</h3>
+<h3 id='url-451'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_flows/:user_flow_id</code></p>
-<h3 id='method-449'>Method</h3>
+<h3 id='method-451'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='getattendanceusertask'>GetAttendanceUserTask</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22282,11 +22377,11 @@ fetch_child 决定是否递归)。</p></li>
 <li>如果企业给一个员工设定的班次是上午 9 点和下午 6 点各打一次上下班卡，即使员工在这期间打了多次卡，该接口也只会返回 1 条记录。</li>
 <li>如果要获取打卡的详细数据，如打卡位置等信息，可使用“获取打卡流水记录”或“批量查询打卡流水记录”的接口。</li>
 </ul>
-<h3 id='doc-450'>Doc</h3>
+<h3 id='doc-452'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task/query">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task/query</a></p>
-<h3 id='url-450'>URL</h3>
+<h3 id='url-452'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_tasks/query</code></p>
-<h3 id='method-450'>Method</h3>
+<h3 id='method-452'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='batchcreateattendanceuserflow'>BatchCreateAttendanceUserFlow</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22327,11 +22422,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>导入授权内员工的打卡流水记录。导入后，会根据员工所在的考勤组班次规则，计算最终的打卡状态与结果。</p>
 
 <p>适用于考勤机数据导入等场景。</p>
-<h3 id='doc-451'>Doc</h3>
+<h3 id='doc-453'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_flow/batch_create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_flow/batch_create</a></p>
-<h3 id='url-451'>URL</h3>
+<h3 id='url-453'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_flows/batch_create</code></p>
-<h3 id='method-451'>Method</h3>
+<h3 id='method-453'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getattendanceusertaskremedyallowedremedylist'>GetAttendanceUserTaskRemedyAllowedRemedyList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22370,11 +22465,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取用户某天可以补的第几次上 / 下班卡的时间。</p>
-<h3 id='doc-452'>Doc</h3>
+<h3 id='doc-454'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task_remedy/query_user_allowed_remedys">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task_remedy/query_user_allowed_remedys</a></p>
-<h3 id='url-452'>URL</h3>
+<h3 id='url-454'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_task_remedys/query_user_allowed_remedys</code></p>
-<h3 id='method-452'>Method</h3>
+<h3 id='method-454'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getattendanceusertaskremedy'>GetAttendanceUserTaskRemedy</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22413,11 +22508,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取授权内员工的补卡记录。</p>
-<h3 id='doc-453'>Doc</h3>
+<h3 id='doc-455'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task_remedy/query">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task_remedy/query</a></p>
-<h3 id='url-453'>URL</h3>
+<h3 id='url-455'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_task_remedys/query</code></p>
-<h3 id='method-453'>Method</h3>
+<h3 id='method-455'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='createattendanceusertaskremedy'>CreateAttendanceUserTaskRemedy</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22456,11 +22551,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>对于只使用飞书考勤系统而未使用飞书审批系统的企业，可以通过该接口，将在三方审批系统中发起的补卡审批数据，写入到飞书考勤系统中。</p>
-<h3 id='doc-454'>Doc</h3>
+<h3 id='doc-456'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task_remedy/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_task_remedy/create</a></p>
-<h3 id='url-454'>URL</h3>
+<h3 id='url-456'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_task_remedys</code></p>
-<h3 id='method-454'>Method</h3>
+<h3 id='method-456'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getattendanceusersettinglist'>GetAttendanceUserSettingList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22499,11 +22594,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>批量查询授权内员工的用户设置信息，包括人脸照片文件 ID、人脸照片更新时间。</p>
-<h3 id='doc-455'>Doc</h3>
+<h3 id='doc-457'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_setting/query">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_setting/query</a></p>
-<h3 id='url-455'>URL</h3>
+<h3 id='url-457'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_settings/query</code></p>
-<h3 id='method-455'>Method</h3>
+<h3 id='method-457'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='updateattendanceusersetting'>UpdateAttendanceUserSetting</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22542,11 +22637,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>修改授权内员工的用户设置信息，包括人脸照片文件 ID。</p>
-<h3 id='doc-456'>Doc</h3>
+<h3 id='doc-458'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_setting/modify">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_setting/modify</a></p>
-<h3 id='url-456'>URL</h3>
+<h3 id='url-458'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_settings/modify</code></p>
-<h3 id='method-456'>Method</h3>
+<h3 id='method-458'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='downloadattendancefile'>DownloadAttendanceFile</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22585,11 +22680,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>通过文件 ID 下载指定的文件。</p>
-<h3 id='doc-457'>Doc</h3>
+<h3 id='doc-459'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/file/download">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/file/download</a></p>
-<h3 id='url-457'>URL</h3>
+<h3 id='url-459'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/files/:file_id/download</code></p>
-<h3 id='method-457'>Method</h3>
+<h3 id='method-459'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='uploadattendancefile'>UploadAttendanceFile</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22628,11 +22723,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>上传文件并获取文件 ID，可用于“修改用户设置”接口中的 face_key 参数。</p>
-<h3 id='doc-458'>Doc</h3>
+<h3 id='doc-460'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/file/upload">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/file/upload</a></p>
-<h3 id='url-458'>URL</h3>
+<h3 id='url-460'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/files/upload</code></p>
-<h3 id='method-458'>Method</h3>
+<h3 id='method-460'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getattendanceuserapproval'>GetAttendanceUserApproval</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22673,11 +22768,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>获取员工在某段时间内的请假、加班、外出和出差四种审批的通过数据。</p>
 
 <p>请假的假期时长字段(interval)，暂未开放提供，待后续提供。</p>
-<h3 id='doc-459'>Doc</h3>
+<h3 id='doc-461'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/get-user-attendance-data2">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/get-user-attendance-data2</a></p>
-<h3 id='url-459'>URL</h3>
+<h3 id='url-461'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_approvals/query</code></p>
-<h3 id='method-459'>Method</h3>
+<h3 id='method-461'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='createattendanceuserapproval'>CreateAttendanceUserApproval</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22720,11 +22815,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>对于这些只使用飞书考勤系统，而未使用飞书审批系统的企业，可以通过考勤开放接口的形式，将三方审批结果数据回写到飞书的考勤系统中。</p>
 
 <p>目前支持加班、请假、出差和外出这四种审批结果的写入。</p>
-<h3 id='doc-460'>Doc</h3>
+<h3 id='doc-462'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_approval/add-approved-data-in-feishu-attendance2">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/attendance-v1/user_approval/add-approved-data-in-feishu-attendance2</a></p>
-<h3 id='url-460'>URL</h3>
+<h3 id='url-462'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/user_approvals</code></p>
-<h3 id='method-460'>Method</h3>
+<h3 id='method-462'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='updateattendanceremedyapproval'>UpdateAttendanceRemedyApproval</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22764,11 +22859,11 @@ fetch_child 决定是否递归)。</p></li>
 </code></pre></div>
 <p>对于只使用飞书考勤系统而未使用飞书审批系统的企业，可以通过该接口更新写入飞书考勤系统中的三方系统审批状态，例如请假、加班、外出、出差、补卡等审批，状态包括通过、不通过、撤销等。
 发起状态的审批才可以被更新为通过、不通过，已经通过的审批才可以被更新为撤销。</p>
-<h3 id='doc-461'>Doc</h3>
+<h3 id='doc-463'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/notify-approval-status-update2">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/Attendance//task/notify-approval-status-update2</a></p>
-<h3 id='url-461'>URL</h3>
+<h3 id='url-463'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/attendance/v1/approval_infos/process</code></p>
-<h3 id='method-461'>Method</h3>
+<h3 id='method-463'>Method</h3>
 <p><code>POST</code></p>
 <h1 id='file'>File</h1><h2 id='uploadimage'>UploadImage</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22811,11 +22906,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>注意事项:
 - 需要开启<a href="/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app">机器人能力</a>
 - 上传的图片大小不能超过10MB</p>
-<h3 id='doc-462'>Doc</h3>
+<h3 id='doc-464'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/image/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/image/create</a></p>
-<h3 id='url-462'>URL</h3>
+<h3 id='url-464'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/im/v1/images</code></p>
-<h3 id='method-462'>Method</h3>
+<h3 id='method-464'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='downloadimage'>DownloadImage</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22859,11 +22954,11 @@ fetch_child 决定是否递归)。</p></li>
 - 需要开启<a href="/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app">机器人能力</a>
 - 只能下载机器人自己上传且图片类型为message的图片，avatar类型暂不支持下载；
 - 下载用户发送的资源，请使用<a href="/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message-resource/get">获取消息中的资源文件</a>接口</p>
-<h3 id='doc-463'>Doc</h3>
+<h3 id='doc-465'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/image/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/image/get</a></p>
-<h3 id='url-463'>URL</h3>
+<h3 id='url-465'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/im/v1/images/:image_key</code></p>
-<h3 id='method-463'>Method</h3>
+<h3 id='method-465'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='uploadfile'>UploadFile</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22907,11 +23002,11 @@ fetch_child 决定是否递归)。</p></li>
 - 需要开启<a href="/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app">机器人能力</a>
 - 不允许上传空文件
 - 示例代码中需要自行替换文件路径和鉴权Token</p>
-<h3 id='doc-464'>Doc</h3>
+<h3 id='doc-466'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/file/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/file/create</a></p>
-<h3 id='url-464'>URL</h3>
+<h3 id='url-466'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/im/v1/files</code></p>
-<h3 id='method-464'>Method</h3>
+<h3 id='method-466'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='downloadfile'>DownloadFile</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -22955,11 +23050,11 @@ fetch_child 决定是否递归)。</p></li>
 - 需要开启<a href="/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app">机器人能力</a>
 - 只能下载机器人自己上传的文件
 - 下载用户发送的资源，请使用<a href="/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message-resource/get">获取消息中的资源文件</a>接口</p>
-<h3 id='doc-465'>Doc</h3>
+<h3 id='doc-467'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/file/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/file/get</a></p>
-<h3 id='url-465'>URL</h3>
+<h3 id='url-467'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/im/v1/files/:file_key</code></p>
-<h3 id='method-465'>Method</h3>
+<h3 id='method-467'>Method</h3>
 <p><code>GET</code></p>
 <h1 id='okr'>OKR</h1><h2 id='getokrperiodlist'>GetOKRPeriodList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23000,11 +23095,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>获取OKR周期列表</p>
 
 <p>使用tenant_access_token需要额外申请权限以应用身份访问OKR信息</p>
-<h3 id='doc-466'>Doc</h3>
+<h3 id='doc-468'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/okr-v1/period/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/okr-v1/period/list</a></p>
-<h3 id='url-466'>URL</h3>
+<h3 id='url-468'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/okr/v1/periods</code></p>
-<h3 id='method-466'>Method</h3>
+<h3 id='method-468'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='batchgetokr'>BatchGetOKR</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23045,11 +23140,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>根据OKR id批量获取OKR</p>
 
 <p>使用tenant_access_token需要额外申请权限以应用身份访问OKR信息</p>
-<h3 id='doc-467'>Doc</h3>
+<h3 id='doc-469'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/okr-v1/okr/batch_get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/okr-v1/okr/batch_get</a></p>
-<h3 id='url-467'>URL</h3>
+<h3 id='url-469'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/okr/v1/okrs/batch_get</code></p>
-<h3 id='method-467'>Method</h3>
+<h3 id='method-469'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='getuserokrlist'>GetUserOKRList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23090,11 +23185,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>根据用户的id获取OKR列表</p>
 
 <p>使用tenant_access_token需要额外申请权限以应用身份访问OKR信息</p>
-<h3 id='doc-468'>Doc</h3>
+<h3 id='doc-470'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/okr-v1/user-okr/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/okr-v1/user-okr/list</a></p>
-<h3 id='url-468'>URL</h3>
+<h3 id='url-470'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/okr/v1/users/:user_id/okrs</code></p>
-<h3 id='method-468'>Method</h3>
+<h3 id='method-470'>Method</h3>
 <p><code>GET</code></p>
 <h1 id='ehr'>EHR</h1><h2 id='getehremployeelist'>GetEHREmployeeList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23133,11 +23228,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据员工飞书用户 ID / 员工状态 / 雇员类型等搜索条件 ，批量获取员工花名册字段信息。字段包括「系统标准字段 / system_fields」和「自定义字段 / custom_fields」</p>
-<h3 id='doc-469'>Doc</h3>
+<h3 id='doc-471'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/ehr/ehr-v1/employee/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/ehr/ehr-v1/employee/list</a></p>
-<h3 id='url-469'>URL</h3>
+<h3 id='url-471'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/ehr/v1/employees</code></p>
-<h3 id='method-469'>Method</h3>
+<h3 id='method-471'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='downloadehrattachments'>DownloadEHRAttachments</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23180,11 +23275,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>调用 「批量获取员工花名册信息」接口的返回值中，「文件」类型的字段 id，即是文件 token{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=ehr&amp;version=v1&amp;resource=attachment&amp;method=get)</p>
 
 <p><img src="//sf1-ttcdn-tos.pstatp.com/obj/open-platform-opendoc/bed391d2a8ce6ed2d5985ea69bf92850_9GY1mnuDXP.png" alt="image.png" /></p>
-<h3 id='doc-470'>Doc</h3>
+<h3 id='doc-472'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/ehr/ehr-v1/attachment/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/ehr/ehr-v1/attachment/get</a></p>
-<h3 id='url-470'>URL</h3>
+<h3 id='url-472'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/ehr/v1/attachments/:token</code></p>
-<h3 id='method-470'>Method</h3>
+<h3 id='method-472'>Method</h3>
 <p><code>GET</code></p>
 <h1 id='tenant'>Tenant</h1><h2 id='gettenant'>GetTenant</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23225,11 +23320,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>获取企业名称、企业编号等企业信息</p>
 
 <p>如果ISV应用是企业创建时默认安装，并且180天内企业未打开或使用过此应用，则无法通过此接口获取到企业信息。</p>
-<h3 id='doc-471'>Doc</h3>
+<h3 id='doc-473'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/tenant-v2/tenant/query">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/tenant-v2/tenant/query</a></p>
-<h3 id='url-471'>URL</h3>
+<h3 id='url-473'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/tenant/v2/tenant/query</code></p>
-<h3 id='method-471'>Method</h3>
+<h3 id='method-473'>Method</h3>
 <p><code>GET</code></p>
 <h1 id='search'>Search</h1><h2 id='createsearchdatasourceitem'>CreateSearchDataSourceItem</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23268,11 +23363,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>索引一条数据记录</p>
-<h3 id='doc-472'>Doc</h3>
+<h3 id='doc-474'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source-item/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source-item/create</a></p>
-<h3 id='url-472'>URL</h3>
+<h3 id='url-474'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/search/v2/data_sources/:data_source_id/items</code></p>
-<h3 id='method-472'>Method</h3>
+<h3 id='method-474'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getsearchdatasourceitem'>GetSearchDataSourceItem</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23311,11 +23406,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取单个数据记录</p>
-<h3 id='doc-473'>Doc</h3>
+<h3 id='doc-475'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source-item/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source-item/get</a></p>
-<h3 id='url-473'>URL</h3>
+<h3 id='url-475'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/search/v2/data_sources/:data_source_id/items/:item_id</code></p>
-<h3 id='method-473'>Method</h3>
+<h3 id='method-475'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deletesearchdatasourceitem'>DeleteSearchDataSourceItem</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23354,11 +23449,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>删除数据记录</p>
-<h3 id='doc-474'>Doc</h3>
+<h3 id='doc-476'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source-item/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source-item/delete</a></p>
-<h3 id='url-474'>URL</h3>
+<h3 id='url-476'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/search/v2/data_sources/:data_source_id/items/:item_id</code></p>
-<h3 id='method-474'>Method</h3>
+<h3 id='method-476'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='createsearchdatasource'>CreateSearchDataSource</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23397,11 +23492,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>创建一个数据源</p>
-<h3 id='doc-475'>Doc</h3>
+<h3 id='doc-477'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source/create</a></p>
-<h3 id='url-475'>URL</h3>
+<h3 id='url-477'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/search/v2/data_sources</code></p>
-<h3 id='method-475'>Method</h3>
+<h3 id='method-477'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='getsearchdatasource'>GetSearchDataSource</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23440,11 +23535,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取已经创建的数据源</p>
-<h3 id='doc-476'>Doc</h3>
+<h3 id='doc-478'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source/get</a></p>
-<h3 id='url-476'>URL</h3>
+<h3 id='url-478'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/search/v2/data_sources/:data_source_id</code></p>
-<h3 id='method-476'>Method</h3>
+<h3 id='method-478'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='updatesearchdatasource'>UpdateSearchDataSource</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23483,11 +23578,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>更新一个已经存在的数据源</p>
-<h3 id='doc-477'>Doc</h3>
+<h3 id='doc-479'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source/patch">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source/patch</a></p>
-<h3 id='url-477'>URL</h3>
+<h3 id='url-479'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/search/v2/data_sources/:data_source_id</code></p>
-<h3 id='method-477'>Method</h3>
+<h3 id='method-479'>Method</h3>
 <p><code>PATCH</code></p>
 <h2 id='getsearchdatasourcelist'>GetSearchDataSourceList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23526,11 +23621,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取创建的所有数据源信息</p>
-<h3 id='doc-478'>Doc</h3>
+<h3 id='doc-480'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source/list</a></p>
-<h3 id='url-478'>URL</h3>
+<h3 id='url-480'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/search/v2/data_sources</code></p>
-<h3 id='method-478'>Method</h3>
+<h3 id='method-480'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deletesearchdatasource'>DeleteSearchDataSource</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23569,11 +23664,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>删除一个已存在的数据源</p>
-<h3 id='doc-479'>Doc</h3>
+<h3 id='doc-481'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/search-v2/data_source/delete</a></p>
-<h3 id='url-479'>URL</h3>
+<h3 id='url-481'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/search/v2/data_sources/:data_source_id</code></p>
-<h3 id='method-479'>Method</h3>
+<h3 id='method-481'>Method</h3>
 <p><code>DELETE</code></p>
 <h1 id='hire'>Hire</h1><h2 id='gethirejob'>GetHireJob</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23612,11 +23707,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据职位 ID 获取职位信息</p>
-<h3 id='doc-480'>Doc</h3>
+<h3 id='doc-482'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/job/get">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/job/get</a></p>
-<h3 id='url-480'>URL</h3>
+<h3 id='url-482'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/jobs/:job_id</code></p>
-<h3 id='method-480'>Method</h3>
+<h3 id='method-482'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethirejobmanager'>GetHireJobManager</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23655,11 +23750,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据职位 ID 获取职位上的招聘人员信息，如招聘负责人、用人经理</p>
-<h3 id='doc-481'>Doc</h3>
+<h3 id='doc-483'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/job-manager/get">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/job-manager/get</a></p>
-<h3 id='url-481'>URL</h3>
+<h3 id='url-483'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/jobs/:job_id/managers/:manager_id</code></p>
-<h3 id='method-481'>Method</h3>
+<h3 id='method-483'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethiretalent'>GetHireTalent</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23698,11 +23793,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据人才 ID 获取人才信息</p>
-<h3 id='doc-482'>Doc</h3>
+<h3 id='doc-484'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/talent/get">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/talent/get</a></p>
-<h3 id='url-482'>URL</h3>
+<h3 id='url-484'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/talents/:talent_id</code></p>
-<h3 id='method-482'>Method</h3>
+<h3 id='method-484'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethireattachment'>GetHireAttachment</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23741,11 +23836,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取招聘系统中附件的元信息，比如文件名、创建时间、文件url等</p>
-<h3 id='doc-483'>Doc</h3>
+<h3 id='doc-485'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/attachment/get">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/attachment/get</a></p>
-<h3 id='url-483'>URL</h3>
+<h3 id='url-485'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/attachments/:attachment_id</code></p>
-<h3 id='method-483'>Method</h3>
+<h3 id='method-485'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethireattachmentpreview'>GetHireAttachmentPreview</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23784,11 +23879,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据附件 ID 获取附件预览信息</p>
-<h3 id='doc-484'>Doc</h3>
+<h3 id='doc-486'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/attachment/preview">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/attachment/preview</a></p>
-<h3 id='url-484'>URL</h3>
+<h3 id='url-486'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/attachments/:attachment_id/preview</code></p>
-<h3 id='method-484'>Method</h3>
+<h3 id='method-486'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethireresumesource'>GetHireResumeSource</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23827,11 +23922,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取简历来源列表</p>
-<h3 id='doc-485'>Doc</h3>
+<h3 id='doc-487'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/resume_source/list">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/resume_source/list</a></p>
-<h3 id='url-485'>URL</h3>
+<h3 id='url-487'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/resume_sources</code></p>
-<h3 id='method-485'>Method</h3>
+<h3 id='method-487'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='createhirenote'>CreateHireNote</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23870,11 +23965,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>创建备注信息</p>
-<h3 id='doc-486'>Doc</h3>
+<h3 id='doc-488'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/note/create">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/note/create</a></p>
-<h3 id='url-486'>URL</h3>
+<h3 id='url-488'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/notes</code></p>
-<h3 id='method-486'>Method</h3>
+<h3 id='method-488'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='updatehirenote'>UpdateHireNote</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23913,11 +24008,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据备注 ID 更新备注信息</p>
-<h3 id='doc-487'>Doc</h3>
+<h3 id='doc-489'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/note/patch">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/note/patch</a></p>
-<h3 id='url-487'>URL</h3>
+<h3 id='url-489'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/notes/:note_id</code></p>
-<h3 id='method-487'>Method</h3>
+<h3 id='method-489'>Method</h3>
 <p><code>PATCH</code></p>
 <h2 id='gethirenote'>GetHireNote</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23956,11 +24051,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据备注 ID 获取备注信息</p>
-<h3 id='doc-488'>Doc</h3>
+<h3 id='doc-490'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/note/get">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/note/get</a></p>
-<h3 id='url-488'>URL</h3>
+<h3 id='url-490'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/notes/:note_id</code></p>
-<h3 id='method-488'>Method</h3>
+<h3 id='method-490'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethirenotelist'>GetHireNoteList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -23999,11 +24094,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取备注列表</p>
-<h3 id='doc-489'>Doc</h3>
+<h3 id='doc-491'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/note/list">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/note/list</a></p>
-<h3 id='url-489'>URL</h3>
+<h3 id='url-491'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/notes</code></p>
-<h3 id='method-489'>Method</h3>
+<h3 id='method-491'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethirereferralbyapplication'>GetHireReferralByApplication</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24042,11 +24137,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据投递 ID 获取内推信息</p>
-<h3 id='doc-490'>Doc</h3>
+<h3 id='doc-492'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/referral/get_by_application">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/referral/get_by_application</a></p>
-<h3 id='url-490'>URL</h3>
+<h3 id='url-492'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/referrals/get_by_application</code></p>
-<h3 id='method-490'>Method</h3>
+<h3 id='method-492'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethirejobprocesslist'>GetHireJobProcessList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24085,11 +24180,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>获取全部招聘流程信息</p>
-<h3 id='doc-491'>Doc</h3>
+<h3 id='doc-493'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/job_process/list">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/job_process/list</a></p>
-<h3 id='url-491'>URL</h3>
+<h3 id='url-493'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/job_processes</code></p>
-<h3 id='method-491'>Method</h3>
+<h3 id='method-493'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='createhireapplication'>CreateHireApplication</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24128,11 +24223,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据人才 ID 和职位 ID 创建投递</p>
-<h3 id='doc-492'>Doc</h3>
+<h3 id='doc-494'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/application/create">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/application/create</a></p>
-<h3 id='url-492'>URL</h3>
+<h3 id='url-494'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/applications</code></p>
-<h3 id='method-492'>Method</h3>
+<h3 id='method-494'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='terminatehireapplication'>TerminateHireApplication</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24171,11 +24266,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据投递 ID 修改投递状态为「已终止」</p>
-<h3 id='doc-493'>Doc</h3>
+<h3 id='doc-495'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/application/terminate">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/application/terminate</a></p>
-<h3 id='url-493'>URL</h3>
+<h3 id='url-495'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/applications/:application_id/terminate</code></p>
-<h3 id='method-493'>Method</h3>
+<h3 id='method-495'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='gethireapplication'>GetHireApplication</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24214,11 +24309,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据投递 ID 获取单个投递信息</p>
-<h3 id='doc-494'>Doc</h3>
+<h3 id='doc-496'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/application/get">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/application/get</a></p>
-<h3 id='url-494'>URL</h3>
+<h3 id='url-496'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/applications/:application_id</code></p>
-<h3 id='method-494'>Method</h3>
+<h3 id='method-496'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethireapplicationlist'>GetHireApplicationList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24257,11 +24352,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据限定条件获取投递列表信息</p>
-<h3 id='doc-495'>Doc</h3>
+<h3 id='doc-497'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/application/list">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/application/list</a></p>
-<h3 id='url-495'>URL</h3>
+<h3 id='url-497'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/applications</code></p>
-<h3 id='method-495'>Method</h3>
+<h3 id='method-497'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethireapplicationinterviewlist'>GetHireApplicationInterviewList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24300,11 +24395,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据投递 ID 获取面试记录列表</p>
-<h3 id='doc-496'>Doc</h3>
+<h3 id='doc-498'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/application-interview/list">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/application-interview/list</a></p>
-<h3 id='url-496'>URL</h3>
+<h3 id='url-498'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/applications/:application_id/interviews</code></p>
-<h3 id='method-496'>Method</h3>
+<h3 id='method-498'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethireofferbyapplication'>GetHireOfferByApplication</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24343,11 +24438,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据投递 ID 获取 Offer 信息</p>
-<h3 id='doc-497'>Doc</h3>
+<h3 id='doc-499'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/application/offer">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/application/offer</a></p>
-<h3 id='url-497'>URL</h3>
+<h3 id='url-499'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/applications/:application_id/offer</code></p>
-<h3 id='method-497'>Method</h3>
+<h3 id='method-499'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethireofferschema'>GetHireOfferSchema</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24386,11 +24481,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据 Offer 申请表 ID，获取 Offer 申请表的详细信息</p>
-<h3 id='doc-498'>Doc</h3>
+<h3 id='doc-500'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/offer_schema/get">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/offer_schema/get</a></p>
-<h3 id='url-498'>URL</h3>
+<h3 id='url-500'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/offer_schemas/:offer_schema_id</code></p>
-<h3 id='method-498'>Method</h3>
+<h3 id='method-500'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='makehiretransferonboardbyapplication'>MakeHireTransferOnboardByApplication</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24429,11 +24524,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据投递 ID 操作候选人入职并创建员工，投递须处于「待入职」阶段</p>
-<h3 id='doc-499'>Doc</h3>
+<h3 id='doc-501'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/application/transfer_onboard">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/application/transfer_onboard</a></p>
-<h3 id='url-499'>URL</h3>
+<h3 id='url-501'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/applications/:application_id/transfer_onboard</code></p>
-<h3 id='method-499'>Method</h3>
+<h3 id='method-501'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='updatehireemployee'>UpdateHireEmployee</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24472,11 +24567,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据员工 ID 更新员工转正、离职状态</p>
-<h3 id='doc-500'>Doc</h3>
+<h3 id='doc-502'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/employee/patch">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/employee/patch</a></p>
-<h3 id='url-500'>URL</h3>
+<h3 id='url-502'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/employees/:employee_id</code></p>
-<h3 id='method-500'>Method</h3>
+<h3 id='method-502'>Method</h3>
 <p><code>PATCH</code></p>
 <h2 id='gethireemployeebyapplication'>GetHireEmployeeByApplication</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24515,11 +24610,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>通过投递 ID 获取入职信息</p>
-<h3 id='doc-501'>Doc</h3>
+<h3 id='doc-503'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/employee/get_by_application">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/employee/get_by_application</a></p>
-<h3 id='url-501'>URL</h3>
+<h3 id='url-503'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/employees/get_by_application</code></p>
-<h3 id='method-501'>Method</h3>
+<h3 id='method-503'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gethireemployee'>GetHireEmployee</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24558,11 +24653,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>通过员工 ID 获取入职信息</p>
-<h3 id='doc-502'>Doc</h3>
+<h3 id='doc-504'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/employee/get">https://open.feishu.cn/document/ukTMukTMukTM/uMzM1YjLzMTN24yMzUjN/hire-v1/employee/get</a></p>
-<h3 id='url-502'>URL</h3>
+<h3 id='url-504'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/hire/v1/employees/:employee_id</code></p>
-<h3 id='method-502'>Method</h3>
+<h3 id='method-504'>Method</h3>
 <p><code>GET</code></p>
 <h1 id='task'>Task</h1><h2 id='createtaskcollaborator'>CreateTaskCollaborator</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24601,11 +24696,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于新增任务执行者，一个任务最多添加50个执行者</p>
-<h3 id='doc-503'>Doc</h3>
+<h3 id='doc-505'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/create</a></p>
-<h3 id='url-503'>URL</h3>
+<h3 id='url-505'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/collaborators</code></p>
-<h3 id='method-503'>Method</h3>
+<h3 id='method-505'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='gettaskcollaboratorlist'>GetTaskCollaboratorList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24644,11 +24739,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于查询任务执行者列表，支持分页，最大值为50</p>
-<h3 id='doc-504'>Doc</h3>
+<h3 id='doc-506'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/list</a></p>
-<h3 id='url-504'>URL</h3>
+<h3 id='url-506'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/collaborators</code></p>
-<h3 id='method-504'>Method</h3>
+<h3 id='method-506'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deletetaskcollaborator'>DeleteTaskCollaborator</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24687,11 +24782,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于删除任务执行者</p>
-<h3 id='doc-505'>Doc</h3>
+<h3 id='doc-507'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-collaborator/delete</a></p>
-<h3 id='url-505'>URL</h3>
+<h3 id='url-507'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/collaborators/:collaborator_id</code></p>
-<h3 id='method-505'>Method</h3>
+<h3 id='method-507'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='createtaskfollower'>CreateTaskFollower</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24730,11 +24825,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于创建任务关注者，一个任务最多添加50个关注者</p>
-<h3 id='doc-506'>Doc</h3>
+<h3 id='doc-508'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/create</a></p>
-<h3 id='url-506'>URL</h3>
+<h3 id='url-508'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/followers</code></p>
-<h3 id='method-506'>Method</h3>
+<h3 id='method-508'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='gettaskfollowerlist'>GetTaskFollowerList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24773,11 +24868,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于查询任务关注者列表，支持分页，最大值为50</p>
-<h3 id='doc-507'>Doc</h3>
+<h3 id='doc-509'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/list</a></p>
-<h3 id='url-507'>URL</h3>
+<h3 id='url-509'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/followers</code></p>
-<h3 id='method-507'>Method</h3>
+<h3 id='method-509'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deletetaskfollower'>DeleteTaskFollower</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24816,11 +24911,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于删除任务关注者</p>
-<h3 id='doc-508'>Doc</h3>
+<h3 id='doc-510'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-follower/delete</a></p>
-<h3 id='url-508'>URL</h3>
+<h3 id='url-510'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/followers/:follower_id</code></p>
-<h3 id='method-508'>Method</h3>
+<h3 id='method-510'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='createtaskreminder'>CreateTaskReminder</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24859,11 +24954,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于创建任务的提醒时间。提醒时间在截止时间基础上做偏移，但是偏移后的结果不能早于当前时间。</p>
-<h3 id='doc-509'>Doc</h3>
+<h3 id='doc-511'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/create</a></p>
-<h3 id='url-509'>URL</h3>
+<h3 id='url-511'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/reminders</code></p>
-<h3 id='method-509'>Method</h3>
+<h3 id='method-511'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='gettaskreminderlist'>GetTaskReminderList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24902,11 +24997,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>返回提醒时间列表，支持分页，最大值为50</p>
-<h3 id='doc-510'>Doc</h3>
+<h3 id='doc-512'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/list</a></p>
-<h3 id='url-510'>URL</h3>
+<h3 id='url-512'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/reminders</code></p>
-<h3 id='method-510'>Method</h3>
+<h3 id='method-512'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deletetaskreminder'>DeleteTaskReminder</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24945,11 +25040,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>删除提醒时间，返回结果状态</p>
-<h3 id='doc-511'>Doc</h3>
+<h3 id='doc-513'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-reminder/delete</a></p>
-<h3 id='url-511'>URL</h3>
+<h3 id='url-513'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/reminders/:reminder_id</code></p>
-<h3 id='method-511'>Method</h3>
+<h3 id='method-513'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='createtask'>CreateTask</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -24988,11 +25083,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口可以创建一个任务（基本信息），如果需要绑定协作者等需要调用别的资源管理接口。其中查询字段 user_id_type 是用于控制返回体中 creator_id 的类型，不传时默认返回 open_id。当使用 tenant_access_token 调用接口时不支持 user_id_type 为 user_id。</p>
-<h3 id='doc-512'>Doc</h3>
+<h3 id='doc-514'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/create</a></p>
-<h3 id='url-512'>URL</h3>
+<h3 id='url-514'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks</code></p>
-<h3 id='method-512'>Method</h3>
+<h3 id='method-514'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='gettask'>GetTask</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25031,11 +25126,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于获取任务详情，包括任务标题、描述、时间、来源等信息</p>
-<h3 id='doc-513'>Doc</h3>
+<h3 id='doc-515'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/get</a></p>
-<h3 id='url-513'>URL</h3>
+<h3 id='url-515'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id</code></p>
-<h3 id='method-513'>Method</h3>
+<h3 id='method-515'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='gettasklist'>GetTaskList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25074,11 +25169,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口通过解析 header 中的  user_access_token 获取与该用户相关的所有任务</p>
-<h3 id='doc-514'>Doc</h3>
+<h3 id='doc-516'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/list</a></p>
-<h3 id='url-514'>URL</h3>
+<h3 id='url-516'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks</code></p>
-<h3 id='method-514'>Method</h3>
+<h3 id='method-516'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deletetask'>DeleteTask</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25117,11 +25212,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于删除任务</p>
-<h3 id='doc-515'>Doc</h3>
+<h3 id='doc-517'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/delete</a></p>
-<h3 id='url-515'>URL</h3>
+<h3 id='url-517'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id</code></p>
-<h3 id='method-515'>Method</h3>
+<h3 id='method-517'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='updatetask'>UpdateTask</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25160,11 +25255,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于修改任务的标题、描述、时间、来源等相关信息</p>
-<h3 id='doc-516'>Doc</h3>
+<h3 id='doc-518'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/patch">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/patch</a></p>
-<h3 id='url-516'>URL</h3>
+<h3 id='url-518'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id</code></p>
-<h3 id='method-516'>Method</h3>
+<h3 id='method-518'>Method</h3>
 <p><code>PATCH</code></p>
 <h2 id='completetask'>CompleteTask</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25203,11 +25298,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于将接任务状态修改为已完成</p>
-<h3 id='doc-517'>Doc</h3>
+<h3 id='doc-519'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/complete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/complete</a></p>
-<h3 id='url-517'>URL</h3>
+<h3 id='url-519'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/complete</code></p>
-<h3 id='method-517'>Method</h3>
+<h3 id='method-519'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='uncompletetask'>UncompleteTask</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25246,11 +25341,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于取消任务的已完成状态</p>
-<h3 id='doc-518'>Doc</h3>
+<h3 id='doc-520'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/uncomplete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task/uncomplete</a></p>
-<h3 id='url-518'>URL</h3>
+<h3 id='url-520'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/uncomplete</code></p>
-<h3 id='method-518'>Method</h3>
+<h3 id='method-520'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='createtaskcomment'>CreateTaskComment</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25289,11 +25384,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于创建和回复任务的评论。当parent_id字段为0时，为创建评论；当parent_id不为0时，为回复某条评论</p>
-<h3 id='doc-519'>Doc</h3>
+<h3 id='doc-521'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/create</a></p>
-<h3 id='url-519'>URL</h3>
+<h3 id='url-521'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/comments</code></p>
-<h3 id='method-519'>Method</h3>
+<h3 id='method-521'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='gettaskcomment'>GetTaskComment</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25332,11 +25427,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于通过评论ID获取评论详情</p>
-<h3 id='doc-520'>Doc</h3>
+<h3 id='doc-522'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/get</a></p>
-<h3 id='url-520'>URL</h3>
+<h3 id='url-522'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/comments/:comment_id</code></p>
-<h3 id='method-520'>Method</h3>
+<h3 id='method-522'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='deletetaskcomment'>DeleteTaskComment</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25375,11 +25470,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于通过评论ID删除评论</p>
-<h3 id='doc-521'>Doc</h3>
+<h3 id='doc-523'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/delete">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/delete</a></p>
-<h3 id='url-521'>URL</h3>
+<h3 id='url-523'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/comments/:comment_id</code></p>
-<h3 id='method-521'>Method</h3>
+<h3 id='method-523'>Method</h3>
 <p><code>DELETE</code></p>
 <h2 id='updatetaskcomment'>UpdateTaskComment</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25418,11 +25513,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>该接口用于更新评论内容</p>
-<h3 id='doc-522'>Doc</h3>
+<h3 id='doc-524'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/update">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/task-v1/task-comment/update</a></p>
-<h3 id='url-522'>URL</h3>
+<h3 id='url-524'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/task/v1/tasks/:task_id/comments/:comment_id</code></p>
-<h3 id='method-522'>Method</h3>
+<h3 id='method-524'>Method</h3>
 <p><code>PUT</code></p>
 <h1 id='acs'>ACS</h1><h2 id='getacsaccessrecordphoto'>GetACSAccessRecordPhoto</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25463,11 +25558,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>用户在门禁考勤机上成功开门或打卡后，智能门禁应用都会生成一条门禁记录，对于使用人脸识别方式进行开门的识别记录，还会有抓拍图。</p>
 
 <p>可以用该接口下载开门时的人脸识别照片{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=acs&amp;version=v1&amp;resource=access_record.access_photo&amp;method=get)</p>
-<h3 id='doc-523'>Doc</h3>
+<h3 id='doc-525'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/access_record-access_photo/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/access_record-access_photo/get</a></p>
-<h3 id='url-523'>URL</h3>
+<h3 id='url-525'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/acs/v1/access_records/:access_record_id/access_photo</code></p>
-<h3 id='method-523'>Method</h3>
+<h3 id='method-525'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='getacsaccessrecordlist'>GetACSAccessRecordList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25508,11 +25603,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>用户在门禁考勤机上成功开门或打卡后，智能门禁应用都会生成一条门禁记录。</p>
 
 <p>该接口返回满足查询参数的识别记录{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=acs&amp;version=v1&amp;resource=access_record&amp;method=list)</p>
-<h3 id='doc-524'>Doc</h3>
+<h3 id='doc-526'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/access_record/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/access_record/list</a></p>
-<h3 id='url-524'>URL</h3>
+<h3 id='url-526'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/acs/v1/access_records</code></p>
-<h3 id='method-524'>Method</h3>
+<h3 id='method-526'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='getacsdevicelist'>GetACSDeviceList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25551,11 +25646,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>使用该接口获取租户内所有设备</p>
-<h3 id='doc-525'>Doc</h3>
+<h3 id='doc-527'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/device/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/device/list</a></p>
-<h3 id='url-525'>URL</h3>
+<h3 id='url-527'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/acs/v1/devices</code></p>
-<h3 id='method-525'>Method</h3>
+<h3 id='method-527'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='getacsuserface'>GetACSUserFace</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25594,11 +25689,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>对于已经录入人脸图片的用户，可以使用该接口下载用户人脸图片</p>
-<h3 id='doc-526'>Doc</h3>
+<h3 id='doc-528'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user-face/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user-face/get</a></p>
-<h3 id='url-526'>URL</h3>
+<h3 id='url-528'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/acs/v1/users/:user_id/face</code></p>
-<h3 id='method-526'>Method</h3>
+<h3 id='method-528'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='updateacsuserface'>UpdateACSUserFace</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25637,11 +25732,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>用户需要录入人脸图片才可以使用门禁考勤机。使用该 API 上传门禁用户的人脸图片。</p>
-<h3 id='doc-527'>Doc</h3>
+<h3 id='doc-529'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user-face/update">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user-face/update</a></p>
-<h3 id='url-527'>URL</h3>
+<h3 id='url-529'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/acs/v1/users/:user_id/face</code></p>
-<h3 id='method-527'>Method</h3>
+<h3 id='method-529'>Method</h3>
 <p><code>PUT</code></p>
 <h2 id='getacsuser'>GetACSUser</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25682,11 +25777,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>该接口用于获取智能门禁中单个用户的信息。</p>
 
 <p>只能获取已加入智能门禁权限组的用户</p>
-<h3 id='doc-528'>Doc</h3>
+<h3 id='doc-530'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user/get</a></p>
-<h3 id='url-528'>URL</h3>
+<h3 id='url-530'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/acs/v1/users/:user_id</code></p>
-<h3 id='method-528'>Method</h3>
+<h3 id='method-530'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='updateacsuser'>UpdateACSUser</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25725,11 +25820,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>飞书智能门禁在人脸识别成功后会有韦根信号输出，输出用户的卡号。</p>
-<h3 id='doc-529'>Doc</h3>
+<h3 id='doc-531'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user/patch">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user/patch</a></p>
-<h3 id='url-529'>URL</h3>
+<h3 id='url-531'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/acs/v1/users/:user_id</code></p>
-<h3 id='method-529'>Method</h3>
+<h3 id='method-531'>Method</h3>
 <p><code>PATCH</code></p>
 <h2 id='getacsuserlist'>GetACSUserList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25770,11 +25865,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>使用该接口获取智能门禁中所有用户信息</p>
 
 <p>只能获取已加入智能门禁权限组的用户</p>
-<h3 id='doc-530'>Doc</h3>
+<h3 id='doc-532'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/acs-v1/user/list</a></p>
-<h3 id='url-530'>URL</h3>
+<h3 id='url-532'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/acs/v1/users</code></p>
-<h3 id='method-530'>Method</h3>
+<h3 id='method-532'>Method</h3>
 <p><code>GET</code></p>
 <h1 id='baike'>Baike</h1><h2 id='createbaikedraft'>CreateBaikeDraft</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25819,11 +25914,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>· 当 entity_id 字段不为空时表示更新该实体词<br>
 · 当 entity_id 字段为空时表示创建新的实体词<br>
 · 当 entity_id 字段为空且 outer_info 字段不为空时，会根据已有数据判断是创建还是更新实体词。原则为：当 outer_info 字段已经和已有实体词绑定，则会触发更新，若无绑定的实体词，则会创建一个新的和 outer_info 绑定的实体词</p>
-<h3 id='doc-531'>Doc</h3>
+<h3 id='doc-533'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/draft/create">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/draft/create</a></p>
-<h3 id='url-531'>URL</h3>
+<h3 id='url-533'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/baike/v1/drafts</code></p>
-<h3 id='method-531'>Method</h3>
+<h3 id='method-533'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='createbaikeupdate'>CreateBaikeUpdate</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25862,11 +25957,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>根据 draft_id 更新草稿内容，已审批的草稿无法编辑</p>
-<h3 id='doc-532'>Doc</h3>
+<h3 id='doc-534'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/draft/update">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/draft/update</a></p>
-<h3 id='url-532'>URL</h3>
+<h3 id='url-534'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/baike/v1/drafts/:draft_id</code></p>
-<h3 id='method-532'>Method</h3>
+<h3 id='method-534'>Method</h3>
 <p><code>PUT</code></p>
 <h2 id='getbaikeentity'>GetBaikeEntity</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25907,11 +26002,11 @@ fetch_child 决定是否递归)。</p></li>
 <p>通过词条 id 拉取对应的实体词详情信息</p>
 
 <p>也支持通过 provider 和 outer_id 返回对应实体的详情数据。此时路径中的 entity_id 为固定的 enterprise_0</p>
-<h3 id='doc-533'>Doc</h3>
+<h3 id='doc-535'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/get">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/get</a></p>
-<h3 id='url-533'>URL</h3>
+<h3 id='url-535'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/baike/v1/entities/:entity_id</code></p>
-<h3 id='method-533'>Method</h3>
+<h3 id='method-535'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='getbaikeentitylist'>GetBaikeEntityList</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25950,11 +26045,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>通过分页拉取词条数据，支持租户内的全部词条拉取</p>
-<h3 id='doc-534'>Doc</h3>
+<h3 id='doc-536'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/list">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/list</a></p>
-<h3 id='url-534'>URL</h3>
+<h3 id='url-536'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/baike/v1/entities</code></p>
-<h3 id='method-534'>Method</h3>
+<h3 id='method-536'>Method</h3>
 <p><code>GET</code></p>
 <h2 id='matchbaikeentity'>MatchBaikeEntity</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -25993,11 +26088,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>准确匹配词条的关键词、全名、别名属性，并召回对应的 ID</p>
-<h3 id='doc-535'>Doc</h3>
+<h3 id='doc-537'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/match">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/match</a></p>
-<h3 id='url-535'>URL</h3>
+<h3 id='url-537'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/baike/v1/entities/match</code></p>
-<h3 id='method-535'>Method</h3>
+<h3 id='method-537'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='searchbaikeentity'>SearchBaikeEntity</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -26036,11 +26131,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>传入关键词，进行模糊匹配搜索相应的词条</p>
-<h3 id='doc-536'>Doc</h3>
+<h3 id='doc-538'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/search">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/search</a></p>
-<h3 id='url-536'>URL</h3>
+<h3 id='url-538'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/baike/v1/entities/search</code></p>
-<h3 id='method-536'>Method</h3>
+<h3 id='method-538'>Method</h3>
 <p><code>POST</code></p>
 <h2 id='highlightbaikeentity'>HighlightBaikeEntity</h2><div class="highlight"><pre class="highlight go tab-go"><code><span class="k">package</span> <span class="n">example</span>
 
@@ -26079,11 +26174,11 @@ fetch_child 决定是否递归)。</p></li>
 
 </code></pre></div>
 <p>用户传入一个句子，返回词条的位置和对应的 Id，通过 Get 接口可以获取词条的详情信息</p>
-<h3 id='doc-537'>Doc</h3>
+<h3 id='doc-539'>Doc</h3>
 <p><a href="https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/highlight">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/baike-v1/entity/highlight</a></p>
-<h3 id='url-537'>URL</h3>
+<h3 id='url-539'>URL</h3>
 <p><code>https://open.feishu.cn/open-apis/baike/v1/entities/highlight</code></p>
-<h3 id='method-537'>Method</h3>
+<h3 id='method-539'>Method</h3>
 <p><code>POST</code></p>
 <h1 id='eventcallback'>EventCallback</h1><h1 id='applink'>AppLink</h1>
       </div>
