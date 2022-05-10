@@ -3725,8 +3725,8 @@ def example(cli: pylark.Lark):
 
 注意事项:
 - 需要开启[机器人能力](/ssl:ttdoc/home/develop-a-bot-in-5-minutes/create-an-app)  
-- 当前仅支持更新 ***卡片消息***
-- 不支持更新批量消息
+- 当前仅支持更新 **卡片消息**
+- **不支持更新批量消息**
 - 只支持对所有人都更新的[「共享卡片」](ukTMukTMukTM/uAjNwUjLwYDM14CM2ATN)，也即需要在卡片的`config`属性中，显式声明`"update_multi":true`。<br>如果你只想更新特定人的消息卡片，必须要用户在卡片操作交互后触发，开发文档参考[「独享卡片」](/ssl:ttdoc/ukTMukTMukTM/uYjNwUjL2YDM14iN2ATN#49904b71)
 
 
@@ -5726,7 +5726,7 @@ def example(cli: pylark.Lark):
 
 获取机器人的基本信息。
 
-需要启用机器人能力
+需要启用机器人能力（前往[开发者后台](https://open.feishu.cn/app) - 选择你要获取信息的应用 - 导航栏点击应用功能 - 机器人，开启机器人能力并发布后即可。）
 
 
 
@@ -6674,7 +6674,8 @@ def example(cli: pylark.Lark):
 
 
 
-仅可订阅类型为 primary 或 shared 的公开日历。
+- 仅可订阅类型为 primary 或 shared 的公开日历。
+- 可订阅日历数量上限为1000。
 
 
 
@@ -8061,6 +8062,65 @@ def example(cli: pylark.Lark):
 
 # Drive
 
+## SubscribeDriveFile
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.SubscribeDriveFile(ctx, &lark.SubscribeDriveFileReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.subscribe_drive_file(pylark.SubscribeDriveFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+该接口用于根据文件token和文件类型订阅 Doc/Docx/Sheet 的事件。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file/subscribe](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file/subscribe)
+
+### URL
+
+`https://open.feishu.cn/open-apis/drive/v1/files/:file_token/subscribe`
+
+### Method
+
+`POST`
+
 ## SearchDriveFile
 
 ```go
@@ -8247,72 +8307,6 @@ def example(cli: pylark.Lark):
 
 `POST`
 
-## CopyDriveFile
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Drive.CopyDriveFile(ctx, &lark.CopyDriveFileReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.drive.copy_drive_file(pylark.CopyDriveFileReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-将文件复制到用户云空间的其他文件夹中。不支持复制文件夹。
-
-如果目标文件夹是我的空间，则复制的文件会在「我的空间」的「归我所有」列表里。
-
-
-该接口不支持并发创建，且调用频率上限为 5QPS 且 10000次/天
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/ukTMukTMukTM/uYTNzUjL2UzM14iN1MTN](https://open.feishu.cn/document/ukTMukTMukTM/uYTNzUjL2UzM14iN1MTN)
-
-### URL
-
-`https://open.feishu.cn/open-apis/drive/explorer/v2/file/copy/files/:fileToken`
-
-### Method
-
-`POST`
-
 ## DeleteDriveFile
 
 ```go
@@ -8381,73 +8375,6 @@ def example(cli: pylark.Lark):
 
 `DELETE`
 
-## DeleteDriveDocFile
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Drive.DeleteDriveDocFile(ctx, &lark.DeleteDriveDocFileReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.drive.delete_drive_doc_file(pylark.DeleteDriveDocFileReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-该接口用于根据 docToken 删除对应的 Docs 文档。
-
-
-
-文档只能被文档所有者删除，文档被删除后将会放到回收站里
-
-该接口不支持并发调用，且调用频率上限为5QPS
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/ukTMukTMukTM/uATM2UjLwEjN14CMxYTN](https://open.feishu.cn/document/ukTMukTMukTM/uATM2UjLwEjN14CMxYTN)
-
-### URL
-
-`https://open.feishu.cn/open-apis/drive/explorer/v2/file/docs/:docToken`
-
-### Method
-
-`DELETE`
-
 ## DeleteDriveSheetFile
 
 ```go
@@ -8493,6 +8420,13 @@ def example(cli: pylark.Lark):
 
 该接口用于根据 spreadsheetToken 删除对应的 sheet 文档。
 
+为了更好地提升该接口的安全性，我们对其进行了升级，请尽快迁移至
+  [新版本>>](/ssl:ttdoc/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file/delete)
+
+</md-alert>
+
+<md-alert type="warn">
+
 文档只能被文档所有者删除，文档被删除后将会放到回收站里
 
 
@@ -8511,71 +8445,6 @@ def example(cli: pylark.Lark):
 ### Method
 
 `DELETE`
-
-## CreateDriveFolder
-
-```go
-package example
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/chyroc/lark"
-)
-
-func example(ctx context.Context, cli *lark.Lark) {
-	res, response, err := cli.Drive.CreateDriveFolder(ctx, &lark.CreateDriveFolderReq{
-		...
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("req-id:", response.RequestID)
-	fmt.Println("res:", res)
-}
-
-```
-
-```python
-import pylark
-
-
-def example(cli: pylark.Lark):
-    try:
-        res, response = cli.drive.create_drive_folder(pylark.CreateDriveFolderReq(
-            ...
-        ))
-    except pylark.PyLarkError as e:
-        # handle exception: e
-        raise
-
-    print('req-id: %s', response.request_id)
-    print('res: %s', res)
-
-```
-
-
-
-该接口用于根据 folderToken 在该 folder 下创建文件夹。
-
-
-该接口不支持并发创建，且调用频率上限为 5QPS 以及 10000次/天
-
-
-#
-
-### Doc
-
-[https://open.feishu.cn/document/ukTMukTMukTM/ukTNzUjL5UzM14SO1MTN](https://open.feishu.cn/document/ukTMukTMukTM/ukTNzUjL5UzM14SO1MTN)
-
-### URL
-
-`https://open.feishu.cn/open-apis/drive/explorer/v2/folder/:folderToken`
-
-### Method
-
-`POST`
 
 ## GetDriveFolderMeta
 
@@ -8882,6 +8751,210 @@ def example(cli: pylark.Lark):
 ### Method
 
 `GET`
+
+## CopyDriveFile
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.CopyDriveFile(ctx, &lark.CopyDriveFileReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.copy_drive_file(pylark.CopyDriveFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+
+
+将文件复制到用户云空间的其他文件夹中。不支持复制文件夹。
+
+如果目标文件夹是我的空间，则复制的文件会在「**我的空间**」的「**归我所有**」列表里。{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=drive&version=v1&resource=file&method=copy)
+
+
+
+
+
+
+该接口不支持并发拷贝多个文件，且调用频率上限为 5QPS 且 10000次/天
+
+
+
+
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file/copy](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file/copy)
+
+### URL
+
+`https://open.feishu.cn/open-apis/drive/v1/files/:file_token/copy`
+
+### Method
+
+`POST`
+
+## CreateDriveFolder
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.CreateDriveFolder(ctx, &lark.CreateDriveFolderReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.create_drive_folder(pylark.CreateDriveFolderReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+在用户云空间的指定文件夹中创建一个新的空文件夹。
+
+该接口不支持并发创建，且调用频率上限为 5QPS 以及 10000次/天
+
+
+
+
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file/create_folder](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file/create_folder)
+
+### URL
+
+`https://open.feishu.cn/open-apis/drive/v1/files/create_folder`
+
+### Method
+
+`POST`
+
+## MoveDriveFile
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.MoveDriveFile(ctx, &lark.MoveDriveFileReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.move_drive_file(pylark.MoveDriveFileReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+将文件或者文件夹移动到用户云空间的其他位置。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file/move](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/file/move)
+
+### URL
+
+`https://open.feishu.cn/open-apis/drive/v1/files/:file_token/move`
+
+### Method
+
+`POST`
 
 ## UploadDriveFile
 
@@ -10175,7 +10248,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于根据 filetoken 获取文档的公共设置。
+该接口用于根据 filetoken 获取云文档的权限设置。
 
 #
 
@@ -10190,6 +10263,65 @@ def example(cli: pylark.Lark):
 ### Method
 
 `POST`
+
+## GetDrivePublicPermission
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Drive.GetDrivePublicPermission(ctx, &lark.GetDrivePublicPermissionReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.drive.get_drive_public_permission(pylark.GetDrivePublicPermissionReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+该接口用于根据 filetoken 获取云文档的权限设置。
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/permission-public/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/drive-v1/permission-public/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/drive/v1/permissions/:token/public`
+
+### Method
+
+`GET`
 
 ## UpdateDrivePublicPermission
 
@@ -10234,7 +10366,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-该接口用于根据 filetoken 更新文档的公共设置。
+该接口用于根据 filetoken 更新云文档的权限设置。
 
 #
 
@@ -15313,6 +15445,11 @@ def example(cli: pylark.Lark):
 
 根据 app_token 和 table_id，获取数据表的所有视图
 
+该接口支持调用频率上限为 20 QPS
+
+
+
+
 #
 
 ### Doc
@@ -15371,6 +15508,11 @@ def example(cli: pylark.Lark):
 ```
 
 在数据表中新增一个视图
+
+该接口支持调用频率上限为 10 QPS
+
+
+
 
 #
 
@@ -15431,6 +15573,11 @@ def example(cli: pylark.Lark):
 
 删除数据表中的视图
 
+该接口支持调用频率上限为 10 QPS
+
+
+
+
 #
 
 ### Doc
@@ -15488,26 +15635,9 @@ def example(cli: pylark.Lark):
 
 ```
 
-
-
 该接口用于列出数据表中的现有记录，单次最多列出 100 行记录，支持分页获取。
 
-注意：
-
-1.目前暂不支持字段类型为“查找引用”的返回。
-
-2.对于“查找引用”字段可以转换为“公式”字段，查找引用本质上是 lookup 公式。{尝试一下}(url=/api/tools/api_explore/api_explore_config?project=bitable&version=v1&resource=app.table.record&method=list)
-
-
-
-
-
-
-
-
-
-
-
+该接口支持调用频率上限为 1000 次/分钟
 
 
 
@@ -15571,6 +15701,11 @@ def example(cli: pylark.Lark):
 
 该接口用于根据 record_id 的值检索现有记录
 
+该接口支持调用频率上限为 20 QPS
+
+
+
+
 #
 
 ### Doc
@@ -15629,6 +15764,11 @@ def example(cli: pylark.Lark):
 ```
 
 该接口用于在数据表中新增一条记录
+
+该接口支持调用频率上限为 10 QPS
+
+
+
 
 #
 
@@ -15689,6 +15829,11 @@ def example(cli: pylark.Lark):
 
 该接口用于在数据表中新增多条记录
 
+该接口支持调用频率上限为 10 QPS
+
+
+
+
 #
 
 ### Doc
@@ -15747,6 +15892,11 @@ def example(cli: pylark.Lark):
 ```
 
 该接口用于更新数据表中的一条记录
+
+该接口支持调用频率上限为 10 QPS
+
+
+
 
 #
 
@@ -15807,6 +15957,11 @@ def example(cli: pylark.Lark):
 
 该接口用于更新数据表中的多条记录
 
+该接口支持调用频率上限为 10 QPS
+
+
+
+
 #
 
 ### Doc
@@ -15865,6 +16020,11 @@ def example(cli: pylark.Lark):
 ```
 
 该接口用于删除数据表中的一条记录
+
+该接口支持调用频率上限为 10 QPS
+
+
+
 
 #
 
@@ -15925,6 +16085,11 @@ def example(cli: pylark.Lark):
 
 该接口用于删除数据表中现有的多条记录
 
+该接口支持调用频率上限为 10 QPS
+
+
+
+
 #
 
 ### Doc
@@ -15983,6 +16148,11 @@ def example(cli: pylark.Lark):
 ```
 
 根据 app_token 和 table_id，获取数据表的所有字段
+
+该接口支持调用频率上限为 20 QPS
+
+
+
 
 #
 
@@ -16043,6 +16213,11 @@ def example(cli: pylark.Lark):
 
 该接口用于在数据表中新增一个字段
 
+该接口支持调用频率上限为 10 QPS
+
+
+
+
 #
 
 ### Doc
@@ -16101,6 +16276,11 @@ def example(cli: pylark.Lark):
 ```
 
 该接口用于在数据表中更新一个字段
+
+该接口支持调用频率上限为 10 QPS
+
+
+
 
 #
 
@@ -16161,6 +16341,11 @@ def example(cli: pylark.Lark):
 
 该接口用于在数据表中删除一个字段
 
+该接口支持调用频率上限为 10 QPS
+
+
+
+
 #
 
 ### Doc
@@ -16219,6 +16404,11 @@ def example(cli: pylark.Lark):
 ```
 
 根据  app_token，获取多维表格下的所有数据表
+
+该接口支持调用频率上限为 20 QPS
+
+
+
 
 #
 
@@ -16279,6 +16469,11 @@ def example(cli: pylark.Lark):
 
 新增一个数据表
 
+该接口支持调用频率上限为 10 QPS
+
+
+
+
 #
 
 ### Doc
@@ -16337,6 +16532,11 @@ def example(cli: pylark.Lark):
 ```
 
 新增多个数据表
+
+该接口支持调用频率上限为 10 QPS
+
+
+
 
 #
 
@@ -16397,6 +16597,11 @@ def example(cli: pylark.Lark):
 
 删除一个数据表
 
+该接口支持调用频率上限为 10 QPS
+
+
+
+
 #
 
 ### Doc
@@ -16455,6 +16660,11 @@ def example(cli: pylark.Lark):
 ```
 
 删除多个数据表
+
+该接口支持调用频率上限为 10 QPS
+
+
+
 
 #
 
@@ -16515,6 +16725,11 @@ def example(cli: pylark.Lark):
 
 通过 app_token 更新多维表格名称
 
+该接口支持调用频率上限为 10 QPS
+
+
+
+
 #
 
 ### Doc
@@ -16573,6 +16788,11 @@ def example(cli: pylark.Lark):
 ```
 
 通过 app_token 获取多维表格元数据
+
+该接口支持调用频率上限为 20 QPS
+
+
+
 
 #
 
@@ -17712,7 +17932,7 @@ def example(cli: pylark.Lark):
 
 - 引入组件库。在网页 html 中引入如下代码：
 ```html
-<script src="https://lf1-cdn-tos.bytegoofy.com/goofy/locl/lark/external_js_sdk/h5-js-sdk-1.1.1.js"></script>
+<script src="https://lf1-cdn-tos.bytegoofy.com/goofy/locl/lark/external_js_sdk/h5-js-sdk-1.1.2.js"></script>
 ```
 
 若要使用成员卡片组件，SDK需要在`<body>`加载后引入。
@@ -17720,14 +17940,21 @@ def example(cli: pylark.Lark):
 
 ## 鉴权流程
 ### 1. 获取 access_token
-- 不同的 token 代表了组件使用者的身份。user_access_token代表以用户身份鉴权，app_access_token代表以应用身份授权。
+不同的 token 代表了组件使用者的身份。user_access_token代表以用户身份鉴权，app_access_token代表以应用身份授权。
 - 成员名片组件仅支持以用户身份(user_access_token)鉴权
 - 云文档组件可以同时支持以用户身份(user_access_token)和应用身份(app_access_token)授权。但是以应用身份授权云文档时，访问量受 80 次/分钟限制，且组件不支持 “编辑”、“评论”、“点赞” 等功能
-- 开发者需要通过以下两种方式之一获取 token，再通过接口生成 ticket。
 
-	-  方法一：获取用户身份。通过 [第三方网站免登](/ssl:ttdoc/ukTMukTMukTM/uETOwYjLxkDM24SM5AjN)获得 `user_access_token` 
-	- 方法二：获取应用身份。通过[服务端API](/ssl:ttdoc/ukTMukTMukTM/ukDNz4SO0MjL5QzM/auth-v3/auth/app_access_token_internal)获得 `app_access_token`
 
+:::html
+<md-td>
+开发者需要通过以下两种方式之一获取 token，再通过接口生成 ticket。
+
+- 方法一：获取用户身份。通过 [第三方网站免登](/ssl:ttdoc/ukTMukTMukTM/uETOwYjLxkDM24SM5AjN)获得 user_access_token
+
+- 方法二：获取应用身份。通过[服务端API](/ssl:ttdoc/ukTMukTMukTM/ukDNz4SO0MjL5QzM/auth-v3/auth/app_access_token_internal)获得 app_access_token
+  
+</md-td>
+:::
 
 ### 2. 获取 jsapi_ticket
 
@@ -29340,7 +29567,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-获取OKR周期列表
+- 当前仅支持「飞书OKR 企业版」客户使用本接口。[了解更多](https://okr.feishu.cn/price)
 
 使用tenant_access_token需要额外申请权限以应用身份访问OKR信息
 
@@ -29404,7 +29631,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-根据OKR id批量获取OKR
+- 当前仅支持「飞书OKR 企业版」客户使用本接口。[了解更多](https://okr.feishu.cn/price)
 
 使用tenant_access_token需要额外申请权限以应用身份访问OKR信息
 
@@ -29468,7 +29695,7 @@ def example(cli: pylark.Lark):
 
 ```
 
-根据用户的id获取OKR列表
+- 当前仅支持「飞书OKR 企业版」客户使用本接口。[了解更多](https://okr.feishu.cn/price)
 
 使用tenant_access_token需要额外申请权限以应用身份访问OKR信息
 
@@ -33677,6 +33904,3085 @@ def example(cli: pylark.Lark):
 ### Method
 
 `POST`
+
+
+# MDM
+
+## CreateMDMVendor
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.CreateMDMVendor(ctx, &lark.CreateMDMVendorReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.create_mdm_vendor(pylark.CreateMDMVendorReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+使用该接口创建一个交易方,字段是否必填是根据后台动态配置的，如想获取配置，主数据的配置开放文档里获取。参数均采用驼峰式
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/vendor/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/vendor/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/vendors`
+
+### Method
+
+`POST`
+
+## UpdateMDMVendor
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.UpdateMDMVendor(ctx, &lark.UpdateMDMVendorReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.update_mdm_vendor(pylark.UpdateMDMVendorReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+使用该接口来根据id来更新交易方的全部字段，字段是否必填是根据后台动态配置的，如想获取配置，主数据的配置开放文档里获取。参数均采用驼峰式
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/vendor/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/vendor/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/vendors/:vendor_id`
+
+### Method
+
+`PUT`
+
+## GetMDMVendorList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.GetMDMVendorList(ctx, &lark.GetMDMVendorListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.get_mdm_vendor_list(pylark.GetMDMVendorListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+根据交易方编码来获取对应的交易方。参数均采用驼峰式
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/vendor/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/vendor/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/vendors`
+
+### Method
+
+`GET`
+
+## GetMDMVendor
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.GetMDMVendor(ctx, &lark.GetMDMVendorReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.get_mdm_vendor(pylark.GetMDMVendorReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+根据交易方id来获取交易方信息。参数均采用驼峰式
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/vendor/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/vendor/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/vendors/:vendor_id`
+
+### Method
+
+`GET`
+
+## GetMDMVendorListAll
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.GetMDMVendorListAll(ctx, &lark.GetMDMVendorListAllReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.get_mdm_vendor_list_all(pylark.GetMDMVendorListAllReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+交易方全量数据分页查询。参数均采用驼峰式
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/vendor/list_all](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/vendor/list_all)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/vendors/list_all`
+
+### Method
+
+`GET`
+
+## CreateMDMLegalEntity
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.CreateMDMLegalEntity(ctx, &lark.CreateMDMLegalEntityReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.create_mdm_legal_entity(pylark.CreateMDMLegalEntityReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+根据该接口，来创建一个法人实体，字段是否必填是根据后台动态配置的，如想获取配置，主数据的配置开放文档里获取。参数均采用驼峰式
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/legal_entity/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/legal_entity/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/legal_entities`
+
+### Method
+
+`POST`
+
+## UpdateMDMLegalEntity
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.UpdateMDMLegalEntity(ctx, &lark.UpdateMDMLegalEntityReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.update_mdm_legal_entity(pylark.UpdateMDMLegalEntityReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+使用该接口来根据id来更新法人实体的全部字段，字段是否必填是根据后台动态配置的，如想获取配置，主数据的配置开放文档里获取。参数均采用驼峰式
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/legal_entity/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/legal_entity/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/legal_entities/:legal_entity_id`
+
+### Method
+
+`PUT`
+
+## GetMDMLegalEntityList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.GetMDMLegalEntityList(ctx, &lark.GetMDMLegalEntityListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.get_mdm_legal_entity_list(pylark.GetMDMLegalEntityListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+根据法人实体编码，来获取对应的法人实体信息。参数均采用驼峰式
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/legal_entity/list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/legal_entity/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/legal_entities`
+
+### Method
+
+`GET`
+
+## GetMDMLegalEntity
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.GetMDMLegalEntity(ctx, &lark.GetMDMLegalEntityReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.get_mdm_legal_entity(pylark.GetMDMLegalEntityReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+通过该接口，凭借法人主体id 获取单个法人实体信息。参数均采用驼峰式
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/legal_entity/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/legal_entity/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/legal_entities/:legal_entity_id`
+
+### Method
+
+`GET`
+
+## GetMDMLegalEntityListAll
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.GetMDMLegalEntityListAll(ctx, &lark.GetMDMLegalEntityListAllReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.get_mdm_legal_entity_list_all(pylark.GetMDMLegalEntityListAllReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+法人实体全量数据分页查询。参数均采用驼峰式
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/legal_entity/list_all](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/legal_entity/list_all)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/legal_entities/list_all`
+
+### Method
+
+`GET`
+
+## CreateMDMInternalOrder
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.CreateMDMInternalOrder(ctx, &lark.CreateMDMInternalOrderReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.create_mdm_internal_order(pylark.CreateMDMInternalOrderReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+新建单个内部订单
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/internal_order/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/internal_order/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/internal_orders`
+
+### Method
+
+`POST`
+
+## UpdateMDMInternalOrder
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.UpdateMDMInternalOrder(ctx, &lark.UpdateMDMInternalOrderReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.update_mdm_internal_order(pylark.UpdateMDMInternalOrderReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+更新内部订单部分字段，没有填写的字段不会被更新
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/internal_order/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/internal_order/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/internal_orders/:internal_order_uid`
+
+### Method
+
+`PUT`
+
+## DeleteMDMInternalOrder
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.DeleteMDMInternalOrder(ctx, &lark.DeleteMDMInternalOrderReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.delete_mdm_internal_order(pylark.DeleteMDMInternalOrderReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+删除单个内部订单
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/internal_order/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/internal_order/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/internal_orders/:internal_order_uid`
+
+### Method
+
+`DELETE`
+
+## GetMDMInternalOrder
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.GetMDMInternalOrder(ctx, &lark.GetMDMInternalOrderReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.get_mdm_internal_order(pylark.GetMDMInternalOrderReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取单个内部订单
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/internal_order/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/internal_order/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/internal_orders/:internal_order_uid`
+
+### Method
+
+`GET`
+
+## SearchMDMInternalOrder
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.SearchMDMInternalOrder(ctx, &lark.SearchMDMInternalOrderReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.search_mdm_internal_order(pylark.SearchMDMInternalOrderReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+分页搜索内部订单
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/internal_order/search](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/internal_order/search)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/internal_orders/search`
+
+### Method
+
+`POST`
+
+## CreateMDMCostCenter
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.CreateMDMCostCenter(ctx, &lark.CreateMDMCostCenterReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.create_mdm_cost_center(pylark.CreateMDMCostCenterReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+新建单个成本中心
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/cost_center/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/cost_center/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/cost_centers`
+
+### Method
+
+`POST`
+
+## UpdateMDMCostCenter
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.UpdateMDMCostCenter(ctx, &lark.UpdateMDMCostCenterReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.update_mdm_cost_center(pylark.UpdateMDMCostCenterReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+更新成本中心部分字段，没有填写的字段不会被更新
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/cost_center/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/cost_center/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/cost_centers/:cost_center_uid`
+
+### Method
+
+`PUT`
+
+## DeleteMDMCostCenter
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.DeleteMDMCostCenter(ctx, &lark.DeleteMDMCostCenterReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.delete_mdm_cost_center(pylark.DeleteMDMCostCenterReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+删除单个成本中心
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/cost_center/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/cost_center/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/cost_centers/:cost_center_uid`
+
+### Method
+
+`DELETE`
+
+## GetMDMCostCenter
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.GetMDMCostCenter(ctx, &lark.GetMDMCostCenterReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.get_mdm_cost_center(pylark.GetMDMCostCenterReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取单个成本中心
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/cost_center/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/cost_center/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/cost_centers/:cost_center_uid`
+
+### Method
+
+`GET`
+
+## SearchMDMCostCenter
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.SearchMDMCostCenter(ctx, &lark.SearchMDMCostCenterReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.search_mdm_cost_center(pylark.SearchMDMCostCenterReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+分页搜索成本中心
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/cost_center/search](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/cost_center/search)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/cost_centers/search`
+
+### Method
+
+`POST`
+
+## CreateMDMDepartmentCostCenterRelationship
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.CreateMDMDepartmentCostCenterRelationship(ctx, &lark.CreateMDMDepartmentCostCenterRelationshipReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.create_mdm_department_cost_center_relationship(pylark.CreateMDMDepartmentCostCenterRelationshipReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+创建单个部门与成本中心关系
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/department_cost_center_relationship/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/department_cost_center_relationship/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/department_cost_center_relationships`
+
+### Method
+
+`POST`
+
+## UpdateMDMDepartmentCostCenterRelationship
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.UpdateMDMDepartmentCostCenterRelationship(ctx, &lark.UpdateMDMDepartmentCostCenterRelationshipReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.update_mdm_department_cost_center_relationship(pylark.UpdateMDMDepartmentCostCenterRelationshipReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+更新部门与成本中心关系部分字段，没有填写的字段不会被更新
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/department_cost_center_relationship/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/department_cost_center_relationship/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/department_cost_center_relationships/:department_cost_center_relationship_uid`
+
+### Method
+
+`PUT`
+
+## DeleteMDMDepartmentCostCenterRelationship
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.DeleteMDMDepartmentCostCenterRelationship(ctx, &lark.DeleteMDMDepartmentCostCenterRelationshipReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.delete_mdm_department_cost_center_relationship(pylark.DeleteMDMDepartmentCostCenterRelationshipReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+删除单个部门与成本中心关系
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/department_cost_center_relationship/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/department_cost_center_relationship/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/department_cost_center_relationships/:department_cost_center_relationship_uid`
+
+### Method
+
+`DELETE`
+
+## GetMDMDepartmentCostCenterRelationship
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.GetMDMDepartmentCostCenterRelationship(ctx, &lark.GetMDMDepartmentCostCenterRelationshipReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.get_mdm_department_cost_center_relationship(pylark.GetMDMDepartmentCostCenterRelationshipReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取单个部门与成本中心关系
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/department_cost_center_relationship/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/department_cost_center_relationship/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/department_cost_center_relationships/:department_cost_center_relationship_uid`
+
+### Method
+
+`GET`
+
+## SearchMDMDepartmentCostCenterRelationship
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.SearchMDMDepartmentCostCenterRelationship(ctx, &lark.SearchMDMDepartmentCostCenterRelationshipReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.search_mdm_department_cost_center_relationship(pylark.SearchMDMDepartmentCostCenterRelationshipReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+分页搜索部门与成本中心关系
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/department_cost_center_relationship/search](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/department_cost_center_relationship/search)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/department_cost_center_relationships/search`
+
+### Method
+
+`POST`
+
+## CreateMDMGlAccount
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.CreateMDMGlAccount(ctx, &lark.CreateMDMGlAccountReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.create_mdm_gl_account(pylark.CreateMDMGlAccountReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+创建单个会计科目
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/gl_accounts`
+
+### Method
+
+`POST`
+
+## UpdateMDMGlAccount
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.UpdateMDMGlAccount(ctx, &lark.UpdateMDMGlAccountReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.update_mdm_gl_account(pylark.UpdateMDMGlAccountReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+更新会计科目部分字段，没有填写的字段不会被更新
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/gl_accounts/:gl_account_uid`
+
+### Method
+
+`PUT`
+
+## DeleteMDMGlAccount
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.DeleteMDMGlAccount(ctx, &lark.DeleteMDMGlAccountReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.delete_mdm_gl_account(pylark.DeleteMDMGlAccountReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+删除单个会计科目
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/gl_accounts/:gl_account_uid`
+
+### Method
+
+`DELETE`
+
+## GetMDMDepGlAccount
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.GetMDMDepGlAccount(ctx, &lark.GetMDMDepGlAccountReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.get_mdm_dep_gl_account(pylark.GetMDMDepGlAccountReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取单个会计科目
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/gl_accounts/:gl_account_uid`
+
+### Method
+
+`GET`
+
+## SearchMDMGlAccount
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.SearchMDMGlAccount(ctx, &lark.SearchMDMGlAccountReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.search_mdm_gl_account(pylark.SearchMDMGlAccountReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+分页搜索会计科目
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account/search](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account/search)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/gl_accounts/search`
+
+### Method
+
+`POST`
+
+## CreateMDMCompany
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.CreateMDMCompany(ctx, &lark.CreateMDMCompanyReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.create_mdm_company(pylark.CreateMDMCompanyReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+创建单个公司
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/companies`
+
+### Method
+
+`POST`
+
+## UpdateMDMCompany
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.UpdateMDMCompany(ctx, &lark.UpdateMDMCompanyReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.update_mdm_company(pylark.UpdateMDMCompanyReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+更新公司部分字段，没有填写的字段不会被更新
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/companies/:company_uid`
+
+### Method
+
+`PUT`
+
+## DeleteMDMCompany
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.DeleteMDMCompany(ctx, &lark.DeleteMDMCompanyReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.delete_mdm_company(pylark.DeleteMDMCompanyReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+删除单个公司
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/companies/:company_uid`
+
+### Method
+
+`DELETE`
+
+## GetMDMDepCompany
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.GetMDMDepCompany(ctx, &lark.GetMDMDepCompanyReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.get_mdm_dep_company(pylark.GetMDMDepCompanyReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取单个公司
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/companies/:company_uid`
+
+### Method
+
+`GET`
+
+## SearchMDMCompany
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.SearchMDMCompany(ctx, &lark.SearchMDMCompanyReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.search_mdm_company(pylark.SearchMDMCompanyReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+分页搜索公司
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company/search](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company/search)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/companies/search`
+
+### Method
+
+`POST`
+
+## CreateMDMGlAccountCompanyRelationship
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.CreateMDMGlAccountCompanyRelationship(ctx, &lark.CreateMDMGlAccountCompanyRelationshipReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.create_mdm_gl_account_company_relationship(pylark.CreateMDMGlAccountCompanyRelationshipReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+创建单个会计科目与公司关系
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account_company_relationship/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account_company_relationship/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/gl_account_company_relationships`
+
+### Method
+
+`POST`
+
+## UpdateMDMGlAccountCompanyRelationship
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.UpdateMDMGlAccountCompanyRelationship(ctx, &lark.UpdateMDMGlAccountCompanyRelationshipReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.update_mdm_gl_account_company_relationship(pylark.UpdateMDMGlAccountCompanyRelationshipReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+更新会计科目与公司关系部分字段，没有填写的字段不会被更新
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account_company_relationship/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account_company_relationship/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/gl_account_company_relationships/:gl_account_company_relationship_uid`
+
+### Method
+
+`PUT`
+
+## DeleteMDMGlAccountCompanyRelationship
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.DeleteMDMGlAccountCompanyRelationship(ctx, &lark.DeleteMDMGlAccountCompanyRelationshipReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.delete_mdm_gl_account_company_relationship(pylark.DeleteMDMGlAccountCompanyRelationshipReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+删除单个会计科目与公司关系
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account_company_relationship/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account_company_relationship/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/gl_account_company_relationships/:gl_account_company_relationship_uid`
+
+### Method
+
+`DELETE`
+
+## GetMDMDepGlAccountCompanyRelationship
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.GetMDMDepGlAccountCompanyRelationship(ctx, &lark.GetMDMDepGlAccountCompanyRelationshipReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.get_mdm_dep_gl_account_company_relationship(pylark.GetMDMDepGlAccountCompanyRelationshipReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取单个会计科目与公司关系
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account_company_relationship/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account_company_relationship/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/gl_account_company_relationships/:gl_account_company_relationship_uid`
+
+### Method
+
+`GET`
+
+## SearchMDMGlAccountCompanyRelationship
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.SearchMDMGlAccountCompanyRelationship(ctx, &lark.SearchMDMGlAccountCompanyRelationshipReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.search_mdm_gl_account_company_relationship(pylark.SearchMDMGlAccountCompanyRelationshipReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+分页搜索会计科目与公司关系
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account_company_relationship/search](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/gl_account_company_relationship/search)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/gl_account_company_relationships/search`
+
+### Method
+
+`POST`
+
+## CreateMDMCompanyBankAccount
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.CreateMDMCompanyBankAccount(ctx, &lark.CreateMDMCompanyBankAccountReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.create_mdm_company_bank_account(pylark.CreateMDMCompanyBankAccountReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+创建单个公司银行账号
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-company_bank_account/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-company_bank_account/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/companies/:company_uid/company_bank_accounts`
+
+### Method
+
+`POST`
+
+## UpdateMDMCompanyBankAccount
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.UpdateMDMCompanyBankAccount(ctx, &lark.UpdateMDMCompanyBankAccountReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.update_mdm_company_bank_account(pylark.UpdateMDMCompanyBankAccountReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+更新公司银行账号部分字段，没有填写的字段不会被更新
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-company_bank_account/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-company_bank_account/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/companies/:company_uid/company_bank_accounts/:company_bank_account_uid`
+
+### Method
+
+`PUT`
+
+## DeleteMDMCompanyBankAccount
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.DeleteMDMCompanyBankAccount(ctx, &lark.DeleteMDMCompanyBankAccountReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.delete_mdm_company_bank_account(pylark.DeleteMDMCompanyBankAccountReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+删除单个公司银行账号
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-company_bank_account/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-company_bank_account/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/companies/:company_uid/company_bank_accounts/:company_bank_account_uid`
+
+### Method
+
+`DELETE`
+
+## GetMDMDepCompanyBankAccount
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.GetMDMDepCompanyBankAccount(ctx, &lark.GetMDMDepCompanyBankAccountReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.get_mdm_dep_company_bank_account(pylark.GetMDMDepCompanyBankAccountReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取单个公司银行账号
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-company_bank_account/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-company_bank_account/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/companies/:company_uid/company_bank_accounts/:company_bank_account_uid`
+
+### Method
+
+`GET`
+
+## SearchMDMCompanyBankAccount
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.SearchMDMCompanyBankAccount(ctx, &lark.SearchMDMCompanyBankAccountReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.search_mdm_company_bank_account(pylark.SearchMDMCompanyBankAccountReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+分页搜索公司银行账号
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-company_bank_account/search](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-company_bank_account/search)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/companies/:company_uid/company_bank_accounts/search`
+
+### Method
+
+`POST`
+
+## CreateMDMCompanyAsset
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.CreateMDMCompanyAsset(ctx, &lark.CreateMDMCompanyAssetReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.create_mdm_company_asset(pylark.CreateMDMCompanyAssetReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+创建单个公司资产
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-asset/create](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-asset/create)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/companies/:company_uid/assets`
+
+### Method
+
+`POST`
+
+## UpdateMDMCompanyAsset
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.UpdateMDMCompanyAsset(ctx, &lark.UpdateMDMCompanyAssetReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.update_mdm_company_asset(pylark.UpdateMDMCompanyAssetReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+更新公司资产部分字段，没有填写的字段不会被更新
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-asset/update](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-asset/update)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/companies/:company_uid/assets/:asset_uid`
+
+### Method
+
+`PUT`
+
+## DeleteMDMCompanyAsset
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.DeleteMDMCompanyAsset(ctx, &lark.DeleteMDMCompanyAssetReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.delete_mdm_company_asset(pylark.DeleteMDMCompanyAssetReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+删除单个公司资产
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-asset/delete](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-asset/delete)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/companies/:company_uid/assets/:asset_uid`
+
+### Method
+
+`DELETE`
+
+## GetMDMDepCompanyAsset
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.GetMDMDepCompanyAsset(ctx, &lark.GetMDMDepCompanyAssetReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.get_mdm_dep_company_asset(pylark.GetMDMDepCompanyAssetReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+获取单个公司资产
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-asset/get](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-asset/get)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/companies/:company_uid/assets/:asset_uid`
+
+### Method
+
+`GET`
+
+## SearchMDMCompanyAsset
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.SearchMDMCompanyAsset(ctx, &lark.SearchMDMCompanyAssetReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.search_mdm_company_asset(pylark.SearchMDMCompanyAssetReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+分页搜索公司资产
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-asset/search](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/company-asset/search)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/companies/:company_uid/assets/search`
+
+### Method
+
+`POST`
+
+## GetMDMConfigList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.MDM.GetMDMConfigList(ctx, &lark.GetMDMConfigListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.mdm.get_mdm_config_list(pylark.GetMDMConfigListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+字段配置列表查询
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/config/config_list](https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/mdm-v1/config/config_list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/mdm/v1/config/config_list`
+
+### Method
+
+`GET`
+
+
+# Event
+
+## GetEventOutboundIpList
+
+```go
+package example
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/chyroc/lark"
+)
+
+func example(ctx context.Context, cli *lark.Lark) {
+	res, response, err := cli.Event.GetEventOutboundIpList(ctx, &lark.GetEventOutboundIpListReq{
+		...
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("req-id:", response.RequestID)
+	fmt.Println("res:", res)
+}
+
+```
+
+```python
+import pylark
+
+
+def example(cli: pylark.Lark):
+    try:
+        res, response = cli.event.get_event_outbound_ip_list(pylark.GetEventOutboundIpListReq(
+            ...
+        ))
+    except pylark.PyLarkError as e:
+        # handle exception: e
+        raise
+
+    print('req-id: %s', response.request_id)
+    print('res: %s', res)
+
+```
+
+飞书开放平台向应用配置的回调地址推送事件时，是通过特定的IP发送出去的。如果企业需要做防火墙配置，那么可以通过这个接口获取到所有相关的IP段。
+
+IP段有变更可能，建议企业每隔6小时定时拉取IP段更新防火墙设置，这样因IP变更导致推送失败的事件还可以通过重试解决。
+
+
+
+
+#
+
+### Doc
+
+[https://open.feishu.cn/document/ukTMukTMukTM/uYDNxYjL2QTM24iN0EjN/event-v1/outbound_ip/list](https://open.feishu.cn/document/ukTMukTMukTM/uYDNxYjL2QTM24iN0EjN/event-v1/outbound_ip/list)
+
+### URL
+
+`https://open.feishu.cn/open-apis/event/v1/outbound_ip`
+
+### Method
+
+`GET`
 
 
 # EventCallback
